@@ -1,0 +1,582 @@
+{% extends "base.html" %}
+
+{% block head %} 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_pro.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <title>Profile</title>
+  {% endblock %}
+
+{% block body %}
+{% if user.isprivate == 1 %}
+{% set priv = 1 %}
+{% else %}
+{% set priv = 0 %}
+{% endif %}
+{% set a=user %}
+
+<!-- Navigation-->
+<nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
+  <div class="container">
+     <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+     </a>
+     <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search' method="POST">
+        <div class="navtop search"><i class="fa fa-search"></i>
+           <input type="search" class="form-control shadow-none" placeholder="Search" aria-label="Search" name="search" aria-describedby="basic-addon2">
+           
+        </div>
+     </form>
+     <ul class="navbar-nav ml-auto d-flex align-items-center">
+        <li class="nav-item dropdown no-arrow d-sm-none">
+           <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i class="feather-search mr-2"></i>
+           </a>
+           <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in" aria-labelledby="searchDropdown">
+              <form class="form-inline mr-auto w-100 navbar-search">
+                 <div class="input-group">
+                    <input type="text" class="form-control border-0 shadow-none" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                       <button class="btn" type="button">
+                       <i class="feather-search"></i>
+                       </button>
+                    </div>
+                 </div>
+              </form>
+           </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i class="fa fa-inbox"></i>
+           <span class="badge badge-danger badge-counter">1</span>
+           </a>
+           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+              <h6 class="dropdown-header">
+                 Direct Messages
+              </h6>
+              <a class="dropdown-item d-flex align-items-center" href="/messages">
+                 <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/p1.png" alt="">
+                    <div class="status-indicator bg-success"></div>
+                 </div>
+                 <div class="font-weight-bold overflow-hidden">
+                    <div class="text-truncate">MESSAGE_BODY_PLACEHODLER.</div>
+                    <div class="small text-gray-500">USER · TIME</div>
+                 </div>
+              </a>
+              <a class="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
+           </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i class="fa fa-bell"></i>
+           <span class="badge badge-info badge-counter">1</span>
+           </a>
+           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+
+              <h6 class="dropdown-header">
+                 Notification Center
+              </h6>
+              <a class="dropdown-item d-flex align-items-center" href="notifications.html">
+                 <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                       <i class="fa fa-bell"></i>
+                    </div>
+                 </div>
+                 <div>
+                    <div class="small text-gray-500">TIME_PLACEHOLDER</div>
+                    <span class="font-weight-bold">Debug: This is user1.html</span>
+                 </div>
+              </a>
+              
+              <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
+           </div>
+        </li>
+        <li class="nav-item dropdown no-arrow ml-1 profile-dropdown">
+           <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}">
+           </a>
+           <div class="dropdown-menu dropdown-menu-right shadow-sm">
+              <div class="p-3 d-flex align-items-center">
+                 <div class="dropdown-list-image mr-3">
+                    <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}" alt="">
+                    <div class="status-indicator bg-success"></div>
+                 </div>
+                 <div class="font-weight-bold">
+                    <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                    <div class="small text-gray-500">@{{current_user.username}}</div>
+                 </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
+              <a class="dropdown-item" href="/profile"><i class="feather-edit mr-1"></i> My Account</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i> Logout</a>
+           </div>
+        </li>
+     </ul>
+  </div>
+</nav>
+
+  <!-- main -->
+  <main class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <!-- edit profile --><!--
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Edit profile</h4>
+            <form method="post" action="">
+              <div class="form-group">
+                <input class="form-control" type="text" name="status" placeholder="Status" value="" name="about">
+              </div>
+
+              <div class="form-group">
+                <input class="form-control" type="text" name="location" placeholder="Location" value="">
+              </div>
+
+              <div class="form-group">
+                <input class="btn btn-primary" type="submit" name="update_profile" value="Save">
+              </div>
+            </form>
+          </div>
+        </div>-->
+        <!-- ./edit profile -->
+      </div>
+    </div>
+      <div class="col-md-6">
+        <!-- user profile -->
+        <div class="media">
+          <div class="media-left">
+            <img src="{{user.profile_pic}}" class="media-object" style="width: 128px; height: 128px; border-radius: 20px;">
+          </div>
+          <div class="media-body">
+            <h2 class="media-heading">{{user.firstname}} {{user.lastname}}</h2>
+            <p>About Me: {{user.about_me}}<br> Location: {{user.location}}</p>
+           <!-- <a href="/profile/edit/{{current_user.id}}" >Edit Profile</a>-->
+           {% if user.isprivate == 1 %}
+           <small><p><b>Private Acc</b></p></small>
+           {% endif %}
+           {% if user.username == current_user.username %}
+           <div class="container">
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal1"><Span class="pull-right"><a >Edit Profile</a></Span></button>
+          
+            <!-- Modal -->
+            <div class="modal fade" id="myModal1" role="dialog">
+              <div class="modal-dialog">
+              
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                  </div>
+                  <!--
+                    
+                  -->
+                  <div class="modal-body">
+                    <form action="/profile/edit/{{current_user.id}}" method="POST">
+                      First Name : <input type="text" value="{{current_user.firstname}}" name="firstname"><br>
+                      Last Name : <input type="text" value="{{current_user.lastname}}" name="lastname"><br>
+                      Username : <input type="text" value="{{current_user.username}}" name="username"><br>
+                      Email : <input type="email" value="{{current_user.email}}" name="email"><br>
+                      About : <input type="text" value="{{current_user.about_me}}" name="about_me"><br>
+                      Profile Pic: <input type="file" name="profile_pic">
+                      <input type="submit" value="Save" >
+                  </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+          {% endif %}
+          {% if current_user.username != a.username %}
+          {%for fi in splitf%}
+          {{fi}}
+          {% endfor %}
+          
+          {% if (current_user.friend_array != None) and (a.username in current_user.friend_array) %}
+          <small>You Are Friends</small><br>
+          <a href="/remfriend/{{a.username}}" class="btn btn-danger btn-sm">Remove Friend</a>
+          
+{% elif f.query.filter_by(user_from=current_user.username, user_to=a.username).first() == None %}
+<form action="/addfriend/{{a.username}}" method="POST">
+<input type="submit" class="btn btn-success" value="Add a Friend" name="addfriend">
+</form>
+{% else %}
+{% set pending = 1 %}
+Friend Request Pending
+{% set a=f.query.filter_by(user_from=current_user.username, user_to=a.username).first().id %}<br>
+<a href="/reject/{{a}}" class="btn btn-sm btn-danger">Cancel</a><br>
+
+{% endif %}
+{% endif %}
+          </div>
+        </div>
+        <!-- user profile -->
+
+        <hr>
+
+        <!-- timeline -->
+        {% if current_user.username == user.username %}
+        <div>
+          <div style="margin-bottom: 25px;"> 
+          <form method="post" action="/dashboard/new">
+            <div class="col-md-12" >
+              <input class="form-control col-md-10" type="text" name="content" placeholder="Make a post..." name="content">
+              <span class="">
+                <button class="btn btn-success col-md-2"style="position:relative" type="submit" name="post">Post</button>
+              </span>
+            </div>
+          </form><br>
+        </div>
+        
+          {% endif %}
+          <!-- post -->
+                        <!-- If logged in user loads the page-->
+        {% if current_user.username == user.username %}
+        {% if (posts != NULL) or (posts != "") %}
+          {% for post in posts %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <span>
+              <!--<p><b>{{post.content}}</b></p>-->
+              {% if "media" in post.content %}
+                {% set media1 = post.content.split(',') %}
+                {% if media1[2] %}
+                <p>
+                  <embed src="{{media1[1]}}" width="100%" height="100%"><br>
+                  <b>{{media1[2]}}</b></p>
+                  {% else %}
+                <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+                  {% endif %}
+                {% else %}
+                  <p>
+                    <b>{{post.content}}</b>
+                    </p>
+              {% endif %}
+              <span>Posted On {{post.date}}</span> <br>
+            </div><br>
+          
+          </span>
+          <div class='panel-footer'>
+            {% set likes2= likes.query.filter_by(pid=post.id).first() %}
+            <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
+            <small></small>
+            <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
+            <div>
+              <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+                <input type="text" name="comment" placeholder="Enter Your Comment">
+                <input type="submit" value="Post Comment" class="btn btn-success">
+              </form>
+              <div class="comments" id="expe{{post.id}}">
+              {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+              {% for comments in comment1 %}
+              <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
+              {{comments.text}}
+              {% if current_user.username == comments.username %}
+              <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+              {% endif %}<br>
+              {% endfor %}
+            </div>
+            </div>
+          </div>
+          
+            
+            <div class="panel-footer">
+              
+             
+              
+              <small><span class="pull-right "><a class="text-danger btn btn-danger text-light btn-sm" href="/dashboard/delete/{{post.id}}">Delete</a></span></small>
+              <!--
+      
+                modal
+              -->
+              <!--<Span class="pull-right"><a class="text-success" href="/dashboard/edit/{{post.id}}">Edit</a></Span>-->
+              <div class="container">
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><Span class="pull-right"><a class="text-white" >Edit</a></Span></button>
+              
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                  <div class="modal-dialog">
+                  
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                      </div>
+                      <!--
+                        
+                      -->
+                      <div class="modal-body">
+                        <form action="/dashboard/edit/{{post.id}}" method="POST">
+                          Title: <input type="text" name="title" id="title" value={{post.title}}>
+                          <br>
+                          Post: <textarea class=" form-control rounded-0" style="max-width: 300px;" name="content" id="content" value={{post.content}}></textarea>
+                          <br>
+                          Author: <input type="text" name="author" value={{post.author}}> <br>
+                          <input type="submit" value="Post">
+                      </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+              <!--modal-->
+            <hr>
+            </div>
+          </div>
+          
+          
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+          <p>Nothing Posted Yet!!!</p>
+          </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+{% else %}
+
+<!-- if he searches for someone else-->
+
+{% if (pending) and  (priv)%}
+<div class="panel panel-default">
+  <div class="panel-body">
+  <span>
+    This Account is Private please become friends to see the posts
+  </span>
+</div>
+</div>
+
+{%elif (a.isprivate == 1) %}
+{% if current_user.username in friends %}
+{% if (posts != NULL) or (posts != "") %}
+          {% for post in posts %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <span>
+              <!--<p><b>{{post.content}}</b></p>-->
+              {% if "media" in post.content %}
+                {% set media1 = post.content.split(',') %}
+                {% if media1[2] %}
+                <p>
+                  <embed src="{{media1[1]}}" width="100%" height="100%"><br>
+                  <b>{{media1[2]}}</b></p>
+                  {% else %}
+                <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+                  {% endif %}
+                {% else %}
+                  <p>
+                    <b>{{post.content}}</b>
+                    </p>
+              {% endif %}
+              <span>Posted On {{post.date}}</span> <br>
+            </div><br>
+          
+          </span>
+          <div class='panel-footer'>
+            {% set likes2= likes.query.filter_by(pid=post.id).first() %}
+            <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
+            <small></small>
+            <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
+            <div>
+              <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+                <input type="text" name="comment" placeholder="Enter Your Comment">
+                <input type="submit" value="Post Comment" class="btn btn-success">
+              </form>
+              <div class="comments" id="expe{{post.id}}">
+              {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+              {% for comments in comment1 %}
+              <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
+              {{comments.text}}
+              {% if current_user.username == comments.username %}
+              <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+              {% endif %}<br>
+              {% endfor %}
+            </div>
+            </div>
+          </div>
+          
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+          <p>Nothing Posted Yet!!!</p>
+          </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% else %}
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <span>
+                This Account is Private please become friends to see the posts
+            </span>
+            </div>
+      </div>
+      {% endif %}
+      {% else %}
+      {% if (posts != NULL) or (posts != "") %}
+      {% for post in posts %}
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <span>
+          <!--<p><b>{{post.content}}</b></p>-->
+          {% if "media" in post.content %}
+            {% set media1 = post.content.split(',') %}
+            {% if media1[2] %}
+            <p>
+              <embed src="{{media1[1]}}" width="100%" height="100%"><br>
+              <b>{{media1[2]}}</b></p>
+              {% else %}
+            <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+              {% endif %}
+            {% else %}
+              <p>
+                <b>{{post.content}}</b>
+                </p>
+          {% endif %}
+          <span>Posted On {{post.date}}</span> <br>
+        </div><br>
+      
+      </span>
+      <div class='panel-footer'>
+        {% set likes2= likes.query.filter_by(pid=post.id).first() %}
+        <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
+        <small></small>
+        <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
+        <div>
+          <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+            <input type="text" name="comment" placeholder="Enter Your Comment">
+            <input type="submit" value="Post Comment" class="btn btn-success">
+          </form>
+          <div class="comments" id="expe{{post.id}}">
+          {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+          {% for comments in comment1 %}
+          <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
+          {{comments.text}}
+          {% if current_user.username == comments.username %}
+          <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+          {% endif %}<br>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
+      
+      {% else %}
+      <div class="panel panel-default">
+        <div class="panel-body">
+      <p>Nothing Posted Yet!!!</p>
+      </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endif %}      
+          {% endif %}
+          </div>
+          <!-- ./post -->
+        </div>
+      
+        <!-- ./timeline -->
+      </div>
+      {% if current_user.username == user.username %}
+      <div class="col-md-3" style="position: absolute; margin-left:700px">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Edit profile</h4>
+            <form method="post" action="/my-account/edit1/{{current_user.id}}">
+              <div class="form-group">
+                <h5>About</h5>
+                <input class="form-control" type="text" name="status" placeholder="About Me" value="{{current_user.about_me}}" name="about">
+                <h5>Location</h5>
+                <input class="form-control" type="text" name="location" placeholder="Location" value="{{current_user.location}}"><br>
+                <input class="btn btn-primary" type="submit" name="update_profile" value="Save">
+              </div>
+            </form>
+          </div>
+        </div>
+      
+        {% endif %}
+        <!-- friends -->
+        {% if current_user.username != user.username %}
+        
+        <div class="panel panel-default col-md-6" style="margin-left: 600px; position: absolute; top:70px;width: 300px;" >
+          <div class="panel-body">
+            <h4>Friends</h4>
+            <ul>
+              {% if friends != None %}
+              {% for user1 in friends %}
+{% set lname=User.query.filter_by(username=user1).first().lastname %}
+{% set fname=User.query.filter_by(username=user1).first().firstname %}
+
+{%if (user1 != '') or (user1 != None) or (user1 != ' ') %}
+              <li>
+
+                <a href="/user/{{user1}}">{{ fname }}  {{lname}}</a> <br>
+                {% if current_user.username == user.username %}
+                <!--<small><a href="/remfriend/{{user}}" style="color: red;">Remove Friend</a></small>--> 
+              </li><hr>
+              {% endif %}
+              {% endif %}
+              {% else %}
+              No Friends!! :(
+
+                
+              {% endfor %}
+              {% endif %}
+
+            </ul>
+          </div>
+        </div>
+        {% else %}
+        <div class="panel panel-default col-md-12"  >
+          <div class="panel-body">
+            <h4>Friends</h4>
+            <ul>
+              {% if friends != None %}
+              {% for user1 in friends %}
+{% set lname=User.query.filter_by(username=user1).first().lastname %}
+{% set fname=User.query.filter_by(username=user1).first().firstname %}
+{%if (user1 != '') or (user1 != None) %}
+
+              <li>
+
+                <a href="/user/{{user1}}">{{ fname }} {{lname}}</a> <br>
+                <small><a href="/remfriend/{{user}}" style="color: red;">Remove Friend</a></small> 
+              </li><hr>
+              {% endif %}
+              
+              {% else %}
+             There's No friends
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+
+        {%endif%}
+        <!-- ./friends -->
+      </div>
+    </div>
+  </main>
+  <!-- ./main -->
+
+  <!-- footer -->
+  <footer class="container text-center " style="margin-left: -100px ; margin-top: 300px;position: relative;">
+    <ul class="nav nav-pills pull-right">
+      <li>GetStrongWith.me</li>
+    </ul>
+  </footer>
+  <!-- ./footer -->
+{% endblock %}

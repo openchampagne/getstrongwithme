@@ -1,0 +1,415 @@
+body {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0px;
+  font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+  background: #fff;
+}
+
+/* my Navbar design */
+.navbar {
+  width: 100%;
+  margin: 0px auto;
+  padding: 0px;
+  height: 75px;
+  background: #7b4397;
+  background: -webkit-linear-gradient(to right, #dc2430, #7b4397);
+  background: linear-gradient(to right, #dc2430, #7b4397);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+}
+
+.navbar-brand {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 25px;
+  padding-right: 61px;
+}
+
+.navbar li {
+  list-style-type: none;
+  float: left;
+  text-align: left;
+  color: white;
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+/* Top Nav */
+.navbar-dark .navbar-nav .nav-link {
+  color: #e3e6f0;
+}
+.nav-top .container {
+  padding: 0 16px;
+}
+.nav-top .img-profile {
+  width: 30px;
+  height: 30px;
+}
+.nav-top .navbar-brand img {
+  height: 31px;
+  margin: -4px 0 0 0;
+}
+.nav-top .list-dropdown .nav-link i {
+  font-size: 16px;
+}
+.nav-top .list-dropdown .nav-link .badge {
+  position: absolute;
+  border-radius: 50px;
+  min-width: 15px;
+  height: 15px;
+  font-size: 9px;
+  padding: 0px;
+  right: 1px;
+  line-height: 15px;
+  top: 11px;
+}
+.nav-top .nav-link {
+  position: relative;
+  height: 55px;
+  display: flex;
+  align-items: center;
+}
+.nav-top .navbar-search .form-control {
+  background-color: transparent;
+  border: 0px;
+  border-bottom: 2px solid #e3e6f0;
+  border-top: 0px;
+  border-radius: 0;
+}
+.nav-top .navbar-search .btn {
+  color: #fff;
+}
+.nav-top .fa {
+  color: #e3e5f0;
+}
+
+.dropdown-list .dropdown-item {
+  white-space: normal;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-left: 1px solid #e3e6f0;
+  border-right: 1px solid #e3e6f0;
+  border-bottom: 1px solid #e3e6f0;
+  line-height: 1.3rem;
+}
+.dropdown-list {
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  width: 20rem !important;
+}
+.dropdown-list .dropdown-header {
+  background-color: #1d2f38;
+  border: 1px solid #1d2f38;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 0.8rem 1rem;
+}
+.dropdown-list .icon-circle {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-top .search {
+  color: #e3e6f0;
+}
+
+.nav-top .form-control::placeholder {
+  color: #e3e6f0;
+}
+
+.nav-top form {
+  float: right;
+}
+.nav-top form li {
+  font-size: 13px;
+  margin-left: 15px;
+}
+.nav-top form input[type="text"] {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  width: 150px;
+  border: 0px;
+  height: 25px;
+  padding-left: 3px;
+}
+.nav-top form input[type="email"] {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  width: 150px;
+  border: 0px;
+  height: 25px;
+  padding-left: 3px;
+}
+.nav-top form input[type="password"] {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  width: 150px;
+  border: 0px;
+  height: 25px;
+  padding-left: 3px;
+}
+.nav-top form input[type="submit"] {
+  height: 30px;
+  background: #2584e4;
+  border: 0px;
+  color: white;
+  border-radius: 5px;
+}
+
+.input-group {
+  width: 500px;
+  margin: 50px auto;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+  position: relative;
+}
+
+.input-group .form-control {
+  width: 400px;
+  height: 150px;
+  border: none;
+  padding: 5px 10px;
+  font-family: arial;
+  resize: none;
+  outline: none;
+  border-bottom: 2px solid #0077cc;
+}
+
+.input-group .btn btn-success {
+  float: right;
+  margin: 15px 10px auto auto;
+  border: none;
+  background-color: #0077cc;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.img-profile {
+  width: 30px;
+  height: 30px;
+}
+
+.btn-success {
+  background: #7b4397;
+  background: -webkit-linear-gradient(to right, #dc2430, #7b4397);
+  background: linear-gradient(to right, #dc2430, #7b4397);
+  border: none;
+}
+
+/* save for responsive design 
+@media screen and (max-height: 450px) {
+}
+*/
+
+.registration-main {
+  margin: 0 auto;
+  padding: 0px;
+  text-align: center;
+  width: 980px;
+}
+
+.registration-main div {
+  float: left;
+  font-family: helvetica, arial, sans-serif;
+}
+.registration-main .fancy-promotional-text {
+  margin-top: 30px;
+  width: 590px;
+  text-align: left;
+}
+.registration-main .fancy-promotional-text p {
+  font-weight: 600;
+  font-size: 48px;
+}
+
+.registration-main .signup-form {
+  margin-top: 10px;
+  width: 390px;
+  text-align: left;
+}
+.registration-main .signup-form h1 {
+  margin: 0px;
+  font-size: 37px;
+  color: #2e2e2e;
+}
+.registration-main .signup-form p {
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+.registration-main .signup-form li {
+  list-style-type: none;
+  margin-top: 10px;
+}
+.registration-main .signup-form .signup-cta {
+  font-weight: 600;
+  font-size: 48px;
+}
+.registration-main .signup-form li input[type="text"] {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 18px;
+  border: 1px solid #bdbdbd;
+}
+.registration-main .signup-form li input[type="email"] {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 18px;
+  border: 1px solid #bdbdbd;
+}
+.registration-main .signup-form li input[type="password"] {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 18px;
+  border: 1px solid #bdbdbd;
+}
+.registration-main .signup-form li input[type="date"] {
+  padding: 4px;
+  float: left;
+}
+.registration-main .signup-form li a {
+  margin-left: 10px;
+  width: 150px;
+  color: #045fb4;
+  text-decoration: none;
+  font-size: 11px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 15px;
+}
+.registration-main .signup-form li a:hover {
+  text-decoration: underline;
+}
+.registration-main .signup-form li {
+  color: #2e2e2e;
+  font-size: 18px;
+}
+.registration-main .signup-form #terms {
+  color: #424242;
+  font-size: 11px;
+}
+.registration-main .signup-form #terms a {
+  display: inline;
+  margin: 0px;
+}
+.registration-main .signup-form li input[type="submit"] {
+  width: 205px;
+  height: 45px;
+  text-align: center;
+  font-size: 19px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: "Freight Sans Bold", helvetica, arial, sans-serif !important;
+  font-weight: bold !important;
+  background-image: linear-gradient(to right, #dc2430, #7b4397);
+  border: 0px solid;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Colorful Promo Gradients */
+
+.gradient-1 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #0575e6, #021b79);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-2 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #ff4e50, #f9d423);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-3 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #8e2de2, #4a00e0);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-4 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #c31432, #240b36);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-5 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #20002c, #cbb4d4);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-6 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #00f260, #0575e6);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+.gradient-7 {
+  background-color: #000;
+  background-image: linear-gradient(to right, #dc2430, #7b4397);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}

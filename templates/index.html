@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block head %}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+<title>GetStrongWith.me</title>
+{% endblock %}
+{% block body %}
+
+<!-- Navigation-->
+<nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
+    <div class="container">
+       <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+       </a>
+     
+       <ul class="navbar-nav ml-auto d-flex align-items-center">
+          <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+            <form action="/login" method="POST">
+                {% if msg != '' %}
+             <li class="alert alert-red">{{msg}}</li>
+             {{ clean }} 
+             {% endif %}
+             <li>User: <input type="text" name="username" style="color: black;"></li>
+             <li>Password: <input type="password" name="password" style="color: black;"><br>
+             <li><input type="submit" name="login" value="Log In"></li>
+             </form>
+          </li>
+       </ul>
+    </div>
+  </nav>
+
+  <div class="py-4">
+    <div class="container">
+       <div class="row">
+
+<div class="registration-main">
+<div class="fancy-promotional-text">
+<p class="gradient-1 animate__animated animate__fadeInDown">GetFit</p>
+<p class="gradient-6 animate__animated animate__fadeInDown animate__delay-1s">GetHappy</p>
+<p class="gradient-5 animate__animated animate__fadeInDown animate__delay-2s">GetMotivated</p>
+<p class="gradient-7 animate__animated animate__fadeInDown animate__delay-3s">GetStrongWith.me</p>
+<p class= "animate__animated animate__fadeInLeft animate__delay-4s">Join the premiere social network for Gym & Fitness enthusiasts.</p>
+</div>
+
+{% if errmsg != '' %}
+    <small style="color:firebrick">{{errmsg}}
+    </small><br>
+        {{clean}}
+    {% endif %}
+<div class="signup-form">
+    <h4 class="signup-cta">Create an Account Today.</h4>
+    <form action="/register" method="POST">
+    <li><input type="text" placeholder="First Name" name="first"></li>
+    <li><input type="text" placeholder="Last Name" name="last"></li>
+    <li><input type="email" placeholder="Email" name="email"></li>
+    <li><input type="text" placeholder="@Username" name="username" required title="Username must contain at least 6 or more characters"></li>
+    <li><input type="password" placeholder="New password" name="pass1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+        title="Dont make a stupid password plz"></li>
+    <li><input type="password" placeholder="Confirm password" name="pass2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+        title="Dont make a stupid password"></li>
+    <p>Birthday</p>
+    <li><input type="date" name="date" ><br><br></li>
+    <input type="radio" name="gen" value="female">Female <input type="radio" name="gen" value="male">Male</li>
+    <li><input type="submit" value="Signup"></li>
+    </form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

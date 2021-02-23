@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% block head %}
+<title>My Account</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+{% endblock %}
+{% block body %}
+<!-- Navigation-->
+<nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
+   <div class="container">
+      <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+      </a>
+      <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search' method="POST">
+         <div class="navtop search"><i class="fa fa-search"></i>
+            <input type="search" class="form-control shadow-none" placeholder="Search" aria-label="Search" name="search" aria-describedby="basic-addon2">
+            
+         </div>
+      </form>
+      <ul class="navbar-nav ml-auto d-flex align-items-center">
+         <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="feather-search mr-2"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in" aria-labelledby="searchDropdown">
+               <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                     <input type="text" class="form-control border-0 shadow-none" placeholder="Search people, jobs and more..." aria-label="Search" aria-describedby="basic-addon2">
+                     <div class="input-group-append">
+                        <button class="btn" type="button">
+                        <i class="feather-search"></i>
+                        </button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-inbox"></i>
+            <span class="badge badge-danger badge-counter">1</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+               <h6 class="dropdown-header">
+                  Direct Messages
+               </h6>
+               <a class="dropdown-item d-flex align-items-center" href="/messages">
+                  <div class="dropdown-list-image mr-3">
+                     <img class="rounded-circle" src="img/p1.png" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold overflow-hidden">
+                     <div class="text-truncate">MESSAGE_BODY_PLACEHODLER.</div>
+                     <div class="small text-gray-500">USER · TIME</div>
+                  </div>
+               </a>
+               <a class="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-info badge-counter">1</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+ 
+               <h6 class="dropdown-header">
+                  Notification Center
+               </h6>
+               <a class="dropdown-item d-flex align-items-center" href="notifications.html">
+                  <div class="mr-3">
+                     <div class="icon-circle bg-primary">
+                        <i class="fa fa-bell"></i>
+                     </div>
+                  </div>
+                  <div>
+                     <div class="small text-gray-500">TIME_PLACEHOLDER</div>
+                     <span class="font-weight-bold">Debug: This is home.html</span>
+                  </div>
+               </a>
+               
+               <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow ml-1 profile-dropdown">
+            <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow-sm">
+               <div class="p-3 d-flex align-items-center">
+                  <div class="dropdown-list-image mr-3">
+                     <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                     <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                     <div class="small text-gray-500">@{{current_user.username}}</div>
+                  </div>
+               </div>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
+               <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i> My Account</a>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i> Logout</a>
+            </div>
+         </li>
+      </ul>
+   </div>
+ </nav>
+<div class="py-4">
+   <div class="container">
+      <div class="row">
+         <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <div class="box shadow-sm border rounded bg-white mb-3 share-post">
+             <!-- post form -->
+        <form method="post" action="/home/new" enctype="multipart/form-data">
+          <div class="box shadow-sm border rounded bg-white">
+            
+    
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="p-3 d-flex align-items-center w-100" href="#">
+            <div class="dropdown-list-image mr-3">
+            </div>
+            <div class="w-100">
+            <textarea placeholder="Share Something" type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
+            </div>
+            </div>
+            </div>
+  
+               
+            <div class="border-top p-3 d-flex align-items-center">
+            <div class="choose_file">
+                <input name="media" type="file" >
+              </div>
+  
+            <div class="flex-shrink-1">
+            <button class="btn btn-primary btn-sm btn btn-success" type="submit" name="post">Share</button>
+            </div>
+            </div>
+            </div>
+          </form>
+              
+            </div>
+  
+            {% for post in posts %}
+    
+            <div class="box mb-3 shadow-sm border rounded bg-white">
+               <div class="p-3 d-flex align-items-center border-bottom">
+               
+                  <div class="dropdown-list-image mr-3">
+                     <img class="rounded-circle" src="{{post.profile_pic}}" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                     <div class="text-truncate">{{post.author}}</div>
+                     <div class="small text-gray-500">@{{post.username}}</div>
+                  </div>
+                  <span class="ml-auto small">Posted On {{post.date}}</span>
+               </div>
+               <div class="p-3 border-bottom">
+                {% if "media" in post.content %}
+                {% set media1 = post.content.split(',') %}
+                {% if media1[2] %}
+                <p>
+                  <embed src="{{media1[1]}}" width="100%" height="100%"><br>
+                  <b>{{media1[2]}}</b></p>
+                  {% else %}
+                <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+                  {% endif %}
+                {% else %}
+                  <p>
+                    <b>{{post.content}}</b>
+                    </p>
+                  {% endif %}
+                </div>
+            
+            </div>
+            {% endfor %}
+<!--
+            <div class="box mb-3 shadow-sm border rounded bg-white">
+              <div class="p-3 d-flex align-items-center border-bottom">
+                 <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/p6.png" alt="">
+                    <div class="status-indicator bg-success"></div>
+                 </div>
+                 <div class="font-weight-bold">
+                    <div class="text-truncate">USER PLACEHOLDER</div>
+                    <div class="small text-gray-500">USERNAME_PLACEHOLDER</div>
+                 </div>
+                 <span class="ml-auto small">TIME_PLACEHOLDER</span>
+              </div>
+              <div class="p-3 border-bottom post-body">
+                 <p>THESE ARE WORDS</p>
+                 <img src="img/post1.png" class="img-fluid" alt="Responsive image">
+              </div>
+       
+              <div class="p-3 d-flex align-items-top border-bottom post-comment">
+                 <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/p7.png" alt="">
+                    <div class="status-indicator bg-success"></div>
+                 </div>
+                 <div class="font-weight-bold">
+                    <div class="text-truncate">COMMENT_USERNAME <span class="float-right small">COMMENT_TIME</span></div>
+                    <div class="small text-gray-500">COMMENT BODY</div>
+                 </div>
+              </div>
+              <div class="p-3">
+                 <textarea placeholder="Add Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
+              </div>
+           </div> -->
+
+
+
+         </main>
+         <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
+            <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
+               <div class="py-4 px-3 border-bottom">
+                  <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="USER PIC">
+                  <h5 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstname}} {{current_user.lastname}}</h5>
+                  <p class="mb-0 text-muted">@{{current_user.username}}</p>
+                  <p class="mb-0 text-muted">{{current_user.about_me}}</p>
+                  <p class="mb-0 text-muted">{{current_user.location}}</p>
+               
+               </div>
+               
+               <div class="overflow-hidden border-top">
+                {% if current_user.isprivate == 1 %}
+                <p><b>Your Account is Private!</b></p>
+                {% endif %}
+               
+                  <a class="font-weight-bold p-3 d-block" data-toggle="modal" data-target="#editProfile" href="/my-account"> Edit my Profile </a>
+        
+          
+ <!-- Edit Profile Modal -->
+ <div class="modal fade" id="editProfile" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form action="/my-account/edit1/{{current_user.id}}" method="POST" class="form form-class" enctype="multipart/form-data">
+          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstname}}" name="firstname"></small><br>
+          Last Name : <input type="text" class="form-control"value="{{current_user.lastname}}" name="lastname"><br>
+          Username : <input type="text" class="form-control"value="{{current_user.username}}" name="username"><br>
+          Email : <input type="email" class="form-control"value="{{current_user.email}}" name="email"><br>
+          About : <input type="text" class="form-control"value="{{current_user.about_me}}" name="about_me"><br>
+          <input class="form-control" type="text" name="location" placeholder="Location" value="{{current_user.location}}"><br>
+
+          <label class="btn btn-default btn-file">
+            Profile Picture <input type="file" name="file"  class="form-control" style="display: none;"><br>
+        </label><br>
+          <input type="submit" value="Save" class="form-control" >
+      </form>
+    </div>
+    </div>
+    
+  </div>
+</div>
+
+
+               </div>
+            </div>
+            <div class="box mb-3 shadow-sm rounded bg-white view-box overflow-hidden">
+               <div class="box-title border-bottom p-3">
+                  <h6 class="m-0">My Awards</h6>
+               </div>
+               <div class="d-flex text-center">
+                  <p>AWARDS</p> 
+               </div>
+            </div>
+           
+         </aside>
+         <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="box shadow-sm border rounded bg-white mb-3">
+               <div class="box-title border-bottom p-3">
+                  <h6 class="m-0">Activity Leaderboard</h6>
+               </div>
+               <div class="box-body p-3">
+                  <div class="d-flex align-items-center post-header mb-3 people-list">
+                     <div class="dropdown-list-image mr-3">
+                        <img class="rounded-circle" src="img/p8.png" alt="">
+                        <div class="status-indicator bg-success"></div>
+                     </div>
+                     <div class="font-weight-bold mr-2">
+                        <div class="text-truncate">Elon Musk</div>
+                        <div class="small text-gray-500">810 Calories</div>
+                     </div>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     </span>
+                  </div>
+                  <div class="d-flex align-items-center post-header mb-3 people-list">
+                     <div class="dropdown-list-image mr-3">
+                        <img class="rounded-circle" src="img/p9.png" alt="">
+                        <div class="status-indicator bg-success"></div>
+                     </div>
+                     <div class="font-weight-bold mr-2">
+                        <div class="text-truncate">Jeff Bezos</div>
+                        <div class="small text-gray-500">421 Calories</div>
+                     </div>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     </span>
+                  </div>
+                  <div class="d-flex align-items-center post-header mb-3 people-list">
+                     <div class="dropdown-list-image mr-3">
+                        <img class="rounded-circle" src="img/p10.png" alt="">
+                        <div class="status-indicator bg-success"></div>
+                     </div>
+                     <div class="font-weight-bold mr-2">
+                        <div class="text-truncate">Oprah Winfrey</div>
+                        <div class="small text-gray-500">419 Calories</div>
+                     </div>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     </span>
+                  </div>
+                  <div class="d-flex align-items-center post-header mb-3 people-list">
+                     <div class="dropdown-list-image mr-3">
+                        <img class="rounded-circle" src="img/p11.png" alt="">
+                        <div class="status-indicator bg-success"></div>
+                     </div>
+                     <div class="font-weight-bold mr-2">
+                        <div class="text-truncate">Bill Gates</div>
+                        <div class="small text-gray-500">70 Calories</div>
+                     </div>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     </span>
+                  </div>
+                  <div class="d-flex align-items-center post-header people-list">
+                     <div class="dropdown-list-image mr-3">
+                        <img class="rounded-circle" src="img/p12.png" alt="">
+                        <div class="status-indicator bg-success"></div>
+                     </div>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="box shadow-sm border rounded bg-white mb-3">
+               <div class="box-title border-bottom p-3 d-flex align-items-center">
+                  <h6 class="m-0">Friend Requests</h6>
+                  <a class="ml-auto" href="/friendreqs">See All <i class="feather-chevron-right"></i></a>
+               </div>
+               <div class="box-body p-3">
+                <div class="font-weight-bold mr-2">
+                {% for req in r %}
+                
+                  {%set name=User.query.filter_by(username=req.user_from).first().firstname +" "+User.query.filter_by(username=req.user_from).first().lastname%}
+              
+                  <div class="text-truncate">{{name}}</div>
+                  <div class="small text-gray-500">70 Calories</div>
+                  <form action="/accept/{{req.id}}" method="POST">
+                    <small><button type="Submit" value="Accept" name="acccept" class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept </button></small></form>
+                    <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject" class="btn btn-danger btn-sm float-right col-sm-6" ></form>
+                  
+                    {% else %}
+                    <div class="small text-gray-500">You have no Friend Requests at this time</div>
+          {% endfor %}
+        </div>
+
+
+               </div>
+            </div>
+      
+           
+         </aside>
+      </div>
+   </div>
+</div>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="ca3a609d6d1d668ffac49518-|49" defer=""></script>
+{% endblock %}
