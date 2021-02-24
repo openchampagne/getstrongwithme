@@ -81,7 +81,7 @@ def login_():
         password = request.form["password"]
         user = User.query.filter_by(username=userQ).first()
         if request.form["username"] != None or user != "":
-            if user.check_password(password):
+            if userQ.check_password(password):
                 login_user(user)
                 return redirect(url_for("home"))
             else:
