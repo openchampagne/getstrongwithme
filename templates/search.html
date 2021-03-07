@@ -111,19 +111,26 @@
           <div class="col "><a href="/user/{{users.username}}" style="top: 100%;float: left; font-size: 20px;">{{ users.firstname }}
 {{users.lastname}}</a></div>
 </div><br>
-
-
 {% if current_user.username != users.username %}
 {% if current_user.friend_array != None %}
           {% if users.username in current_user.friend_array %}
           <small>You Are Friends</small><br>
           <a href="/remfriend/{{users.username}}" class="btn btn-danger btn-sm">Remove Friend</a>
           
+{% elif f.query.filter_by(user_from=current_user.username, user_to=users.username).first() == None %}
+<form action="/addfriend/{{users.username}}" method="POST">
+<input type="submit" class="btn btn-success btn-sm" value="Add a Friend" name="addfriend">
+</form>
+
+{% else %}
+
+<br>Friend Req Pending
+{% set a=f.query.filter_by(user_from=current_user.username, user_to=users.username).first().id %}<br>
+<a href="/reject/{{a}}">Reject</a><br>
 
 {% endif %}
 {% endif %}
 {% endif %}
-
 </div></div>
 {% else %}
 Sorry user was not found
