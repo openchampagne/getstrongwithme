@@ -75,9 +75,10 @@ def index():
 def login_():
     print('main file')
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
-    if request.method == "POST":
+        return redirect(url_for('home'))
+    if request.method == 'POST':
         userQ = request.form["username"]
+        password = request.form["password"]
         user = User.query.filter_by(username=userQ).first()
         if request.form["username"] != None or user != "":
             if user.check_password(request.form["password"]):
@@ -187,6 +188,6 @@ def unauthorized():
     return redirect(url_for('index'))
 
 #Make it compatible to deploy on heroku
-# if __name__ == "__main__":
-#     db.create_all()
-#     app.run(debug=True)
+if __name__ == "__main__":
+    db.create_all()
+    app.run(debug=True)
