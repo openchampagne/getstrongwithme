@@ -2045,3 +2045,4 @@ venv/lib/python3.8/site-packages/werkzeug/wrappers/user_agent.py
 venv/lib/python3.8/site-packages/werkzeug/wsgi.py
 venv/pyvenv.cfg
 venv/bin/python3.9
+.DS_Store
