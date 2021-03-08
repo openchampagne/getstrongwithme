@@ -13,14 +13,12 @@ from flask_migrate import Migrate
 
 ### initializations ###
 
-# Application configuration
+## Application configuration
 app = Flask(__name__, static_folder="./static")
 app.secret_key = "pass"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['UPLOAD_PROFILE'] = './static/images/user-account-pictures'
 
-
-# Login Managaer
+## Login Managaer
 lm = LoginManager()
 lm.init_app(app)
 
@@ -29,10 +27,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-# User Class
+## User Class
 class User(db.Model, UserMixin):
     __tablename__ = "Login"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True) 
     username = db.Column(db.String, unique=True)
     firstName = db.Column(db.String)
     lastName = db.Column(db.String)
@@ -40,46 +38,39 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String)
     bday = db.Column(db.String)
     gender = db.Column(db.String)
-    profile_pic = db.Column(
-        db.String, default='/static/images/user-account-pictures/toucan.JPG')
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
-
     def check_password(self, password):
-        return check_password_hash(self.password, password)
-
+            return check_password_hash(self.password, password)
     def __repr__(self):
         return "User {0}".format(self.id)
 
-
 class posts(db.Model):
     __tablename__ = "Post"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=True)
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(100), nullable = True)
     author = db.Column(db.String)
     username = db.Column(db.String)
     content = db.Column(db.Text)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date =  db.Column(db.DateTime, default = datetime.utcnow)
 
     def __repr__(self):
         return 'Post #{0}'.format(str(self.id))
 
 #### Pages ####
 
-
 @app.route("/")
 @app.route("/index")
-# Check if user is logged in, if not redirect to login/registration page
+
+##  Check if user is logged in, if not redirect to login/registration page
 def index():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     else:
         return render_template("index.html")
-
-# Login
-
-
+        
+##  Login
 @app.route("/login", methods=["GET", "POST"])
 def login_():
     print('main file')
@@ -101,7 +92,7 @@ def login_():
     return redirect("/")
 
 
-# Registration
+##  Registration
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -116,8 +107,7 @@ def register():
         if User.query.filter_by(email=email).first() is None:
             if User.query.filter_by(username=username).first() is None:
                 if password == password2:
-                    client = User(first=firstName, last=lastName, email=email,
-                                  gender=gender, username=username, bday=date)
+                    client = User(first=firstName, last=lastName, email=email, gender=gender, username=username, bday=date)
                     client.set_password(password)
                     db.session.add(user)
                     db.session.commit()
@@ -132,60 +122,45 @@ def register():
         else:
             err = "Cannot select an email that already exists"
             return redirect(request.referrer)
-    return redirect("/index")
+    return redirect("/")
 
 
-# Home
+##  Home
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
     return render_template("home.html", User=User())
 
-# Making posts
-
-
+## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
 @login_required
 def post_Announcement():
     if request.method == "POST":
         title = "{0} says".format(current_user.username)
-        author = "{0} {1}".format(
-            current_user.firstName, current_user.lastName)
+        author = "{0} {1}".format(current_user.firstName, current_user.lastName)
         userPost = request.form["content"]
-        uploadFile = request.files.get('media')
-        if userPost != "":
-            newPost = posts(title=title, content=userPost,
-                            author=author, username=current_user.username)
-            db.session.add(newPost)
-            db.session.commit()
         return redirect(request.referrer)
     else:
-        all_posts = posts.query.all()
         return render_template("new_post.html")
 
 
-# Account
+##  Account 
 @app.route("/my-account", methods=["GET", "POST"])
 @login_required
 def profile():
-    userPosts = posts.query.filter_by(username=current_user.username).all()
+    userPosts = posts.query.filter_by(username = current_user.username).all()
     return render_template("my-account.html", User=User(), posts=userPosts)
 
 
-# Search function
+##  Search function
 @app.route("/search", methods=["GET", "POST"])
 def search_():
     if request.method == "POST":
-        query = str(request.form.get('search'))
-        result_ = User.query.filter(User.firstName.like(query))
-        return render_template("search.html", search=result_.all())
-
+        return render_template("search.html", search=User.query.filter(User.firstName.like(query)))
     else:
         return redirect("/")
 
-# Logout
-
-
+#Logout
 @app.route("/logout")
 @login_required
 def logout_page():
@@ -193,30 +168,25 @@ def logout_page():
     logout_user()
     return redirect("/")
 
-# Made just for Making it possible to edit profile information
-
-
+#Made just for Making it possible to edit profile information
 @app.route("/logout1")
 @login_required
 def logout1():
     logout_user()
-
 
 @lm.user_loader
 def load_user(user_id):
     """Check if user is logged-in on every page load."""
     if user_id is not None:
         return User.query.get(user_id)
-    return None
-
+    return None    
 
 @lm.unauthorized_handler
 def unauthorized():
     """Redirect unauthorized users to Login page."""
     return redirect(url_for('index'))
 
-
-# Make it compatible to deploy on heroku
-if __name__ == "__main__":
-    db.create_all()
-    app.run(debug=True)
+#Make it compatible to deploy on heroku
+# if __name__ == "__main__":
+#     db.create_all()
+#     app.run(debug=True)
