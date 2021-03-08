@@ -17,7 +17,6 @@ from flask_migrate import Migrate
 app = Flask(__name__, static_folder="./static")
 app.secret_key = "pass"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['UPLOAD_PROFILE'] = './static/images/user-account-pictures'
 
 ## Login Managaer
 lm = LoginManager()
@@ -39,8 +38,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String)
     bday = db.Column(db.String)
     gender = db.Column(db.String)
-    profile_pic = db.Column(db.String, default='/static/images/user-account-pictures/toucan.JPG')
-
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -142,14 +139,8 @@ def post_Announcement():
         title = "{0} says".format(current_user.username)
         author = "{0} {1}".format(current_user.firstName, current_user.lastName)
         userPost = request.form["content"]
-        uploadFile = request.files.get('media')
-        if userPost != "":        
-            newPost = posts(title=title, content=userPost, author=author, username=current_user.username)
-            db.session.add(newPost)
-            db.session.commit()
         return redirect(request.referrer)
     else:
-        all_posts = posts.query.all()
         return render_template("new_post.html")
 
 
@@ -165,9 +156,7 @@ def profile():
 @app.route("/search", methods=["GET", "POST"])
 def search_():
     if request.method == "POST":
-        query = str(request.form.get('search'))
-        result_ = User.query.filter(User.firstName.like(query))
-        return render_template("search.html", search=result_.all())
+        return render_template("search.html", search=User.query.filter(User.firstName.like(query)))
     else:
         return redirect("/")
 
