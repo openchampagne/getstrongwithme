@@ -142,7 +142,7 @@ def post_Announcement():
         userPost = request.form["content"]
         return redirect(request.referrer)
     else:
-        return render_template("new_post.html")
+        return render_template("/includes/new_post.html")
 
 
 ##  Account 
@@ -157,10 +157,17 @@ def profile():
 @app.route("/search", methods=["GET", "POST"])
 def search_():
     if request.method == "POST":
-        return render_template("search.html", search=User.query.filter(User.firstName.like(query)))
+        search = str(request.form.get('search'))
+        search1 = User.query.filter(User.firstName.like(search))
+        query = search1.all()
+        return render_template("search.html", search=query)
     else:
         return redirect("/")
 
+@app.route('/user/<username>')
+def findUser(username):
+    posts_ = posts.query.filter_by(username=username).order_by(posts.date.desc()).all()
+    return render_template("user1.html", user=User.query.filter_by(username=username).first(), posts=posts_, User=User)
 #Logout
 @app.route("/logout")
 @login_required

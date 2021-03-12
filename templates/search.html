@@ -87,15 +87,15 @@
                     <div class="status-indicator bg-success"></div>
                  </div>
                  <div class="font-weight-bold">
-                    <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                    <div class="text-truncate">{{current_user.firstName}} {{current_user.lastName}}</div>
                     <div class="small text-gray-500">@{{current_user.username}}</div>
                  </div>
               </div>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
-              <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i> My Account</a>
+              <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i>My Profile</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i> Logout</a>
+              <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i>Logout</a>
            </div>
         </li>
      </ul>
@@ -108,28 +108,16 @@
     <div class="panel-body">
       <div class="row">
         <div class="col"><embed src="{{users.profile_pic}}" style="border-radius: 25px;" width="50%" height="100%"></div><br>
-          <div class="col "><a href="/user/{{users.username}}" style="top: 100%;float: left; font-size: 20px;">{{ users.firstname }}
-{{users.lastname}}</a></div>
+          <div class="col "><a href="/user/{{users.username}}" style="top: 100%;float: left; font-size: 20px;">{{ users.firstName }}
+{{users.lastName}}</a></div>
 </div><br>
 {% if current_user.username != users.username %}
-{% if current_user.friend_array != None %}
-          {% if users.username in current_user.friend_array %}
-          <small>You Are Friends</small><br>
-          <a href="/remfriend/{{users.username}}" class="btn btn-danger btn-sm">Remove Friend</a>
           
-{% elif f.query.filter_by(user_from=current_user.username, user_to=users.username).first() == None %}
 <form action="/addfriend/{{users.username}}" method="POST">
 <input type="submit" class="btn btn-success btn-sm" value="Add a Friend" name="addfriend">
 </form>
 
-{% else %}
 
-<br>Friend Req Pending
-{% set a=f.query.filter_by(user_from=current_user.username, user_to=users.username).first().id %}<br>
-<a href="/reject/{{a}}">Reject</a><br>
-
-{% endif %}
-{% endif %}
 {% endif %}
 </div></div>
 {% else %}

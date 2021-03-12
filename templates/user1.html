@@ -199,21 +199,7 @@
           {{fi}}
           {% endfor %}
           
-          {% if (current_user.friend_array != None) and (a.username in current_user.friend_array) %}
-          <small>You Are Friends</small><br>
-          <a href="/remfriend/{{a.username}}" class="btn btn-danger btn-sm">Remove Friend</a>
-          
-{% elif f.query.filter_by(user_from=current_user.username, user_to=a.username).first() == None %}
-<form action="/addfriend/{{a.username}}" method="POST">
-<input type="submit" class="btn btn-success" value="Add a Friend" name="addfriend">
-</form>
-{% else %}
-{% set pending = 1 %}
-Friend Request Pending
-{% set a=f.query.filter_by(user_from=current_user.username, user_to=a.username).first().id %}<br>
-<a href="/reject/{{a}}" class="btn btn-sm btn-danger">Cancel</a><br>
 
-{% endif %}
 {% endif %}
           </div>
         </div>
@@ -264,8 +250,6 @@ Friend Request Pending
           
           </span>
           <div class='panel-footer'>
-            {% set likes2= likes.query.filter_by(pid=post.id).first() %}
-            <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
             <small></small>
             <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
             <div>
@@ -273,14 +257,14 @@ Friend Request Pending
                 <input type="text" name="comment" placeholder="Enter Your Comment">
                 <input type="submit" value="Post Comment" class="btn btn-success">
               </form>
-              <div class="comments" id="expe{{post.id}}">
-              {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+              <!-- <div class="comments" id="expe{{post.id}}"> -->
+              <!-- {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
               {% for comments in comment1 %}
               <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
               {{comments.text}}
               {% if current_user.username == comments.username %}
               <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-              {% endif %}<br>
+              {% endif %}<br> -->
               {% endfor %}
             </div>
             </div>
@@ -387,8 +371,6 @@ Friend Request Pending
           
           </span>
           <div class='panel-footer'>
-            {% set likes2= likes.query.filter_by(pid=post.id).first() %}
-            <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
             <small></small>
             <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
             <div>
@@ -396,14 +378,14 @@ Friend Request Pending
                 <input type="text" name="comment" placeholder="Enter Your Comment">
                 <input type="submit" value="Post Comment" class="btn btn-success">
               </form>
-              <div class="comments" id="expe{{post.id}}">
+              <!-- <div class="comments" id="expe{{post.id}}">
               {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
               {% for comments in comment1 %}
               <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
               {{comments.text}}
               {% if current_user.username == comments.username %}
               <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-              {% endif %}<br>
+              {% endif %}<br> -->
               {% endfor %}
             </div>
             </div>
@@ -452,8 +434,6 @@ Friend Request Pending
       
       </span>
       <div class='panel-footer'>
-        {% set likes2= likes.query.filter_by(pid=post.id).first() %}
-        <small><span><a href="/addlike/{{post.id}}" >Like </a>{{likes2.total}}</span></small>
         <small></small>
         <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
         <div>
@@ -461,15 +441,6 @@ Friend Request Pending
             <input type="text" name="comment" placeholder="Enter Your Comment">
             <input type="submit" value="Post Comment" class="btn btn-success">
           </form>
-          <div class="comments" id="expe{{post.id}}">
-          {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
-          {% for comments in comment1 %}
-          <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
-          {{comments.text}}
-          {% if current_user.username == comments.username %}
-          <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-          {% endif %}<br>
-          {% endfor %}
         </div>
         </div>
       </div>
@@ -477,7 +448,7 @@ Friend Request Pending
       {% else %}
       <div class="panel panel-default">
         <div class="panel-body">
-      <p>Nothing Posted Yet!!!</p>
+      <p>Nothing posted</p>
       </div>
       </div>
       {% endfor %}
@@ -546,13 +517,13 @@ Friend Request Pending
             <ul>
               {% if friends != None %}
               {% for user1 in friends %}
-{% set lname=User.query.filter_by(username=user1).first().lastname %}
-{% set fname=User.query.filter_by(username=user1).first().firstname %}
+{% set lname=User.query.filter_by(username=user1).first().lastName %}
+{% set fname=User.query.filter_by(username=user1).first().firstName %}
 {%if (user1 != '') or (user1 != None) %}
 
               <li>
 
-                <a href="/user/{{user1}}">{{ fname }} {{lname}}</a> <br>
+                <a href="/user/{{user1}}">{{fname}} {{lname}}</a> <br>
                 <small><a href="/remfriend/{{user}}" style="color: red;">Remove Friend</a></small> 
               </li><hr>
               {% endif %}
