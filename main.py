@@ -110,9 +110,9 @@ def register():
                 if password == password2:
                     client = User(first=firstName, last=lastName, email=email, gender=gender, username=username, bday=date)
                     client.set_password(password)
-                    db.session.add(user)
+                    db.session.add(client)
                     db.session.commit()
-                    login_user(user)
+                    login_user(client)
                     return redirect(url_for("login_"))
                 else:
                     err = "Password not confirmed - passwords need to match"
