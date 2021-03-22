@@ -1,8 +1,11 @@
 flask 
-flask-sqlalchemy 
+flask-sqlalchemy==2.4.1
+SQLAlchemy==1.3.22
 flask-login 
 flask-admin
 pytz
-flask-migrate
+Flask-Migrate==2.6.0
 gunicorn
-timeago
+gevent==21.1.2
+Flask-SocketIO==4.3.2
+Flask-Session==0.3.2

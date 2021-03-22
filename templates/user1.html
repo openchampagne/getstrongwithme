@@ -147,9 +147,15 @@
         <div class="media">
           <div class="media-left">
             <img src="{{user.profile_pic}}" class="media-object" style="width: 128px; height: 128px; border-radius: 20px;">
+            <br><br>
+            <form action="/chat" method="POST">
+              <input name="rec-id" value="{{ user.id }}" style="display:none">
+              <input name="sbmt" type="submit" class="btn btn-success" value="Chat with {{ user.firstName }}">
+            </form>
           </div>
           <div class="media-body">
-            <h2 class="media-heading">{{user.firstname}} {{user.lastname}}</h2>
+            <h2 class="media-heading">{{user.firstName}} {{user.lastName}} </h2>
+            
             <p>About Me: {{user.about_me}}<br> Location: {{user.location}}</p>
            <!-- <a href="/profile/edit/{{current_user.id}}" >Edit Profile</a>-->
            {% if user.isprivate == 1 %}
@@ -506,7 +512,8 @@
                 
               {% endfor %}
               {% endif %}
-
+              <br>
+              <br>
             </ul>
           </div>
         </div>

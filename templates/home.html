@@ -48,9 +48,12 @@
                     <div class="status-indicator bg-success"></div>
                  </div>
                  <div class="font-weight-bold overflow-hidden">
-                    <div class="text-truncate">MESSAGE_BODY_PLACEHODLER.</div>
-                    <div class="small text-gray-500">USER · TIME</div>
-                 </div>
+                        {% for dm in dms %}
+                        <div class="text-truncate"> {{ dm[1] }} </div>
+                        <div class="small text-gray-500">{{ dm[0] }} · {{ dm[2] }} </div>
+                        <div> ---------------------------- </div>
+                        {% endfor %}
+                     </div>
               </a>
               <a class="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
            </div>

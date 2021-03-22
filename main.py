@@ -1,4 +1,8 @@
+from gevent import monkey
+monkey.patch_all()
 from flask import *
+from flask_socketio import SocketIO, join_room, leave_room, emit
+from flask_session import Session
 from flask_sqlalchemy import *
 from flask_login import login_required, logout_user, current_user, login_user, UserMixin, current_user
 from werkzeug.security import *
@@ -15,17 +19,24 @@ from flask_migrate import Migrate
 
 ## Application configuration
 app = Flask(__name__, static_folder="./static")
-app.secret_key = "pass"
+app.debug = False
+app.secret_key = 'pass'
+app.config['SECRET_KEY'] = 'secret'
+app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 
 ## Login Managaer
 lm = LoginManager()
 lm.init_app(app)
 
-# Database File
+## Database File
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+## SocketIO 
+Session(app)
+socketio = SocketIO(app)
+users = []
 
 ## User Class
 class User(db.Model, UserMixin):
@@ -57,6 +68,27 @@ class posts(db.Model):
 
     def __repr__(self):
         return 'Post #{0}'.format(str(self.id))
+
+class DirectMessage(db.Model):
+    __tablename__ = "directMessages"
+    id = db.Column(db.Integer, primary_key = True)
+    rec_id = db.Column(db.Integer)
+    send_id = db.Column(db.Integer)
+    message = db.Column(db.Text)
+    date = db.Column(db.Text)
+
+    def __repr__(self):
+        return 'Message id: {0}'.format(str(self.id))
+
+class Chatroom(db.Model):
+    __tablename__ = "chatrooms"
+    id = db.Column(db.Integer, primary_key = True)
+    rec_id = db.Column(db.Integer)
+    send_id = db.Column(db.Integer)
+    chatroom = db.Column(db.String)
+
+    def __repr__(self):
+        return 'Chatroom: {0}'.format(str(self.id))
 
 #### Pages ####
 
@@ -97,18 +129,19 @@ def login_():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        firstName = request.form["firstName"]
-        lastName = request.form["lastName"]
+        firstName = request.form["first"]
+        lastName = request.form["last"]
         username = request.form["username"]
         email = request.form["email"]
-        password = request.form["password"]
-        password2 = request.form["password2"]
+        password = request.form["pass1"]
+        password2 = request.form["pass2"]
         gender = request.form["gender"]
+        bday = request.form["bday"]
         global err
         if User.query.filter_by(email=email).first() is None:
             if User.query.filter_by(username=username).first() is None:
                 if password == password2:
-                    client = User(first=firstName, last=lastName, email=email, gender=gender, username=username, bday=date)
+                    client = User(firstName=firstName, lastName=lastName, email=email, gender=gender, username=username, bday=bday)
                     client.set_password(password)
                     db.session.add(client)
                     db.session.commit()
@@ -125,12 +158,20 @@ def register():
             return redirect(request.referrer)
     return redirect("/")
 
+## Returns list of Direct Messages 
+def dms_():
+    dms_ = []
+    dms = DirectMessage.query.filter_by(rec_id=current_user.id).all()
+    for dm in dms:
+        users = User.query.filter_by(id=dm.send_id).first()
+        dms_.append([users.firstName, dm.message, dm.date])
+    return dms_
 
-##  Home
+## Home
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
-    return render_template("home.html", User=User())
+    return render_template("home.html", User=User(), dms=dms_())
 
 ## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
@@ -164,10 +205,94 @@ def search_():
     else:
         return redirect("/")
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods=["GET", "POST"])
 def findUser(username):
+    user = User.query.filter_by(username=username).first()
     posts_ = posts.query.filter_by(username=username).order_by(posts.date.desc()).all()
-    return render_template("user1.html", user=User.query.filter_by(username=username).first(), posts=posts_, User=User)
+    return render_template("user1.html", user=user, posts=posts_, User=User)
+
+#################################################### 
+## Chat function
+@app.route('/chat', methods=["GET", "POST"])
+def chat():
+    if request.method == "POST":
+        username = current_user.username
+        rec_id = str(request.form.get('rec-id'))
+        recipient = User.query.filter_by(id=rec_id).first()
+        sql = 'SELECT COUNT(*) FROM chatrooms WHERE rec_id = {0} AND send_id = {1} OR rec_id = {1} AND send_id = {0}'.format(rec_id, current_user.id)
+        print("\n\nRecipient ID = {0}".format(rec_id))
+        print('Current user ID = {0}'.format(current_user.id))
+        print('The recipient is {0}'.format(recipient.username))
+
+        ## query Chatrooms table if a chatroom exists by checking if 2 ids exist in 1 query, pull chatroom string if it does
+        rec_id = int(rec_id)
+        result = db.engine.execute(sql)
+        result_ = [row[0] for row in result]
+        print(result_[0])
+        # If 2 ids exist in 1 query
+        if result_[0] != 0:
+            chatroom = Chatroom.query.filter_by(rec_id=rec_id, send_id=current_user.id).first()
+            # print('\n\nchatroom 1: {0}'.format(chatroom.chatroom))
+            if chatroom == None:
+                chatroom = Chatroom.query.filter_by(rec_id=current_user.id, send_id=rec_id).first()
+                # print('\n\nchatroom 2: {0}'.format(chatroom.chatroom))
+        ## if it doesn't exist, generate random string
+            chatroom = chatroom.chatroom
+        else:
+            chatroom = (''.join(random.choice(string.ascii_uppercase) for i in range(9)))
+            print('Chatroom wasn\'t found, new chatroom made \nChatroom: {0}\n'.format(chatroom))
+            chatroom_ = Chatroom(rec_id=rec_id, send_id=current_user.id, chatroom=chatroom)
+            db.session.add(chatroom_)
+            db.session.commit()
+        print(chatroom)
+        room = chatroom
+        ## 
+        session['username'] = username
+        session['room'] = room
+        session['rec_id'] = rec_id
+        session['recipient_name'] = recipient.firstName
+        return render_template('chat.html', session=session) 
+
+
+@socketio.on('text', namespace='/chat')
+def text(message):
+    room = session.get('room')
+    rec_id = session.get('rec_id')
+    recipient = User.query.filter_by(id=rec_id).first()
+    if len(users) > 1:
+        emit('message', {'msg': '{0}:{1}'.format(session.get('username'), message['msg'])}, room=room)
+    else:
+        send_id = current_user.id
+        date_ = '{3}:{4} - {0}/{1}/{2}'.format(datetime.now().day, datetime.now().month, datetime.now().year, datetime.now().hour, datetime.now().minute)
+        dm = DirectMessage(rec_id=rec_id, send_id=send_id, message=message['msg'], date=date_)
+        db.session.add(dm)
+        db.session.commit()
+        emit('message', {'msg': '{0}:{1}'.format(session.get('username'), message['msg'])}, room=room)
+        emit('status', {'msg': '{0} is currenly offline, your message was sent to their inbox.'.format(recipient.firstName)}, room=room)
+
+
+@socketio.on('join', namespace='/chat')
+def join(message):
+    room = session.get('room')
+    join_room(room)
+    if session.get('username') not in users:
+        users.append(session.get('username'))
+    print('Users in chatroom: {0}'.format(users))
+    emit('status', {'msg': '{0} has joined the chat.'.format(session.get('username'))}, room=room)
+
+@socketio.on('left', namespace='/chat')
+def left(message):
+    username = session.get('username')
+    print(username)
+    room = session.get('room')
+    leave_room(room)
+    users.remove(username)
+    session.clear()
+    emit('status', {'msg': '{0} has left the chat.'.format(username)}, room=room)
+
+
+#################################################### 
+
 #Logout
 @app.route("/logout")
 @login_required
