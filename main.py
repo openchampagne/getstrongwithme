@@ -321,6 +321,6 @@ def unauthorized():
 
 #Make it compatible to deploy on heroku
 if __name__ == "__main__":
+    socketio.run(app)
     db.create_all()
     app.run(debug=True)
-    socketio.run(app)
