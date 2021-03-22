@@ -145,9 +145,9 @@
   
                
             <div class="border-top p-3 d-flex align-items-center">
-           <!--    <div class="choose_file">
+           <div class="choose_file">
                 <input name="media" type="file" >
-            </div> -->
+            </div>
   
             <div class="flex-shrink-1">
             <button class="btn btn-primary btn-sm btn btn-success" type="submit" name="post">Share</button>
@@ -325,10 +325,10 @@
                   <div class="text-truncate">{{name}}</div>
                   <div class="small text-gray-500">placeholder</div>
                   <form action="/accept/{{req.id}}" method="POST">
-                     <!--
+                 
                     <small><button type="Submit" value="Accept" name="acccept" class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept </button></small></form>
                     <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject" class="btn btn-danger btn-sm float-right col-sm-6"></form>
-                     -->
+                  
                     {% else %}
                     <div class="small text-gray-500">No Friend Requests at this moment</div>
           {% endfor %}
