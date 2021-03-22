@@ -251,7 +251,7 @@ def chat():
         session['room'] = room
         session['rec_id'] = rec_id
         session['recipient_name'] = recipient.firstName
-        return render_template('chat.html', session=session) 
+        return render_template("chat.html", session=session) 
 
 
 @socketio.on('text', namespace='/chat')
@@ -323,3 +323,4 @@ def unauthorized():
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
+    socketio.run(app)
