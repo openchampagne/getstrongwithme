@@ -9,3 +9,4 @@ gunicorn
 gevent==21.1.2
 Flask-SocketIO==4.3.2
 Flask-Session==0.3.2
+eventlet==0.24.1
