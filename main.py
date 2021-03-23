@@ -1,6 +1,6 @@
 import eventlet
 from flask import *
-from flask_socketio import SocketIO, join_room, leave_room, emit
+from flask_socketio import SocketIO, join_room, leave_room, rooms, emit
 from flask_session import Session
 from flask_sqlalchemy import *
 from flask_login import login_required, logout_user, current_user, login_user, UserMixin, current_user
@@ -9,6 +9,7 @@ from datetime import datetime
 from sqlalchemy import *
 from pytz import timezone
 from flask_login import LoginManager
+from collections import defaultdict
 import random
 import string
 import smtplib
@@ -320,6 +321,9 @@ def addfriend(username):
         return redirect(request.referrer)
 
 #################################################### 
+## Room Dict
+r = {}
+r = defaultdict(lambda: 0, r)
 ## Chat function
 @app.route('/chat', methods=["GET", "POST"])
 def chat():
@@ -367,11 +371,12 @@ def text(message):
     room = session.get('room')
     rec_id = session.get('rec_id')
     recipient = User.query.filter_by(id=rec_id).first()
-    print('Users in chat: {0}'.format(users))
-
-    if len(users) > 1:
+    print('Users in chatroom: {0}'.format(users))
+    print('Rooms active: {0}'.format(r))
+    
+    if r[room] > 1:
         emit('message', {'msg': '{0}:{1}'.format(session.get('username'), message['msg'])}, room=room)
-        print('Number of users in chat: {0}'.format(len(users)))
+        print('Number of users in chat: {0}'.format(r[room]))
     else:
         send_id = current_user.id
         date_ = '{3}:{4} - {0}/{1}/{2}'.format(datetime.now().day, datetime.now().month, datetime.now().year, datetime.now().hour, datetime.now().minute)
@@ -388,7 +393,9 @@ def join(message):
     join_room(room)
     if session.get('username') not in users:
         users.append(session.get('username'))
-    print('Users in chatroom: {0}'.format(users))
+    # print('Users in chatroom: {0}'.format(users))
+    r[room] += 1
+    print(r)
     emit('status', {'msg': '{0} is online.'.format(session.get('username'))}, room=room)
 
 @socketio.on('left', namespace='/chat')
@@ -396,6 +403,8 @@ def left(message):
     username = session.get('username')
     print(username)
     room = session.get('room')
+    r[room] -= 1
+    print(r)
     leave_room(room)
     users.remove(username)
     session.clear()

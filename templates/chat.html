@@ -44,7 +44,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
     <div class="container">
-       <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+       <a class="navbar-brand mr-2" href="/" onclick=leave_room()>GetStrongWith.me
        </a>
        <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search' method="POST">
           <div class="navtop search"><i class="fa fa-search"></i>
@@ -79,7 +79,7 @@
                 <h6 class="dropdown-header">
                    Direct Messages
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="/chat">
+                <a class="dropdown-item d-flex align-items-center" href="/chat" onclick=leave_room()>
                    <div class="dropdown-list-image mr-3">
                       <img class="rounded-circle" src="img/p1.png" alt="">
                       <div class="status-indicator bg-success"></div>
@@ -92,7 +92,7 @@
                           {% endfor %}
                        </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="/chat">Read More Messages</a>
+                <a class="dropdown-item text-center small text-gray-500" href="/chat" onclick=leave_room()>Read More Messages</a>
              </div>
           </li>
           <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
@@ -131,15 +131,15 @@
                       <div class="status-indicator bg-success"></div>
                    </div>
                    <div class="font-weight-bold">
-                      <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                      <div class="text-truncate">{{current_user.firstName}} {{current_user.lastName}}</div>
                       <div class="small text-gray-500">@{{current_user.username}}</div>
                    </div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
-                <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i> My Account</a>
+                <a class="dropdown-item" href="/home" onclick=leave_room()><i class="feather-edit mr-1"></i>Home</a>
+                <a class="dropdown-item" href="/my-account" onclick=leave_room()><i class="feather-edit mr-1"></i> My Account</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i> Logout</a>
+                <a class="dropdown-item" href="/logout" onclick=leave_room()><i class="feather-log-out mr-1"></i> Logout</a>
              </div>
           </li>
        </ul>
