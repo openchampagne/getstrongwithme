@@ -1,5 +1,5 @@
-from gevent import monkey
-monkey.patch_all()
+import eventlet
+eventlet.monkey_patch()
 from flask import *
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_session import Session
