@@ -279,6 +279,7 @@ def text(message):
     room = session.get('room')
     rec_id = session.get('rec_id')
     recipient = User.query.filter_by(id=rec_id).first()
+    print('\n\n\nUsers in chat: {0}\n\n\n'.format(users))
     if len(users) > 1:
         emit('message', {'msg': '{0}:{1}'.format(session.get('username'), message['msg'])}, room=room)
     else:
