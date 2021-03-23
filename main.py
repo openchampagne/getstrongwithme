@@ -193,7 +193,8 @@ def dms_():
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
-    return render_template("home.html", User=User(), dms=dms_())
+    user_posts = posts.query.order_by(posts.date.desc()).all()
+    return render_template("home.html", User=User(), posts=user_posts, blogposts=posts.query.order_by(posts.date.desc()), dms=dms_())
 
 ## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
