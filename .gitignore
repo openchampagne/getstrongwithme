@@ -8510,3 +8510,8 @@ venv/lib/python3.9/site-packages/timeago/setting.py
 app.db
 app.db
 *.db
+app.db
+venv/bin/python 2
+venv/bin/python3 2
+venv/bin/python3.9 2
+app.db
