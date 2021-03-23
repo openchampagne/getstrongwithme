@@ -217,7 +217,7 @@
         {% if current_user.username == user.username %}
         <div>
           <div style="margin-bottom: 25px;"> 
-          <form method="post" action="/dashboard/new">
+          <form method="post" action="/home/new">
             <div class="col-md-12" >
               <input class="form-control col-md-10" type="text" name="content" placeholder="Make a post..." name="content">
               <span class="">
@@ -259,7 +259,7 @@
             <small></small>
             <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
             <div>
-              <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+              <form action="/home/new_comment/{{post.id}}" method="POST">
                 <input type="text" name="comment" placeholder="Enter Your Comment">
                 <input type="submit" value="Post Comment" class="btn btn-success">
               </form>
@@ -269,7 +269,7 @@
               <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
               {{comments.text}}
               {% if current_user.username == comments.username %}
-              <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+              <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
               {% endif %}<br> -->
               {% endfor %}
             </div>
@@ -281,12 +281,12 @@
               
              
               
-              <small><span class="pull-right "><a class="text-danger btn btn-danger text-light btn-sm" href="/dashboard/delete/{{post.id}}">Delete</a></span></small>
+              <small><span class="pull-right "><a class="text-danger btn btn-danger text-light btn-sm" href="/home/delete/{{post.id}}">Delete</a></span></small>
               <!--
       
                 modal
               -->
-              <!--<Span class="pull-right"><a class="text-success" href="/dashboard/edit/{{post.id}}">Edit</a></Span>-->
+              <!--<Span class="pull-right"><a class="text-success" href="/home/edit/{{post.id}}">Edit</a></Span>-->
               <div class="container">
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><Span class="pull-right"><a class="text-white" >Edit</a></Span></button>
@@ -305,7 +305,7 @@
                         
                       -->
                       <div class="modal-body">
-                        <form action="/dashboard/edit/{{post.id}}" method="POST">
+                        <form action="/home/edit/{{post.id}}" method="POST">
                           Title: <input type="text" name="title" id="title" value={{post.title}}>
                           <br>
                           Post: <textarea class=" form-control rounded-0" style="max-width: 300px;" name="content" id="content" value={{post.content}}></textarea>
@@ -380,7 +380,7 @@
             <small></small>
             <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
             <div>
-              <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+              <form action="/home/new_comment/{{post.id}}" method="POST">
                 <input type="text" name="comment" placeholder="Enter Your Comment">
                 <input type="submit" value="Post Comment" class="btn btn-success">
               </form>
@@ -390,7 +390,7 @@
               <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
               {{comments.text}}
               {% if current_user.username == comments.username %}
-              <small><a href="/dashboard/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+              <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
               {% endif %}<br> -->
               {% endfor %}
             </div>
@@ -443,7 +443,7 @@
         <small></small>
         <a href="#expe{{post.id}}" class="fa fa fa-times closer" >Comments</a>
         <div>
-          <form action="/dashboard/new_comment/{{post.id}}" method="POST">
+          <form action="/home/new_comment/{{post.id}}" method="POST">
             <input type="text" name="comment" placeholder="Enter Your Comment">
             <input type="submit" value="Post Comment" class="btn btn-success">
           </form>
