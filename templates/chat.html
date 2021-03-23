@@ -12,7 +12,7 @@
             $(document).ready(function() {
                 // getstrongwith.me
                 // socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
-                socket = io.connect('//getstrongwith.me/chat');
+                socket = io.connect('localhost:5004/chat');
 
                 socket.on('connect', function() {
                     //io.socket.clients(room)
