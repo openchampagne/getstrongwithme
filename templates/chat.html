@@ -11,7 +11,7 @@
         // socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
         //socket = io.connect('http://getstrongwith.me:5004/chat');
 
-        socket = io.connect(window.location.hostname);
+        socket = io.connect('http://getstrongwith.me/chat');
 
         socket.on('connect', function() {
             //io.socket.clients(room)
