@@ -9,7 +9,7 @@
     $(document).ready(function() {
         // getstrongwith.me
         //socket = io.connect('http://' + document.domain + ':' + 5004 + '/chat');
-        socket = io.connect('localhost:5124/chat')
+        socket = io.connect('http://getstrongwith.me:5004/chat')
 
         socket.on('connect', function() {
             //io.socket.clients(room)
