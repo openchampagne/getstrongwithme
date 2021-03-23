@@ -9,11 +9,14 @@
     $(document).ready(function() {
         // getstrongwith.me
         // socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
-        socket = io.connect('http://getstrongwith.me:5004/chat');
+        //socket = io.connect('http://getstrongwith.me:5004/chat');
+
+        socket = io.connect(window.location.hostname);
 
         socket.on('connect', function() {
             //io.socket.clients(room)
             socket.emit('join', {});
+            log('socket connected');
         });
         socket.on('status', function(data) {
             $('#chat').val($('#chat').val() + '<' + data.msg + '>\n');
