@@ -35,7 +35,7 @@ migrate = Migrate(app, db)
 
 ## SocketIO 
 Session(app)
-socketio = SocketIO(app, logger=True, engineio_logger=True)
+socketio = SocketIO(app)
 users = []
 
 ## User Class
@@ -278,7 +278,7 @@ def join(message):
     if session.get('username') not in users:
         users.append(session.get('username'))
     print('Users in chatroom: {0}'.format(users))
-    emit('status', {'msg': '{0} has joined the chat.'.format(session.get('username'))}, room=room)
+    emit('status', {'msg': '{0} is online.'.format(session.get('username'))}, room=room)
 
 @socketio.on('left', namespace='/chat')
 def left(message):
@@ -288,7 +288,7 @@ def left(message):
     leave_room(room)
     users.remove(username)
     session.clear()
-    emit('status', {'msg': '{0} has left the chat.'.format(username)}, room=room)
+    emit('status', {'msg': '{0} is offline.'.format(username)}, room=room)
 
 
 #################################################### 
