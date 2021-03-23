@@ -263,14 +263,14 @@
                 <input type="text" name="comment" placeholder="Enter Your Comment">
                 <input type="submit" value="Post Comment" class="btn btn-success">
               </form>
-              <!-- <div class="comments" id="expe{{post.id}}"> -->
-              <!-- {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+            <div class="comments" id="expe{{post.id}}"> -->
+              {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
               {% for comments in comment1 %}
               <b><a href="/user/{{comments.username}}">{{comments.username}}</a></b> -
               {{comments.text}}
               {% if current_user.username == comments.username %}
               <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-              {% endif %}<br> -->
+              {% endif %}<br> 
               {% endfor %}
             </div>
             </div>
@@ -472,7 +472,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <h4>Edit profile</h4>
-            <form method="post" action="/my-account/edit1/{{current_user.id}}">
+            <form method="post" action="/my-account/edit/{{current_user.id}}">
               <div class="form-group">
                 <h5>About</h5>
                 <input class="form-control" type="text" name="status" placeholder="About Me" value="{{current_user.about_me}}" name="about">

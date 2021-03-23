@@ -15,6 +15,8 @@ import smtplib
 from flask_migrate import Migrate
 
 ### initializations ###
+upload_profile = "./static/images/profile"
+upload_media = "./static/posts"
 
 ## Application configuration
 app = Flask(__name__, static_folder="./static")
@@ -23,6 +25,8 @@ app.secret_key = 'pass'
 app.config['SECRET_KEY'] = 'secret'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['UPLOAD_PROFILE'] = upload_profile
+app.config['UPLOAD_MEDIA'] = upload_media
 
 ## Login Managaer
 lm = LoginManager()
@@ -132,6 +136,16 @@ def login_():
         return redirect(url_for("login_"))
     return redirect("/")
 
+@app.route("/file", methods=["GET", "POST"])
+@login_required
+def file_upload():
+    if request.method == "POST":
+        file=request.files['file']
+        filename=file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return render_template('includes/file.html')
+    else:
+        return render_template('includes/file.html')
 
 ##  Registration
 @app.route("/register", methods=["GET", "POST"])
@@ -184,14 +198,66 @@ def home():
 ## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
 @login_required
-def post_Announcement():
+def new_post():
     if request.method == "POST":
-        title = "{0} says".format(current_user.username)
-        author = "{0} {1}".format(current_user.firstName, current_user.lastName)
-        userPost = request.form["content"]
-        return redirect(request.referrer)
+        post_title = "Post by "+current_user.username
+        post_content = request.form['content']
+        post_author = current_user.firstName+" "+current_user.lastName
+        post_media = request.files.get('media')
+        #If the user uploads or chooses to upload images
+        if post_media:
+            if post_content != "":
+                file=request.files['media']
+                filename = file.filename
+                extension = filename.split('.')[1]
+                letters = string.ascii_lowercase
+                random1 = ''.join(random.choice(letters) for i in range(10)) 
+                medianame = random1+"."+extension
+                pathtomedia = "/static/posts/"+medianame
+                new_post = posts(title=post_title, content="media,"+pathtomedia+","+post_content,author=post_author, username=current_user.username)
+                file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
+                db.session.add(new_post)
+                db.session.commit()
+                getd=posts.query.all()[-1].id
+                #like= likes(pid=int(getd),total=0)
+                #db.session.add(like)
+                db.session.commit()
+                return redirect(request.referrer)
+            else:
+                file=request.files['media']
+                filename = file.filename
+                extension = filename.split('.')[1]
+                letters = string.ascii_lowercase
+                random1 = ''.join(random.choice(letters) for i in range(10)) 
+                medianame = random1+"."+extension
+                pathtomedia = "/static/posts/"+medianame
+                new_post = posts(title=post_title, content="media,"+pathtomedia,author=post_author, username=current_user.username)
+                file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
+                db.session.add(new_post)
+                db.session.commit()
+                getd=posts.query.all()[-1].id
+                #like= likes(pid=int(getd),total=0)
+                #db.session.add(like)
+                db.session.commit()
+                return redirect(request.referrer)
+        #If no photo is chosen
+        else:
+            if post_content != "":
+                new_post = posts(title=post_title, content=post_content,author=post_author, username=current_user.username)
+                db.session.add(new_post)
+                db.session.commit()
+                getd=posts.query.all()[-1].id
+                #like= likes(pid=int(getd),total=0)
+                #db.session.add(like)
+                db.session.commit()
+                return redirect(request.referrer)
+            else:
+                global errmsg
+                errmsg = "Cannot Post Somethig Not written! "
+                return redirect(request.referrer)
     else:
-        return render_template("/includes/new_post.html")
+        all_post = posts.query.all()
+        return render_template('includes/new_post.html')
 
 
 ##  Account 
@@ -201,6 +267,28 @@ def profile():
     userPosts = posts.query.filter_by(username = current_user.username).all()
     return render_template("my-account.html", User=User(), posts=userPosts)
 
+@app.route("/my-account/edit/<int:id>",methods=['GET','POST'])
+def profile_info_change(id):
+    if request.method == "POST":
+        info = User.query.get(id)
+        info.username = request.form['username']
+        info.firstname=request.form['firstName']
+        info.lastname=request.form['lastName']
+        info.email=request.form['email']
+        info.about_me = request.form['about_me']
+        profilepic=request.files.get('file')
+        if profilepic: 
+            file=request.files.get('file')
+            filename= file.filename
+            new_filename=current_user.username+"."+filename.split('.')[1]
+            file.save(os.path.join(app.config['UPLOAD_PROFILE'], new_filename))
+            info.profile_pic="/static/images/my-account/"+new_filename
+            db.session.commit()
+            return redirect(request.referrer)
+        db.session.commit()
+        return redirect(request.referrer)
+    else:
+        return redirect("/profile")
 
 ##  Search function
 @app.route("/search", methods=["GET", "POST"])
