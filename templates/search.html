@@ -1,127 +1,178 @@
 {% extends 'base.html' %}
 {% block body %}
-<!-- Navigation-->
+<!--navigation-->
 <nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
-  <div class="container">
-     <a class="navbar-brand mr-2" href="/">GetStrongWith.me
-     </a>
-     <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search' method="POST">
-        <div class="navtop search"><i class="fa fa-search"></i>
-           <input type="search" class="form-control shadow-none" placeholder="Search" aria-label="Search" name="search" aria-describedby="basic-addon2">
-           
-        </div>
-     </form>
-     <ul class="navbar-nav ml-auto d-flex align-items-center">
-        <li class="nav-item dropdown no-arrow d-sm-none">
-           <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <i class="feather-search mr-2"></i>
-           </a>
-           <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in" aria-labelledby="searchDropdown">
-              <form class="form-inline mr-auto w-100 navbar-search">
-                 <div class="input-group">
-                    <input type="text" class="form-control border-0 shadow-none" placeholder="Search people, jobs and more..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                       <button class="btn" type="button">
-                       <i class="feather-search"></i>
-                       </button>
-                    </div>
-                 </div>
-              </form>
-           </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
-           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <i class="fa fa-inbox"></i>
-           <span class="badge badge-danger badge-counter">1</span>
-           </a>
-           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
-              <h6 class="dropdown-header">
-                 Direct Messages
-              </h6>
-              <a class="dropdown-item d-flex align-items-center" href="/messages">
-                 <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/p1.png" alt="">
-                    <div class="status-indicator bg-success"></div>
-                 </div>
-                 <div class="font-weight-bold overflow-hidden">
-                    <div class="text-truncate">MESSAGE_BODY_PLACEHODLER.</div>
-                    <div class="small text-gray-500">USER · TIME</div>
-                 </div>
-              </a>
-              <a class="dropdown-item text-center small text-gray-500" href="messages.html">Read More Messages</a>
-           </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
-           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <i class="fa fa-bell"></i>
-           <span class="badge badge-info badge-counter">1</span>
-           </a>
-           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+   <div class="container">
+      <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+      </a>
+      <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search'
+         method="POST">
+         <div class="navtop search"><i class="fa fa-search"></i>
+            <input type="search" class="form-control shadow-none" placeholder="Search" aria-label="Search" name="search"
+               aria-describedby="basic-addon2">
 
-              <h6 class="dropdown-header">
-                 Notification Center
-              </h6>
-              <a class="dropdown-item d-flex align-items-center" href="notifications.html">
-                 <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                       <i class="fa fa-bell"></i>
-                    </div>
-                 </div>
-                 <div>
-                    <div class="small text-gray-500">TIME_PLACEHOLDER</div>
-                    <span class="font-weight-bold">Debug: This is search.html</span>
-                 </div>
-              </a>
-              
-              <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
-           </div>
-        </li>
-        <li class="nav-item dropdown no-arrow ml-1 profile-dropdown">
-           <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}">
-           </a>
-           <div class="dropdown-menu dropdown-menu-right shadow-sm">
-              <div class="p-3 d-flex align-items-center">
-                 <div class="dropdown-list-image mr-3">
-                    <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}" alt="">
-                    <div class="status-indicator bg-success"></div>
-                 </div>
-                 <div class="font-weight-bold">
-                    <div class="text-truncate">{{current_user.firstName}} {{current_user.lastName}}</div>
-                    <div class="small text-gray-500">@{{current_user.username}}</div>
-                 </div>
-              </div>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
-              <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i>My Profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i>Logout</a>
-           </div>
-        </li>
-     </ul>
-  </div>
+         </div>
+      </form>
+      <ul class="navbar-nav ml-auto d-flex align-items-center">
+         <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+               <i class="feather-search mr-2"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in"
+               aria-labelledby="searchDropdown">
+               <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                     <input type="text" class="form-control border-0 shadow-none" placeholder="Search"
+                        aria-label="Search" aria-describedby="basic-addon2">
+                     <div class="input-group-append">
+                        <button class="btn" type="button">
+                           <i class="feather-search"></i>
+                        </button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">
+               <i class="fa fa-inbox"></i>
+               <span class="badge badge-danger badge-counter">1</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+               <h6 class="dropdown-header">
+                  Direct Messages
+               </h6>
+               <a class="dropdown-item d-flex align-items-center" href="/chat">
+                  <div class="dropdown-list-image mr-3">
+                     <img class="rounded-circle" src="img/p1.png" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold overflow-hidden">
+                     {% for dm in dms %}
+                     <div class="text-truncate"> {{ dm[1] }} </div>
+                     <div class="small text-gray-500">{{ dm[0] }} · {{ dm[2] }} </div>
+                     <div> ---------------------------- </div>
+                     {% endfor %}
+                  </div>
+               </a>
+               <a class="dropdown-item text-center small text-gray-500" href="/chat">Read More Messages</a>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">
+               <i class="fa fa-bell"></i>
+               <span class="badge badge-info badge-counter">1</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
+
+               <h6 class="dropdown-header">
+                  Notification Center
+               </h6>
+               <a class="dropdown-item d-flex align-items-center" href="notifications.html">
+                  <div class="mr-3">
+                     <div class="icon-circle bg-primary">
+                        <i class="fa fa-bell"></i>
+                     </div>
+                  </div>
+                  <div>
+                     <div class="small text-gray-500">TIME_PLACEHOLDER</div>
+                     <span class="font-weight-bold">Debug: This is home.html</span>
+                  </div>
+               </a>
+
+               <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow ml-1 profile-dropdown">
+            <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">
+               <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow-sm">
+               <div class="p-3 d-flex align-items-center">
+                  <div class="dropdown-list-image mr-3">
+                     <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                     <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                     <div class="small text-gray-500">@{{current_user.username}}</div>
+                  </div>
+               </div>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="/home"><i class="feather-edit mr-1"></i>Home</a>
+               <a class="dropdown-item" href="/my-account"><i class="feather-edit mr-1"></i> My Account</a>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="/logout"><i class="feather-log-out mr-1"></i> Logout</a>
+            </div>
+         </li>
+      </ul>
+   </div>
 </nav>
+<!-- end navigation-->
 
-  <div align="center" class="col" style="width: 50%;margin-left: 25%;">
-  {% for users in search %}
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col"><embed src="{{users.profile_pic}}" style="border-radius: 25px;" width="50%" height="100%"></div><br>
-          <div class="col "><a href="/user/{{users.username}}" style="top: 100%;float: left; font-size: 20px;">{{ users.firstName }}
-{{users.lastName}}</a></div>
-</div><br>
-{% if current_user.username != users.username %}
-          
-<form action="/addfriend/{{users.username}}" method="POST">
-<input type="submit" class="btn btn-success btn-sm" value="Add a Friend" name="addfriend">
-</form>
+<main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 
+   <h5 class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3 font-weight-bold">Search results</h5>
+      <div class="tab-content" id="myTabContent">
+         <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="p-3">
+               <div class="row">
+                  <div class="col-md-4">
+                     <a href="profile.html">
+                        <div class="border network-item rounded mb-3">
+                           {% for users in search %}
+                           <div class="p-3 d-flex align-items-center network-item-header">
+                              <div class="dropdown-list-image mr-3">
+                                 <img class="rounded-circle" src="{{users.profile_pic}}" alt="">
+                              </div>
+                              <div class="font-weight-bold">
+                                 <h6 class="font-weight-bold text-dark mb-0">{{ users.firstName }} {{ users.lastName }}</h6>
+                                 <div class="small text-black-50">{{ users.Bio }} </div>
+                              </div>
+                           </div>
+                           <div class="d-flex align-items-center p-3 border-top border-bottom network-item-body">
+                              <div class="overlap-rounded-circle">
+                                 <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                    title="" src="img/p1.png" alt="" data-original-title="Sophia Lee">
+                                 <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                    title="" src="img/p2.png" alt="" data-original-title="John Doe">
+                                 <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                    title="" src="img/p3.png" alt="" data-original-title="Julia Cox">
+                                 <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                    title="" src="img/p4.png" alt="" data-original-title="Robert Cook">
+                                 <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                    title="" src="img/p5.png" alt="" data-original-title="Sophia Lee">
+                              </div>
+                              <span class="font-weight-bold small text-primary">0 mutual connections</span>
+                           </div>
+                           {% if current_user.username != users.username %}
+                           <div class="network-item-footer py-3 d-flex text-center">
+                              <div class="col-6 pl-3 pr-1">
+                                 <form action="/addfriend/{{users.username}}" method="POST"></form>
+                                 <button type="button" class="btn btn-primary btn-sm btn-block"> Connect </button>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  {% endif %}
 
-{% endif %}
-</div></div>
-{% else %}
+                  {% else %}
 Sorry user was not found
 {% endfor %}
-</div>
+
+
+               </div>
+            </div>
+         </div>
+      </div>
+</main>
+
+
+
 {% endblock %}

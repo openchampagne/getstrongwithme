@@ -94,7 +94,7 @@
                     <div class="status-indicator bg-success"></div>
                  </div>
                  <div class="font-weight-bold">
-                    <div class="text-truncate">{{current_user.firstname}} {{current_user.lastname}}</div>
+                    <div class="text-truncate">{{current_user.firstName}} {{current_user.lastName}}</div>
                     <div class="small text-gray-500">@{{current_user.username}}</div>
                  </div>
               </div>
@@ -115,19 +115,6 @@
          <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
             <div class="box shadow-sm border rounded bg-white mb-3 share-post">
              <!-- post form -->
-        {% if msg != '' %}
-        <div class="alert alert-danger">
-          {{msg}}
-        </div>
-        {{ clean }} 
-        {% endif %}
-        {% if msg2 != '' %}
-        <div class="alert alert-danger">
-          {{msg2}}
-        </div>
-        {{ clean }} 
-        {% endif %}
-
 
         <form method="post" action="/home/new" enctype="multipart/form-data">
           <div class="box shadow-sm border rounded bg-white">
@@ -138,7 +125,7 @@
             <div class="dropdown-list-image mr-3">
             </div>
             <div class="w-100">
-            <textarea placeholder="Share Something" type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
+            <textarea placeholder="Share Something..." type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
             </div>
             </div>
             </div>
@@ -198,7 +185,7 @@
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                <div class="py-4 px-3 border-bottom">
                   <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="Responsive image">
-                  <h5 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstname}} {{current_user.lastname}}</h5>
+                  <h5 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}</h5>
                   <p class="mb-0 text-muted">@{{current_user.username}}</p>
                   <p class="mb-0 text-muted">{{current_user.about_me}}</p>
                   <p class="mb-0 text-muted">{{current_user.location}}</p>
@@ -250,75 +237,44 @@
          </aside>
          <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
             <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="box-title border-bottom p-3">
-                  <h6 class="m-0">Activity Leaderboard</h6>
+               <div class="border-bottom p-3">
+                  <h6 class="font-weight-bold m-0">Activity Leaderboard</h6>
                </div>
                <div class="box-body p-3">
+                  <!-- for each friend-->
+                  {% for user in friends %}
+  {% set users = User.query.filter_by(username=user).first() %}
+  {% if (users != '') and (users != None) %}
                   <div class="d-flex align-items-center post-header mb-3 people-list">
                      <div class="dropdown-list-image mr-3">
                         <img class="rounded-circle" src="img/p8.png" alt="">
                         <div class="status-indicator bg-success"></div>
                      </div>
                      <div class="font-weight-bold mr-2">
-                        <div class="text-truncate">Elon Musk</div>
-                        <div class="small text-gray-500">810 Calories</div>
+                        <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
+                        <div class="small text-gray-500">0 Calories</div>
                      </div>
                      <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
                      </span>
                   </div>
-                  <div class="d-flex align-items-center post-header mb-3 people-list">
-                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/p9.png" alt="">
-                        <div class="status-indicator bg-success"></div>
-                     </div>
-                     <div class="font-weight-bold mr-2">
-                        <div class="text-truncate">Jeff Bezos</div>
-                        <div class="small text-gray-500">421 Calories</div>
-                     </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                     </span>
-                  </div>
-                  <div class="d-flex align-items-center post-header mb-3 people-list">
-                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/p10.png" alt="">
-                        <div class="status-indicator bg-success"></div>
-                     </div>
-                     <div class="font-weight-bold mr-2">
-                        <div class="text-truncate">Oprah Winfrey</div>
-                        <div class="small text-gray-500">419 Calories</div>
-                     </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                     </span>
-                  </div>
-                  <div class="d-flex align-items-center post-header mb-3 people-list">
-                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/p11.png" alt="">
-                        <div class="status-indicator bg-success"></div>
-                     </div>
-                     <div class="font-weight-bold mr-2">
-                        <div class="text-truncate">Bill Gates</div>
-                        <div class="small text-gray-500">70 Calories</div>
-                     </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                     </span>
-                  </div>
-                  <div class="d-flex align-items-center post-header people-list">
-                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/p12.png" alt="">
-                        <div class="status-indicator bg-success"></div>
-                     </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                     </span>
-                  </div>
+                  {% endif %}
+{% else %}
+<div class="text-truncate">No Friends</div>
+{% endfor %}
+
+                  <!-- friends -->
+                  
                </div>
             </div>
             <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="box-title border-bottom p-3 d-flex align-items-center">
-                  <h6 class="m-0">Friend Requests</h6>
+               <div class="border-bottom p-3 d-flex align-items-center">
+                  <div class="mr-1 overflow-hidden">
+                  <h6 class="font-weight-bold m-0">Friend Requests</h6>
+                  </div>
                   <a class="ml-auto" href="#">See All <i class="feather-chevron-right"></i></a>
                </div>
                <div class="box-body p-3">
-                <div class="font-weight-bold mr-2">
+                <div class="mr-2">
                 {% for req in r %}
                 
                   {%set name=User.query.filter_by(username=req.user_from).first().firstname +" "+User.query.filter_by(username=req.user_from).first().lastname%}
@@ -330,7 +286,7 @@
                     <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject" class="btn btn-danger btn-sm float-right col-sm-6"></form>
                   
                     {% else %}
-                    <div class="small text-gray-500">No Friend Requests at this moment</div>
+                    <div class="text-truncate">No Friend Requests</div>
           {% endfor %}
         </div>
 
