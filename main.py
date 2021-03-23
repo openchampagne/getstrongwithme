@@ -251,7 +251,7 @@ def chat():
         session['room'] = room
         session['rec_id'] = rec_id
         session['recipient_name'] = recipient.firstName
-        return render_template("chat.html", session=session) 
+    return render_template("chat.html", session=session) 
 
 
 @socketio.on('text', namespace='/chat')
@@ -321,6 +321,6 @@ def unauthorized():
 
 #Make it compatible to deploy on heroku
 if __name__ == "__main__":
-    socketio.run(app, debug=True, port=5004)
+    socketio.run(app, debug=True, port=44171)
     db.create_all()
     app.run(debug=True)
