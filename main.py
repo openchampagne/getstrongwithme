@@ -279,9 +279,11 @@ def text(message):
     room = session.get('room')
     rec_id = session.get('rec_id')
     recipient = User.query.filter_by(id=rec_id).first()
-    print('\n\n\nUsers in chat: {0}\n\n\n'.format(users))
+    print('Users in chat: {0}'.format(users))
+
     if len(users) > 1:
         emit('message', {'msg': '{0}:{1}'.format(session.get('username'), message['msg'])}, room=room)
+        print('Number of users in chat: {0}'.format(len(users)))
     else:
         send_id = current_user.id
         date_ = '{3}:{4} - {0}/{1}/{2}'.format(datetime.now().day, datetime.now().month, datetime.now().year, datetime.now().hour, datetime.now().minute)
