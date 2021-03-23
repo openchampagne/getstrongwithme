@@ -35,7 +35,7 @@ migrate = Migrate(app, db)
 
 ## SocketIO 
 Session(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, logger=True, engineio_logger=True)
 users = []
 
 ## User Class
