@@ -49,6 +49,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String)
     bday = db.Column(db.String)
     gender = db.Column(db.String)
+    about_me = db.Column(db.String(140), default="No Bio")
+    location = db.Column(db.String, default="No Location")
+    profile_pic = db.Column(db.String, default="/static/images/profile/404.jpg")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -79,6 +82,12 @@ class DirectMessage(db.Model):
 
     def __repr__(self):
         return 'Message id: {0}'.format(str(self.id))
+
+class friendRequests(db.Model):
+    __tablename__="friendRequests"
+    id=db.Column(db.Integer, primary_key=True)
+    user_from=db.Column(db.String)
+    user_to=db.Column(db.String)
 
 class Chatroom(db.Model):
     __tablename__ = "chatrooms"
@@ -210,6 +219,18 @@ def findUser(username):
     user = User.query.filter_by(username=username).first()
     posts_ = posts.query.filter_by(username=username).order_by(posts.date.desc()).all()
     return render_template("user1.html", user=user, posts=posts_, User=User)
+
+@app.route('/addfriend/<username>',methods=['GET','POST'])
+def addfriend(username):
+    a=User.query.filter_by(username=username).first()
+    if request.method == "POST":
+        user_to=a.username
+        user_from=current_user.username
+        addf=friendRequests(user_from=user_from,user_to=user_to)
+        db.session.add(addf)
+        b="/user/"+username
+        db.session.commit()
+        return redirect(request.referrer)
 
 #################################################### 
 ## Chat function
