@@ -10234,3 +10234,4 @@ venv/lib/python3.9/site-packages/greenlet-1.0.0.dist-info/REQUESTED
 venv/lib/python3.9/site-packages/click-7.1.2.dist-info/REQUESTED
 venv/lib/python3.9/site-packages/cachelib-0.1.1.dist-info/REQUESTED
 *.db
+templates/.DS_Store
