@@ -10213,3 +10213,8 @@ venv/lib/python3.9/site-packages/sqlalchemy/testing/suite/__pycache__/test_types
 venv/lib/python3.9/site-packages/sqlalchemy/testing/suite/__pycache__/test_update_delete.cpython-39 2.pyc
 venv/lib/python3.9/site-packages/sqlalchemy/types 2.py
 *.db
+venv/lib/python3.9/site-packages/pytz/__pycache__/tzinfo.cpython-39 2.pyc
+venv/lib/python3.9/site-packages/pytz/__pycache__/tzfile.cpython-39 2.pyc
+venv/lib/python3.9/site-packages/pytz/__pycache__/reference.cpython-39 2.pyc
+venv/lib/python3.9/site-packages/pytz/__pycache__/lazy.cpython-39 2.pyc
+venv/lib/python3.9/site-packages/pytz/__pycache__/__init__.cpython-39 2.pyc
