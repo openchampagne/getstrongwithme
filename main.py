@@ -56,6 +56,8 @@ class User(db.Model, UserMixin):
     about_me = db.Column(db.String(140), default="No Bio")
     location = db.Column(db.String, default="No Location")
     profile_pic = db.Column(db.String, default="/static/images/user-account-pictures/no-user.jpg")
+    friend_array = db.Column(db.String)
+    isPrivate = db.Column(db.Integer, default = 0)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -270,7 +272,7 @@ def profile():
     return render_template("my-account.html", User=User(), posts=userPosts)
 
 @app.route("/my-account/edit/<int:id>",methods=['GET','POST'])
-def profile_info_change(id):
+def profile_change(id):
     if request.method == "POST":
         info = User.query.get(id)
         info.username = request.form['username']
@@ -284,13 +286,14 @@ def profile_info_change(id):
             filename= file.filename
             new_filename=current_user.username+"."+filename.split('.')[1]
             file.save(os.path.join(app.config['UPLOAD_PROFILE'], new_filename))
-            info.profilepic="/static/images/user-account-pictures/"+new_filename
+            info.profile_pic="/static/images/user-account-pictures/"+new_filename
             db.session.commit()
             return redirect(request.referrer)
         db.session.commit()
         return redirect(request.referrer)
     else:
         return redirect("/my-account")
+
 
 ##  Search function
 @app.route("/search", methods=["GET", "POST"])

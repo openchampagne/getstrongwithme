@@ -1,6 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block head %}
+<title>Search Results for {{titlevar}}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+{% endblock %}
 {% block body %}
-
 {% include "includes/nav.html" %}
 
 <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
@@ -31,10 +34,16 @@
                            {% if current_user.username != users.username %}
                            <div class="network-item-footer py-3 d-flex text-center">
                               <div class="col-6 pl-3 pr-1">
-                                 <form action="/addfriend/{{users.username}}" method="POST"></form>
-                                 <button type="button" class="btn btn-primary btn-sm btn-block"> Connect </button>
-                                 </form>
+                                 <form action="/addfriend/{{users.username}}" method="POST">
+                              <button type="button" class="btn btn-info"><i class="fa fa-user-plus"></i> Add Friend </button>
+                              </form>
                               </div>
+                              <div class="col-6 pr-3 pl-1">
+                                 <form action="/chat" method="POST">
+                                    <input name="rec-id" value="{{ users.id }}" style="display:none">
+                                    <button name="sbmt" type="submit" class="btn btn-outline-primary pl-4 pr-4"><i class="fa fa-paper-plane" aria-hidden="true"></i> Message</button>
+                              </form>
+                           </div>
                            </div>
                         </div>
                   </div>

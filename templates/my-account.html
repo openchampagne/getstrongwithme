@@ -114,11 +114,11 @@
          <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                <div class="py-4 px-3 border-bottom">
-                  <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="USER PIC">
-                  <h5 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}</h5>
-                  <p class="mb-0 text-muted">@{{current_user.username}}</p>
-                  <p class="mb-0 text-muted">{{current_user.about_me}}</p>
-                  <p class="mb-0 text-muted">{{current_user.location}}</p>
+                  <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="Responsive image">
+                  <h3 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}</h3>
+                  <h6 class="mb-0 font-weight-bold text-muted">@{{current_user.username}}</h6>
+                  <p class="mb-0 font-weight-bold">{{current_user.about_me}}</p>
+                  <p class="mb-0 font-weight-bold">{{current_user.location}}</p>
                
                </div>
                
@@ -140,15 +140,15 @@
       </div>
       <div class="modal-body">
         <form action="/my-account/edit/{{current_user.id}}" method="POST" class="form form-class" enctype="multipart/form-data">
-          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstName}}" name="firstname"></small><br>
-          Last Name : <input type="text" class="form-control"value="{{current_user.lastName}}" name="lastname"><br>
+          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstName}}" name="firstName"></small><br>
+          Last Name : <input type="text" class="form-control"value="{{current_user.lastName}}" name="lastName"><br>
           Username : <input type="text" class="form-control"value="{{current_user.username}}" name="username"><br>
           Email : <input type="email" class="form-control"value="{{current_user.email}}" name="email"><br>
           About : <input type="text" class="form-control"value="{{current_user.about_me}}" name="about_me"><br>
           <input class="form-control" type="text" name="location" placeholder="Location" value="{{current_user.location}}"><br>
 
           <label class="btn btn-default btn-file">
-            Profile Picture <input type="file" name="file"  class="form-control" style="display: none;"><br>
+            Profile Picture <input type="file" name="file" class="form-control" style="display: none;"><br>
         </label><br>
           <input type="submit" value="Save" class="form-control" >
       </form>
@@ -161,14 +161,7 @@
 
                </div>
             </div>
-            <div class="box mb-3 shadow-sm rounded bg-white view-box overflow-hidden">
-               <div class="box-title border-bottom p-3">
-                  <h6 class="m-0">My Awards</h6>
-               </div>
-               <div class="d-flex text-center">
-                  <p>AWARDS</p> 
-               </div>
-            </div>
+          
            
          </aside>
         
