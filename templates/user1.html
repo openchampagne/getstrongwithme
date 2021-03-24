@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-<title>Profile</title>
+<title>{{user.firstName}}'s Profile</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 {% endblock %}
 {% block body %}
@@ -18,6 +18,7 @@
    <div class="container">
       <div class="row">
          <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3  border-bottom font-weight-bold text-left">{{user.firstName}}'s Feed</h1>
   <!--testing new user newsfeed-->
  {% if (posts != NULL) or (posts != "") %}
   {% for post in posts %}
@@ -53,7 +54,7 @@
       
   </div>
   {% else %}
-                <h3 class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3 font-weight-bold">Doesn't seem that {{user.firstName}} has posted anything yet</h3>
+                <h4 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold animate__animated animate__hinge animate__delay-1s">Doesn't seem that {{user.firstName}} has posted anything yet</h4>
   {% endfor %}
   {% endif %}
 
@@ -103,7 +104,7 @@
                   </div>
                   {% endif %}
 {% else %}
-<div class="text-truncate">{{ user.firstName}} has No Friends</div>
+<div class="text-truncate">{{ user.firstName}} has no Friends</div>
 {% endfor %}
 
                   <!-- friends -->

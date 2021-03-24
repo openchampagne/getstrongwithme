@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block head %}
-<title>Search Results for {{titlevar}}</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<title>Search Results for '{{titlevar}}'</title>
 {% endblock %}
 {% block body %}
 {% include "includes/nav.html" %}
 
 <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 
-   <h1 class="pl-3 pt-3 pr-3 border-bottom mb-0 pb-3 font-weight-bold">Search results for {{titlevar}}</h1>
+   <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3  border-bottom font-weight-bold text-left">Search results for '{{titlevar}}'</h1>
       <div class="tab-content" id="myTabContent">
          <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="p-3">
