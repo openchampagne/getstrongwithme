@@ -34,28 +34,30 @@
              </a>
              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
                 <h6 class="dropdown-header">
-                   Direct Messages
+                  Messages
                 </h6>
+            {% if (dms != NULL) or (dms != "") %}
+                {% for dm in dms %}
                 <a class="dropdown-item d-flex align-items-center" href="/chat">
                    <div class="dropdown-list-image mr-3">
-                      <img class="rounded-circle" src="img/p1.png" alt="">
-                      <div class="status-indicator bg-success"></div>
+                      <img class="img-profile rounded-circle" src="{{ dm[3] }}" alt="{{ dm[0] }}">
                    </div>
                    <div class="font-weight-bold overflow-hidden">
-                          {% for dm in dms %}
                           <div class="text-truncate"> {{ dm[1] }} </div>
-                          <div class="small text-gray-500">{{ dm[0] }} · {{ dm[2] }} </div>
-                          <div> ---------------------------- </div>
-                          {% endfor %}
-                       </div>
+                          <div class="small text-gray-500">{{ dm[0] }} · {{ dm[2] }} </div>                          
+                     </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="/chat">Read More Messages</a>
+                {% endfor %}
+                {% else %}
+                <p> No Messages</p>
+                {% endif %}
+                <a class="dropdown-item text-center small text-gray-500" href="/chat">Open Messages</a>
              </div>
           </li>
           <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <i class="fa fa-bell"></i>
-             <span class="badge badge-info badge-counter">1</span>
+             <!--<span class="badge badge-info badge-counter"></span>-->
              </a>
              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
   
@@ -73,6 +75,7 @@
                       <span class="font-weight-bold">Debug: This is home.html</span>
                    </div>
                 </a>
+
                 
                 <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
              </div>

@@ -189,7 +189,7 @@ def dms_():
     dms = DirectMessage.query.filter_by(rec_id=current_user.id).all()
     for dm in dms:
         users = User.query.filter_by(id=dm.send_id).first()
-        dms_.append([users.firstName, dm.message, dm.date])
+        dms_.append([users.firstName, dm.message, dm.date, users.profile_pic])
     return dms_
 
 ## Home
