@@ -16,7 +16,7 @@ import smtplib
 from flask_migrate import Migrate
 
 ### initializations ###
-upload_profile = "./static/images/profile"
+upload_profile = "./static/images/user-account-pictures"
 upload_media = "./static/posts"
 
 ## Application configuration
@@ -55,7 +55,7 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String)
     about_me = db.Column(db.String(140), default="No Bio")
     location = db.Column(db.String, default="No Location")
-    profile_pic = db.Column(db.String, default="/static/images/profile/404.jpg")
+    profile_pic = db.Column(db.String, default="/static/images/user-account-pictures/no-user.jpg")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -284,13 +284,13 @@ def profile_info_change(id):
             filename= file.filename
             new_filename=current_user.username+"."+filename.split('.')[1]
             file.save(os.path.join(app.config['UPLOAD_PROFILE'], new_filename))
-            info.profile_pic="/static/images/my-account/"+new_filename
+            info.profilepic="/static/images/user-account-pictures/"+new_filename
             db.session.commit()
             return redirect(request.referrer)
         db.session.commit()
         return redirect(request.referrer)
     else:
-        return redirect("/profile")
+        return redirect("/my-account")
 
 ##  Search function
 @app.route("/search", methods=["GET", "POST"])
@@ -299,7 +299,8 @@ def search_():
         search = str(request.form.get('search'))
         search1 = User.query.filter(User.firstName.like(search))
         query = search1.all()
-        return render_template("search.html", search=query)
+        titlevar = search
+        return render_template("search.html", search=query, titlevar=titlevar)
     else:
         return redirect("/")
 
