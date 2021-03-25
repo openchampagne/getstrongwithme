@@ -46,6 +46,18 @@ users = []
 ## Markdown
 Markdown(app)
 
+##Remove during development
+@app.before_request
+def before_request():
+    if app.env == "development":
+        return
+    if request.is_secure:
+        return
+
+    url = request.url.replace("http://", "https://", 1)
+    code = 301
+    return redirect(url, code=code)
+
 ## User Class
 class User(db.Model, UserMixin):
     __tablename__ = "Login"
