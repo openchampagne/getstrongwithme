@@ -324,8 +324,8 @@ def profile_change(id):
     if request.method == "POST":
         info = User.query.get(id)
         info.username = request.form['username']
-        info.firstname=request.form['firstName']
-        info.lastname=request.form['lastName']
+        info.firstname=request.form['firstname']
+        info.lastname=request.form['lastname']
         info.location=request.form.get("location")
         info.email=request.form['email']
         info.about_me = request.form['about_me']

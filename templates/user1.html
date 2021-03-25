@@ -65,14 +65,15 @@
    {% endfor %}
    <div class="p-3">
       <form action="/home/new_comment/{{post.id}}" method="POST">
-         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
-         <input type="submit" value="Post Comment" class="btn btn-success">
+         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-1 shadow-none" rows="1"></textarea>
+         <br>
+         <input type="submit" value="Post Comment" class="btn d-flex ml-auto btn-success">
       </form>
    </div>
       
   </div>
   {% else %}
-                <h4 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold animate__animated animate__hinge animate__delay-1s">Doesn't seem that {{user.firstName}} has posted anything yet</h4>
+                <h4 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold animate__animated animate__hinge animate__delay-2s">Doesn't seem that {{user.firstName}} has posted anything yet</h4>
   {% endfor %}
   {% endif %}
 

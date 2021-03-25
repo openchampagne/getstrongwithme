@@ -31,7 +31,7 @@
                 <input name="media" type="file" >
               </div>
   
-            <div class="flex-shrink-1">
+            <div class="ml-auto">
             <button class="btn btn-primary btn-sm btn btn-success" type="submit" name="post">Share</button>
             </div>
             </div>
@@ -88,8 +88,9 @@
    {% endfor %}
    <div class="p-3">
       <form action="/home/new_comment/{{post.id}}" method="POST">
-         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
-         <input type="submit" value="Post Comment" class="btn btn-success">
+         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-1 shadow-none" rows="1"></textarea>
+         <br>
+         <input type="submit" value="Post Comment" class="btn d-flex ml-auto btn-success">
       </form>
    </div>
 
@@ -128,8 +129,8 @@
       </div>
       <div class="modal-body">
         <form action="/my-account/edit/{{current_user.id}}" method="POST" class="form form-class" enctype="multipart/form-data">
-          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstName}}" name="firstName"></small><br>
-          Last Name : <input type="text" class="form-control"value="{{current_user.lastName}}" name="lastName"><br>
+          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstName}}" name="firstname"></small><br>
+          Last Name : <input type="text" class="form-control"value="{{current_user.lastName}}" name="lastname"><br>
           Username : <input type="text" class="form-control"value="{{current_user.username}}" name="username"><br>
           Email : <input type="email" class="form-control"value="{{current_user.email}}" name="email"><br>
           About : <input type="text" class="form-control"value="{{current_user.about_me}}" name="about_me"><br>
