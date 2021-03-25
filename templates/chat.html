@@ -14,6 +14,9 @@
 <script type="text/javascript">
    var socket;
    $(document).ready(function () {
+      //http: for development https:// for production 
+      
+      //socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
       socket = io.connect('https://' + document.domain + ':' + location.port + '/chat');
       socket.on('connect', function () {
          socket.emit('join', {});
