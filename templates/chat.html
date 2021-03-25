@@ -1,162 +1,165 @@
 {% extends "base.html" %}
 {% block head %}
-<title>Chat Example</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<title>My Messages</title>
 <script type="text/javascript" src='//code.jquery.com/jquery-1.4.2.min.js'></script>
 <script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js'></script>
+<style>
+   textarea {
+  outline: none;
+  resize: none; 
+  background-color: #f8f9fa;
+  border: 0;
+}
+</style>
 <script type="text/javascript">
-    var socket;
-    $(document).ready(function() {
-        // getstrongwith.me
-        socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
-        //socket = io.connect('http://getstrongwith.me:5004/chat')
+   var socket;
+   $(document).ready(function () {
+      socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+      socket.on('connect', function () {
+         socket.emit('join', {});
+         console.log('socket connected');
+      });
+      socket.on('status', function (data) {
+         $('#chat').val($('#chat').val() + data.msg + '\n');
+         $('#chat').scrollTop($('#chat')[0].scrollHeight);
+      });
+      socket.on('message', function (data) {
+         $('#chat').val($('#chat').val() + data.msg + '\n');
+         $('#chat').scrollTop($('#chat')[0].scrollHeight);
+      });
+      $('#send').click(function (e) {
+         text = $('#text').val();
+         $('#text').val('');
+         socket.emit('text', { msg: text });
+      });
+   });
 
-        socket.on('connect', function() {
-            //io.socket.clients(room)
-            socket.emit('join', {});
-            console.log('socket connected');
-        });
-        socket.on('status', function(data) {
-            $('#chat').val($('#chat').val() + '<' + data.msg + '>\n');
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        });
-        socket.on('message', function(data) {
-            $('#chat').val($('#chat').val() + data.msg + '\n');
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);
-        });
-        $('#send').click(function(e) {
-                text = $('#text').val();
-                $('#text').val('');
-                socket.emit('text', {msg: text});
-        });
-    });
+   function leaveRoom() {
+      socket.emit('left', {}, function () {
+         socket.disconnect();
+      })
+   }
 
-    function leave_room() {
-        socket.emit('left', {}, function() {
-            socket.disconnect();
-            window.location.href = '{{url_for("index") }}';
-        })
-    }
+   window.addEventListener("beforeunload", function (e) {
+      leaveRoom();
+   }, false);
 </script>
 {% endblock %}
 {% block body %}
 
-<!-- Navigation-->
-<nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
-    <div class="container">
-       <a class="navbar-brand mr-2" href="/" onclick=leave_room()>GetStrongWith.me
-       </a>
-       <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search" action='/search' method="POST">
-          <div class="navtop search"><i class="fa fa-search"></i>
-             <input type="search" class="form-control shadow-none" placeholder="Search" aria-label="Search" name="search" aria-describedby="basic-addon2">
-             
-          </div>
-       </form>
-       <ul class="navbar-nav ml-auto d-flex align-items-center">
-          <li class="nav-item dropdown no-arrow d-sm-none">
-             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="feather-search mr-2"></i>
-             </a>
-             <div class="dropdown-menu dropdown-menu-right p-3 shadow-sm animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                   <div class="input-group">
-                      <input type="text" class="form-control border-0 shadow-none" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-                      <div class="input-group-append">
-                         <button class="btn" type="button">
-                         <i class="feather-search"></i>
-                         </button>
-                      </div>
-                   </div>
-                </form>
-             </div>
-          </li>
-          <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
-             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="fa fa-inbox"></i>
-             <span class="badge badge-danger badge-counter">1</span>
-             </a>
-             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
-                <h6 class="dropdown-header">
-                   Direct Messages
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="/chat" onclick=leave_room()>
-                   <div class="dropdown-list-image mr-3">
-                      <img class="rounded-circle" src="img/p1.png" alt="">
-                      <div class="status-indicator bg-success"></div>
-                   </div>
-                   <div class="font-weight-bold overflow-hidden">
-                          {% for dm in dms %}
-                          <div class="text-truncate"> {{ dm[1] }} </div>
-                          <div class="small text-gray-500">{{ dm[0] }} · {{ dm[2] }} </div>
-                          <div> ---------------------------- </div>
-                          {% endfor %}
-                       </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="/chat" onclick=leave_room()>Read More Messages</a>
-             </div>
-          </li>
-          <li class="nav-item dropdown no-arrow mx-1 list-dropdown">
-             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="fa fa-bell"></i>
-             <span class="badge badge-info badge-counter">1</span>
-             </a>
-             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow-sm">
-  
-                <h6 class="dropdown-header">
-                   Notification Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="notifications.html">
-                   <div class="mr-3">
-                      <div class="icon-circle bg-primary">
-                         <i class="fa fa-bell"></i>
-                      </div>
-                   </div>
-                   <div>
-                      <div class="small text-gray-500">TIME_PLACEHOLDER</div>
-                      <span class="font-weight-bold">Debug: This is home.html</span>
-                   </div>
-                </a>
-                
-                <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
-             </div>
-          </li>
-          <li class="nav-item dropdown no-arrow ml-1 profile-dropdown">
-             <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}">
-             </a>
-             <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                <div class="p-3 d-flex align-items-center">
-                   <div class="dropdown-list-image mr-3">
-                      <img class="img-profile rounded-circle" src="{{current_user.profile_pic}}" alt="">
-                      <div class="status-indicator bg-success"></div>
-                   </div>
-                   <div class="font-weight-bold">
-                      <div class="text-truncate">{{current_user.firstName}} {{current_user.lastName}}</div>
-                      <div class="small text-gray-500">@{{current_user.username}}</div>
-                   </div>
-                </div>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/home" onclick=leave_room()><i class="feather-edit mr-1"></i>Home</a>
-                <a class="dropdown-item" href="/my-account" onclick=leave_room()><i class="feather-edit mr-1"></i> My Account</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout" onclick=leave_room()><i class="feather-log-out mr-1"></i> Logout</a>
-             </div>
-          </li>
-       </ul>
-    </div>
-  </nav>
-  <!-- end navigation-->
+{% include "includes/nav.html" %}
 
- 
-        <div class='chatwindow'>
-            <h2 id='room'>Chatting with {{ session['recipient_name'] }}</h2><br>
-            <textarea readonly id='chat' cols='70' rows='10' placeholder='No messages yet...'></textarea><br>
-            <input type='text' id='text' size='60' placeholder='Enter message here'>
-            <button type='button' id='send' class='btn btn-success'>SEND</button><br><br>
-            <center> <button type='button' class='btn btn-danger' onclick=leave_room()>Leave Chat</button></center>
-        </div>
-    
- 
+
+<div class="py-4">
+   <div class="container">
+      <div class="row">
+         <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <div class="box shadow-sm rounded bg-white mb-3 chat">
+               <div class="row m-0">
+                  <div class="border-right col-lg-5 col-xl-4 px-0">
+                     <div class="chat-left">
+                        <div class="chat-list">
+
+
+                           <!--SAMPLE CHAT-->
+                           {% for dm in dms %}
+                           {% if (dms != NULL) or (dms != "") %}
+                           <div class="p-3 d-flex align-items-center border-bottom post-header overflow-hidden">
+                              <div class="dropdown-list-image mr-3">
+                                 <img class="rounded-circle" src="img/p9.png" alt="">
+                              </div>
+                              <div class="font-weight-bold mr-1 overflow-hidden">
+                                 <div class="text-truncate">{{ dm[1] }} {{ dm[0] }}</div>
+                                 <div class="small text-truncate overflow-hidden text-black-50">
+                                    <i class="feather-check text-primary"></i> {{ dm[2] }}
+                                 </div>
+                              </div>
+                              <span class="ml-auto mb-auto">
+                                 <div class="text-right text-muted pt-1 small">
+                                    00:21PM
+                                 </div>
+                              </span>
+                           </div>
+                           {% endif %}
+                           {% else %}
+
+                           <div class="font-weight-bold mr-1 overflow-hidden">
+                              <div class="text-truncate"></div>
+                           </div>
+
+                           {% endfor %}
+
+
+                           <!--SAMPLE CHAT END-->
+
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-7 col-xl-8 px-0">
+                     <div class="p-3 d-flex align-items-center border-bottom post-header">
+                        <div class="font-weight-bold mr-1 overflow-hidden">
+
+                           <h2 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left">Your Messages with {{ session['recipient_name'] }}</h2>
+                        </div>
+                     </div>
+                     <!-- chat box -->
+                     <div class="chat-box chatwindow p-3 border-top border-bottom bg-light">
+
+                        <div class="d-flex align-items-center post-header">
+                          
+                           <div id="" class="mr-1">
+
+                              <textarea readonly id='chat' rows='10' placeholder='No messages yet...'></textarea><br>
+                           </div>
+                          
+                        </div>
+
+                     </div>
+
+                     <!-- chat window-->
+
+
+                     <div class="w-100 border-top border-bottom">
+                        <textarea id="text" placeholder="Write a message…" class="form-control border-0 p-3 shadow-none"
+                           rows="2"></textarea>
+                     </div>
+                     <div class="p-3 d-flex align-items-center">
+                     
+                        <span class="ml-auto">
+                           <button type="button" id='send' class="btn btn-primary btn-sm rounded">
+                              <i class="feather-send"></i> Send
+                           </button>
+
+                        </span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </main>
+         <aside class="col col-xl-3 order-xl-2 col-lg-12 order-lg-2 col-12">
+<!--
+            <div class="box shadow-sm mb-3 border rounded bg-white ads-box text-center">
+             <div class="image-overlap-2 pt-4">
+                  <img src="{{user.profile_pic}}" class="img-fluid rounded-circle shadow-sm" alt="Responsive image">
+               </div>
+               <div class="p-3 border-bottom">
+                  <h6 class="text-dark">
+                     <span class="font-weight-bold">@{{ session['recipient_name'] }}</span>
+                  </h6>
+                  <p class="mb-0 text-muted"></p>
+               </div>
+               <div class="p-3">
+                  <form action="/user/{{ session['recipient_name'] }}" method="POST">
+                     <button type="sbmt" class="btn btn-info"><i class="fas fa-snowboarding"></i>Visit
+                     </button>
+                  </form>
+               </div>
+            </div>
+         -->
+         </aside>
+      </div>
+   </div>
+</div>
 
 
 

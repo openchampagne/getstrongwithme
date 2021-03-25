@@ -12,100 +12,106 @@
          <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
             <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left"> My NewsFeed</h1>
             <div class="box shadow-sm border rounded bg-white mb-3 share-post">
-             <!-- post form -->
+               <!-- post form -->
 
-        <form method="post" action="/home/new" enctype="multipart/form-data">
-          <div class="box shadow-sm border rounded bg-white">
-            
-    
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="p-3 d-flex align-items-center w-100" href="#">
-            <div class="dropdown-list-image mr-3">
-            </div>
-            <div class="w-100">
-            <textarea placeholder="Share Something..." type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
-            </div>
-            </div>
-            </div>
-  
-               
-            <div class="border-top p-3 d-flex align-items-center">
-           <div class="choose_file">
-                <input name="media" type="file" >
-            </div>
-  
-            <div class="flex-shrink-1">
-            <button class="btn btn-primary btn-sm btn btn-success" type="submit" name="post">Share</button>
-            </div>
-            </div>
-            </div>
-          </form>
-              
-            </div>
-  <!--testing-->
-  {% for post in posts %}
-    
-  <div class="box mb-3 shadow-sm border rounded bg-white">
-     <div class="p-3 d-flex align-items-center border-bottom">
-        <div class="dropdown-list-image mr-3">
-           <img class="rounded-circle" src="{{post.profile_pic}}" alt="">
-           <div class="status-indicator bg-success"></div>
-        </div>
-        <div class="font-weight-bold">
-           <div class="text-truncate">{{post.author}}</div>
-           <div class="small text-gray-500">@{{post.username}}</div>
-        </div>
-        <span class="ml-auto small">Posted On {{post.postdate}}</span>
-     </div>
-     <div class="p-3 border-bottom">
-      {% if "media" in post.content %}
-      {% set media1 = post.content.split(',') %}
-      {% if media1[2] %}
-      <p>
-        <embed src="{{media1[1]}}" width="100%" height="100%"><br>
-        <b>{{media1[2]}}</b></p>
-        {% else %}
-      <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
-        {% endif %}
-      {% else %}
-        <p>
-          <b>{{ post.content|markdown }}</b>
-          </p>
-        {% endif %}
-      </div>
+               <form method="post" action="/home/new" enctype="multipart/form-data">
+                  <div class="box shadow-sm border rounded bg-white">
 
-      {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
-      {% for comments in comment1 %}
-      <div class="p-3 d-flex align-items-top border-bottom post-comment">
-         <div class="font-weight-bold comments" id="exp{{post.id}}">
-    
-            <div class="text-truncate">{{comments.username}} <span class="float-right small">{{comments.time}}</span></div>
-            <div class="small text-gray-500">{{comments.text}}</div>
-            {% if current_user.username == comments.username %}
-            <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-   
+
+                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="p-3 d-flex align-items-center w-100" href="#">
+                           <div class="dropdown-list-image mr-3">
+                           </div>
+                           <div class="w-100">
+                              <textarea placeholder="Share Something..." type="text"
+                                 class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
+                           </div>
+                        </div>
+                     </div>
+
+
+                     <div class="border-top p-3 d-flex align-items-center">
+                        <div class="choose_file">
+                           <input name="media" type="file">
+                        </div>
+
+                        <div class="flex-shrink-1">
+                           <button class="btn btn-primary btn-sm btn btn-success" type="submit"
+                              name="post">Share</button>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+
+            </div>
+            <!--testing-->
+            {% for post in posts %}
+
+            <div class="box mb-3 shadow-sm border rounded bg-white">
+               <div class="p-3 d-flex align-items-center border-bottom">
+                  <div class="dropdown-list-image mr-3">
+                     <img class="rounded-circle" src="{{post.profile_pic}}" alt="">
+                     <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                     <div class="text-truncate">{{post.author}}</div>
+                     <div class="small text-gray-500">@{{post.username}}</div>
+                  </div>
+                  <span class="ml-auto small">Posted On {{post.postdate}}</span>
+               </div>
+               <div class="p-3 border-bottom">
+                  {% if "media" in post.content %}
+                  {% set media1 = post.content.split(',') %}
+                  {% if media1[2] %}
+                  <p>
+                     <embed src="{{media1[1]}}" width="100%" height="100%"><br>
+                     <b>{{media1[2]}}</b>
+                  </p>
+                  {% else %}
+                  <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+                  {% endif %}
+                  {% else %}
+                  <p>
+                     <b>{{ post.content|markdown }}</b>
+                  </p>
+                  {% endif %}
+               </div>
+
+               {% set comment1 = comment.query.filter_by(pid=post.id).all() %}
+               {% for comments in comment1 %}
+               <div class="p-3 d-flex align-items-top border-bottom post-comment">
+                  <div class="font-weight-bold comments" id="exp{{post.id}}">
+
+                     <div class="text-truncate">{{comments.username}} <span
+                           class="float-right small">{{comments.time}}</span></div>
+                     <div class="small text-gray-500">{{comments.text}}</div>
+                     {% if current_user.username == comments.username %}
+                     <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+
+               {% endif %}
+            </div>
          </div>
-      </div>
-      {% endif %}<br>
-      {% endfor %}
-      <div class="p-3">
-         <form action="/home/new_comment/{{post.id}}" method="POST">
-            <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
-            <input type="submit" value="Post Comment" class="btn btn-success">
-         </form>
-      </div>
+               {% endfor %}
+               <div class="p-3">
+                  <form action="/home/new_comment/{{post.id}}" method="POST">
+                     <textarea type="text" name="comment" placeholder="Add a Comment..."
+                        class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
+                     <input type="submit" value="Post Comment" class="btn btn-success">
+                  </form>
+               </div>
 
-  
-  </div>
-  {% endfor %}
+             
+            </div>
+            {% endfor %}
 
-    <!--testing-->
+            <!--testing-->
          </main>
          <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                <div class="py-4 px-3 border-bottom">
                   <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="Responsive image">
-                  <h3 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}</h3>
+                  <h3 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}
+                  </h3>
                   <h6 class="mb-0 font-weight-bold text-muted">@{{current_user.username}}</h6>
                   <p class="mb-0 font-weight-bold">{{current_user.about_me}}</p>
                   <p class="mb-0 font-weight-bold">{{current_user.location}}</p>
@@ -124,8 +130,8 @@
                <div class="box-body p-3">
                   <!-- for each friend-->
                   {% for user in friends %}
-  {% set users = User.query.filter_by(username=user).first() %}
-  {% if (users != '') and (users != None) %}
+                  {% set users = User.query.filter_by(username=user).first() %}
+                  {% if (users != '') and (users != None) %}
                   <div class="d-flex align-items-center post-header mb-3 people-list">
                      <div class="dropdown-list-image mr-3">
                         <img class="rounded-circle" src="img/p8.png" alt="">
@@ -135,49 +141,56 @@
                         <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
                         <div class="small text-gray-500">0 Calories</div>
                      </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
+                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i
+                              class="feather-user-plus"></i></button>
                      </span>
                   </div>
                   {% endif %}
-{% else %}
-<div class="text-truncate">No Friends</div>
-{% endfor %}
+                  {% else %}
+                  <div class="text-truncate">No Friends</div>
+                  {% endfor %}
 
                   <!-- friends -->
-                  
+
                </div>
             </div>
             <div class="box shadow-sm border rounded bg-white mb-3">
                <div class="border-bottom p-3 d-flex align-items-center">
                   <div class="mr-1 overflow-hidden">
-                  <h6 class="font-weight-bold m-0">Friend Requests</h6>
+                     <h6 class="font-weight-bold m-0">Friend Requests</h6>
                   </div>
                </div>
                <div class="box-body p-3">
-                <div class="mr-2">
-                {% for req in r %}
-                
-                  {%set name=User.query.filter_by(username=req.user_from).first().firstname +" "+User.query.filter_by(username=req.user_from).first().lastname%}
-                  <div class="text-truncate">{{name}}</div>
-                  <div class="small text-gray-500">placeholder</div>
-                  <form action="/accept/{{req.id}}" method="POST">
-                 
-                    <small><button type="Submit" value="Accept" name="acccept" class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept </button></small></form>
-                    <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject" class="btn btn-danger btn-sm float-right col-sm-6"></form>
-                  
-                    {% else %}
-                    <div class="text-truncate">No Friend Requests</div>
-          {% endfor %}
-        </div>
+                  <div class="mr-2">
+                     {% for req in r %}
+
+                     {%set name=User.query.filter_by(username=req.user_from).first().firstname +"
+                     "+User.query.filter_by(username=req.user_from).first().lastname%}
+                     <div class="text-truncate">{{name}}</div>
+                     <div class="small text-gray-500">placeholder</div>
+                     <form action="/accept/{{req.id}}" method="POST">
+
+                        <small><button type="Submit" value="Accept" name="acccept"
+                              class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept
+                           </button></small>
+                     </form>
+                     <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject"
+                           class="btn btn-danger btn-sm float-right col-sm-6"></form>
+
+                     {% else %}
+                     <div class="text-truncate">No Friend Requests</div>
+                     {% endfor %}
+                  </div>
 
 
                </div>
             </div>
-      
-           
+
+
          </aside>
       </div>
    </div>
 </div>
-<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="ca3a609d6d1d668ffac49518-|49" defer=""></script>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js"
+   data-cf-settings="ca3a609d6d1d668ffac49518-|49" defer=""></script>
 {% endblock %}

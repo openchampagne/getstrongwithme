@@ -44,7 +44,7 @@
         {% endif %}
       {% else %}
         <p>
-          <b>{{post.content}}</b>
+          <b>{{ post.content|markdown }}</b>
           </p>
         {% endif %}
       </div>
@@ -59,10 +59,9 @@
          <div class="small text-gray-500">{{comments.text}}</div>
          {% if current_user.username == comments.username %}
          <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
-
-      </div>
-   </div>
    {% endif %}<br>
+</div>
+</div>
    {% endfor %}
    <div class="p-3">
       <form action="/home/new_comment/{{post.id}}" method="POST">

@@ -8,55 +8,58 @@
 <main class="col col-xl-9 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
 
    <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3  border-bottom font-weight-bold text-left">Search results for '{{titlevar}}'</h1>
-      <div class="tab-content" id="myTabContent">
-         <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="p-3">
-               <div class="row">
-                  {% for users in search %}
-                  <div class="col-md-4">
-                        <div class="border network-item rounded mb-3">
-                           <a href="/user/{{users.username}}">
-                           <div class="p-3 d-flex align-items-center network-item-header">
-                              <div class="dropdown-list-image mr-3">
-                                 <img class="rounded-circle img-profile" src="{{users.profile_pic}}" alt="">
-                              </div>
-                              <div class="font-weight-bold">
-                                 <h6 class="font-weight-bold text-dark mb-0">{{ users.firstName }} {{ users.lastName }}</h6>
-                                 <div class="small text-black-50">@{{ users.username }} </div>
-                                 <div class="small text-black-50">{{ users.bio }} </div>
-                              </div>
+   <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+         <div class="p-3">
+            <div class="row">
+               {% for users in search %}
+               <div class="col-md-4">
+                  <div class="border network-item rounded mb-3">
+                     <a href="/user/{{users.username}}">
+                        <div class="p-3 d-flex align-items-center network-item-header">
+                           <div class="dropdown-list-image mr-3">
+                              <img class="rounded-circle img-profile" src="{{users.profile_pic}}" alt="">
                            </div>
-                           </a>
-                           <div class="d-flex align-items-center p-3 border-top border-bottom network-item-body">
-                              <span class="font-weight-bold small text-primary">0 mutual connections</span>
-                           </div>
-                           {% if current_user.username != users.username %}
-                           <div class="network-item-footer py-3 d-flex text-center">
-                              <div class="col-6 pl-3 pr-1">
-                                 <form action="/addfriend/{{users.username}}" method="POST">
-                              <button type="sbmt" class="btn btn-info"><i class="fa fa-user-plus"></i> Add Friend </button>
-                              </form>
-                              </div>
-                              <div class="col-6 pr-3 pl-1">
-                                 <form action="/chat" method="POST">
-                                    <input name="rec-id" value="{{ users.id }}" style="display:none">
-                                    <button name="sbmt" type="submit" class="btn btn-outline-primary pl-4 pr-4"><i class="fa fa-paper-plane" aria-hidden="true"></i> Message</button>
-                              </form>
-                           </div>
+                           <div class="font-weight-bold">
+                              <h6 class="font-weight-bold text-dark mb-0">{{ users.firstName }} {{ users.lastName }}
+                              </h6>
+                              <div class="small text-black-50">@{{ users.username }} </div>
+                              <div class="small text-black-50">{{ users.bio }} </div>
                            </div>
                         </div>
+                     </a>
+                     <div class="d-flex align-items-center p-3 border-top border-bottom network-item-body">
+                        <span class="font-weight-bold small text-primary">0 mutual connections</span>
+                     </div>
+                     {% if current_user.username != users.username %}
+                     <div class="network-item-footer py-3 d-flex text-center">
+                        <div class="col-6 pl-3 pr-1">
+                           <form action="/addfriend/{{users.username}}" method="POST">
+                              <button type="sbmt" class="btn btn-info"><i class="fa fa-user-plus"></i> Add Friend
+                              </button>
+                           </form>
+                        </div>
+                        <div class="col-6 pr-3 pl-1">
+                           <form action="/chat" method="POST">
+                              <input name="rec-id" value="{{ users.id }}" style="display:none">
+                              <button name="sbmt" type="submit" class="btn btn-outline-primary pl-4 pr-4"><i
+                                    class="fa fa-paper-plane" aria-hidden="true"></i> Message</button>
+                           </form>
+                        </div>
+                     </div>
                   </div>
-                  {% endif %}
-
-                  {% else %}
-                  <h3 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left">Sorry the user was not found</h3>
-{% endfor %}
-
-
                </div>
+               {% endif %}
+
+               {% else %}
+               <h3 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left">Sorry the user was not found</h3>
+               {% endfor %}
+
+
             </div>
          </div>
       </div>
+   </div>
 </main>
 
 

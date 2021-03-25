@@ -20,7 +20,7 @@
             <div class="dropdown-list-image mr-3">
             </div>
             <div class="w-100">
-            <textarea placeholder="Share Something" type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
+            <textarea placeholder="Share Something..." type="text" class="form-control border-0 p-0 shadow-none" rows="4" name="content"></textarea>
             </div>
             </div>
             </div>
@@ -65,7 +65,7 @@
                   {% endif %}
                 {% else %}
                   <p>
-                    <b>{{post.content}}</b>
+                    <b>{{ post.content|markdown }}</b>
                     </p>
                   {% endif %}
                 </div>
@@ -82,9 +82,9 @@
          {% if current_user.username == comments.username %}
          <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
 
+   {% endif %}<br>
       </div>
    </div>
-   {% endif %}<br>
    {% endfor %}
    <div class="p-3">
       <form action="/home/new_comment/{{post.id}}" method="POST">

@@ -404,7 +404,7 @@ def chat():
         session['room'] = room
         session['rec_id'] = rec_id
         session['recipient_name'] = recipient.firstName
-    return render_template("chat.html", session=session) 
+    return render_template("chat.html", session=session, user=User()) 
 
 
 @socketio.on('text', namespace='/chat')
@@ -437,7 +437,7 @@ def join(message):
     # print('Users in chatroom: {0}'.format(users))
     r[room] += 1
     print(r)
-    emit('status', {'msg': '{0} is online.'.format(session.get('username'))}, room=room)
+    emit('status', {'msg': '{0} is online right now'.format(session.get('username'))}, room=room)
 
 @socketio.on('left', namespace='/chat')
 def left(message):
