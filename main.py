@@ -77,7 +77,8 @@ class posts(db.Model):
     author = db.Column(db.String)
     username = db.Column(db.String)
     content = db.Column(db.Text)
-    date =  db.Column(db.Text)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    postdate =  db.Column(db.Text)
 
     def __repr__(self):
         return 'Post #{0}'.format(str(self.id))
@@ -224,7 +225,7 @@ def new_post():
                 random1 = ''.join(random.choice(letters) for i in range(10)) 
                 medianame = random1+"."+extension
                 pathtomedia = "/static/posts/"+medianame
-                new_post = posts(title=post_title, content="media,"+pathtomedia+","+post_content,author=post_author, username=current_user.username, date=date_)
+                new_post = posts(title=post_title, content="media,"+pathtomedia+","+post_content,author=post_author, username=current_user.username, postdate=date_)
                 file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
                 db.session.add(new_post)
                 db.session.commit()
@@ -241,7 +242,7 @@ def new_post():
                 random1 = ''.join(random.choice(letters) for i in range(10)) 
                 medianame = random1+"."+extension
                 pathtomedia = "/static/posts/"+medianame
-                new_post = posts(title=post_title, content="media,"+pathtomedia,author=post_author, username=current_user.username, date=date_)
+                new_post = posts(title=post_title, content="media,"+pathtomedia,author=post_author, username=current_user.username, postdate=date_)
                 file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
                 db.session.add(new_post)
                 db.session.commit()
@@ -253,7 +254,7 @@ def new_post():
         #If no photo is chosen
         else:
             if post_content != "":
-                new_post = posts(title=post_title, content=post_content,author=post_author, username=current_user.username, date=date_)
+                new_post = posts(title=post_title, content=post_content,author=post_author, username=current_user.username, postdate=date_)
                 db.session.add(new_post)
                 db.session.commit()
                 getd=posts.query.all()[-1].id
