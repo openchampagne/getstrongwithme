@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
 <title>{{user.firstName}}'s Profile</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 {% endblock %}
 {% block body %}
 
@@ -22,12 +21,10 @@
   <!--testing new user newsfeed-->
  {% if (posts != NULL) or (posts != "") %}
   {% for post in posts %}
-    
   <div class="box mb-3 shadow-sm border rounded bg-white">
      <div class="p-3 d-flex align-items-center border-bottom">
         <div class="dropdown-list-image mr-3">
-           <img class="rounded-circle" src="{{post.profile_pic}}" alt="">
-           <div class="status-indicator bg-success"></div>
+           <img class="rounded-circle" src="{{post.author.profile_pic}}" alt="">
         </div>
         <div class="font-weight-bold">
            <div class="text-truncate">{{post.author}}</div>
@@ -51,6 +48,28 @@
           </p>
         {% endif %}
       </div>
+
+                     
+   {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
+   {% for comments in comment1 %}
+   <div class="p-3 d-flex align-items-top border-bottom post-comment">
+      <div class="font-weight-bold comments" id="exp{{post.id}}">
+ 
+         <div class="text-truncate">{{comments.username}} <span class="float-right small">{{comments.time}}</span></div>
+         <div class="small text-gray-500">{{comments.text}}</div>
+         {% if current_user.username == comments.username %}
+         <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+
+      </div>
+   </div>
+   {% endif %}<br>
+   {% endfor %}
+   <div class="p-3">
+      <form action="/home/new_comment/{{post.id}}" method="POST">
+         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
+         <input type="submit" value="Post Comment" class="btn btn-success">
+      </form>
+   </div>
       
   </div>
   {% else %}
@@ -83,7 +102,7 @@
          <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
             <div class="box shadow-sm border rounded bg-white mb-3">
                <div class="border-bottom p-3">
-                  <h6 class="font-weight-bold m-0">Friends List</h6>
+                  <h6 class="font-weight-bold m-0">{{user.firstName}}'s Friends List</h6>
                </div>
                <div class="box-body p-3">
                   <!-- for each friend-->

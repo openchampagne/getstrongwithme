@@ -99,6 +99,34 @@ class friendRequests(db.Model):
     user_from=db.Column(db.String)
     user_to=db.Column(db.String)
 
+class comments(db.Model):
+    __tablename__= "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(140))
+    username = db.Column(db.String(32))
+    pid= db.Column(db.Integer) #post id of comment to be linked
+    time = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
+
+@app.route("/home/new_comment/<int:pid>",methods=["POST"])
+@login_required
+def addcomment(pid):
+    if request.method == "POST":
+        comment=request.form.get("comment")
+        new_comment=comments(text=comment, username=current_user.username, pid=pid)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(request.referrer)
+
+## Delete Comments
+
+@app.route("/home/del_comment/<int:id>",methods=['GET','POST'])
+@login_required
+def delcomment(id):
+    com=comments.query.get(id)
+    db.session.delete(com)
+    db.session.commit()
+    return redirect(request.referrer)
+
 class Chatroom(db.Model):
     __tablename__ = "chatrooms"
     id = db.Column(db.Integer, primary_key = True)
@@ -201,7 +229,7 @@ def dms_():
 @login_required
 def home():
     user_posts = posts.query.order_by(posts.date.desc()).all()
-    return render_template("home.html", User=User(), posts=user_posts, blogposts=posts.query.order_by(posts.date.desc()), dms=dms_())
+    return render_template("home.html", User=User(), posts=user_posts, blogposts=posts.query.order_by(posts.date.desc()), dms=dms_(), comment=comments())
 
 ## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
@@ -275,7 +303,7 @@ def new_post():
 @login_required
 def profile():
     userPosts = posts.query.filter_by(username = current_user.username).all()
-    return render_template("my-account.html", User=User(), posts=userPosts)
+    return render_template("my-account.html", User=User(), comment=comments(), posts=userPosts)
 
 @app.route("/my-account/edit/<int:id>",methods=['GET','POST'])
 def profile_change(id):
@@ -284,6 +312,7 @@ def profile_change(id):
         info.username = request.form['username']
         info.firstname=request.form['firstName']
         info.lastname=request.form['lastName']
+        info.location=request.form.get("location")
         info.email=request.form['email']
         info.about_me = request.form['about_me']
         profilepic=request.files.get('file')
@@ -317,7 +346,7 @@ def search_():
 def findUser(username):
     user = User.query.filter_by(username=username).first()
     posts_ = posts.query.filter_by(username=username).order_by(posts.date.desc()).all()
-    return render_template("user1.html", user=user, posts=posts_, User=User)
+    return render_template("user1.html", user=user, posts=posts_, User=User,comment=comments())
 
 @app.route('/addfriend/<username>',methods=['GET','POST'])
 def addfriend(username):
