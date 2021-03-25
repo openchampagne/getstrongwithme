@@ -46,7 +46,7 @@ users = []
 ## Markdown
 Markdown(app)
 
-##Remove during development
+## REMOVE or COMMENT during DEVELOPMENT
 @app.before_request
 def before_request():
     if app.env == "development":
@@ -57,6 +57,7 @@ def before_request():
     url = request.url.replace("http://", "https://", 1)
     code = 301
     return redirect(url, code=code)
+## REMOVE or COMMENT during DEVELOPMENT 
 
 ## User Class
 class User(db.Model, UserMixin):
