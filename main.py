@@ -3,6 +3,7 @@ from flask import *
 from flask_socketio import SocketIO, join_room, leave_room, rooms, emit
 from flask_session import Session
 from flask_sqlalchemy import *
+from flaskext.markdown import Markdown
 from flask_login import login_required, logout_user, current_user, login_user, UserMixin, current_user
 from werkzeug.security import *
 from datetime import datetime
@@ -42,6 +43,9 @@ Session(app)
 socketio = SocketIO(app)
 users = []
 
+## Markdown
+Markdown(app)
+
 ## User Class
 class User(db.Model, UserMixin):
     __tablename__ = "Login"
@@ -73,7 +77,7 @@ class posts(db.Model):
     author = db.Column(db.String)
     username = db.Column(db.String)
     content = db.Column(db.Text)
-    date =  db.Column(db.DateTime, default = datetime.utcnow)
+    date =  db.Column(db.Text)
 
     def __repr__(self):
         return 'Post #{0}'.format(str(self.id))
@@ -208,6 +212,8 @@ def new_post():
         post_content = request.form['content']
         post_author = current_user.firstName+" "+current_user.lastName
         post_media = request.files.get('media')
+        date_ = '{3}:{4} - {0}/{1}/{2}'.format(datetime.now().day, datetime.now().month, datetime.now().year, datetime.now().hour, datetime.now().minute)
+
         #If the user uploads or chooses to upload images
         if post_media:
             if post_content != "":
@@ -218,7 +224,7 @@ def new_post():
                 random1 = ''.join(random.choice(letters) for i in range(10)) 
                 medianame = random1+"."+extension
                 pathtomedia = "/static/posts/"+medianame
-                new_post = posts(title=post_title, content="media,"+pathtomedia+","+post_content,author=post_author, username=current_user.username)
+                new_post = posts(title=post_title, content="media,"+pathtomedia+","+post_content,author=post_author, username=current_user.username, date=date_)
                 file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
                 db.session.add(new_post)
                 db.session.commit()
@@ -235,7 +241,7 @@ def new_post():
                 random1 = ''.join(random.choice(letters) for i in range(10)) 
                 medianame = random1+"."+extension
                 pathtomedia = "/static/posts/"+medianame
-                new_post = posts(title=post_title, content="media,"+pathtomedia,author=post_author, username=current_user.username)
+                new_post = posts(title=post_title, content="media,"+pathtomedia,author=post_author, username=current_user.username, date=date_)
                 file.save(os.path.join(app.config['UPLOAD_MEDIA'], medianame))
                 db.session.add(new_post)
                 db.session.commit()
@@ -247,7 +253,7 @@ def new_post():
         #If no photo is chosen
         else:
             if post_content != "":
-                new_post = posts(title=post_title, content=post_content,author=post_author, username=current_user.username)
+                new_post = posts(title=post_title, content=post_content,author=post_author, username=current_user.username, date=date_)
                 db.session.add(new_post)
                 db.session.commit()
                 getd=posts.query.all()[-1].id

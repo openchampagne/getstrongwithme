@@ -70,7 +70,7 @@
         {% endif %}
       {% else %}
         <p>
-          <b>{{post.content}}</b>
+          <b>{{ post.content|markdown }}</b>
           </p>
         {% endif %}
       </div>
