@@ -10,10 +10,10 @@ GetStrongWith.me is a CS 490 project. We're creating a social network for fitnes
 - [x] ~~Search for other users (5 pts).~~
 
 ### Beta Due: Thursday March 25th (25%):
-- [] User can post HTML announcements. 
-- [] User can comment on announcements of other users. 
-- [] User can send direct messages to other users.
-- [] Users can instant message (chat) with each other.
+- [x] ~~User can post HTML announcements.~~ 
+- [x] ~~User can comment on announcements of other users.~~ 
+- [x] ~~User can send direct messages to other users.~~
+- [x] ~~Users can instant message (chat) with each other.~~
 - [x] ~~Users can upload photos/documents with announcements.~~
 
 ### Release Due: Thursday April 29th (25%):
