@@ -121,25 +121,6 @@ class comments(db.Model):
     pid= db.Column(db.Integer) #post id of comment to be linked
     time = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
 
-@app.route("/home/new_comment/<int:pid>",methods=["POST"])
-@login_required
-def addcomment(pid):
-    if request.method == "POST":
-        comment=request.form.get("comment")
-        new_comment=comments(text=comment, username=current_user.username, pid=pid)
-        db.session.add(new_comment)
-        db.session.commit()
-        return redirect(request.referrer)
-
-## Delete Comments
-
-@app.route("/home/del_comment/<int:id>",methods=['GET','POST'])
-@login_required
-def delcomment(id):
-    com=comments.query.get(id)
-    db.session.delete(com)
-    db.session.commit()
-    return redirect(request.referrer)
 
 class Chatroom(db.Model):
     __tablename__ = "chatrooms"
@@ -311,6 +292,25 @@ def new_post():
         all_post = posts.query.all()
         return render_template('includes/new_post.html')
 
+@app.route("/home/new_comment/<int:pid>",methods=["POST"])
+@login_required
+def addcomment(pid):
+    if request.method == "POST":
+        comment=request.form.get("comment")
+        new_comment=comments(text=comment, username=current_user.username, pid=pid)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(request.referrer)
+
+## Delete Comments
+
+@app.route("/home/del_comment/<int:id>",methods=['GET','POST'])
+@login_required
+def delcomment(id):
+    com=comments.query.get(id)
+    db.session.delete(com)
+    db.session.commit()
+    return redirect(request.referrer)
 
 ##  Account 
 @app.route("/my-account", methods=["GET", "POST"])
