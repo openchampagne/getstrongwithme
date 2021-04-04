@@ -185,7 +185,28 @@
 
                </div>
             </div>
+            <div class="box shadow-sm border rounded bg-white mb-3">
+               <div class="border-bottom p-3 d-flex align-items-center">
+                  <div class="mr-1 overflow-hidden">
+                     <h6 class="font-weight-bold m-0">BMI Calculator</h6>
+                  </div>
+               </div>
+               <div class="box-body p-3">
+                     <div class="mr-2">
+                        <button id="switch-units" onclick="switch_units(units.textContent)">Switch Units</button>
+                        <br><br>
+                        <p id="units">Imperial</p>
+                        <input id="height" placeholder="Height"><p id="unit-height">in</p>
+                        <input id="weight" placeholder="Weight"><p id="unit-weight">lbs</p><br>
+                        <button id="metric-imperial-toggle" onclick="calculate_bmi(units.textContent, height.value, weight.value)"> Calculate BMI </button><br><br>
+                        <p> BMI: </p>
+                        <p id="bmi"> ---- </p>
+                        <p id="bmi-status"></p>
 
+                  </div>
+
+               </div>
+            </div>
 
          </aside>
       </div>
