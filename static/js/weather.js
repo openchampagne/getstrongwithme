@@ -2,12 +2,11 @@ var weatherAPI = '1fd09e59f0f835ebe04dc5ab06de40f3';
 var geolocationAPI = 'pk.9684621c328d7f6c2548e794b8b05772';
 
 // Function to return activity suggestion based on weather conditions (work in progress)
-function activity(temp, condition) {
-    if (temp >= 67 && temp <= 90 && condition == 'Clear') {
-        console.log('go outside and run');
-    }
-}
-//
+// function activity(temp, condition) {
+//     if (temp >= 67 && temp <= 90 && condition == 'Clear') {
+//         console.log('go outside and run');
+//     }
+// }
 
 function weather(coordinates, city) {
     var lat = coordinates[0];
