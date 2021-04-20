@@ -1,12 +1,12 @@
 var weatherAPI = '1fd09e59f0f835ebe04dc5ab06de40f3';
 var geolocationAPI = 'pk.9684621c328d7f6c2548e794b8b05772';
 
-// Function to return activity suggestion based on weather conditions (work in progress)
-// function activity(temp, condition) {
-//     if (temp >= 67 && temp <= 90 && condition == 'Clear') {
-//         console.log('go outside and run');
-//     }
-// }
+//Function to return activity suggestion based on weather conditions 
+ function activitySuggestion(temp, condition) {
+    if (temp >= 67 && temp <= 90 && condition == 'Clear') {
+        print("")
+         }
+}
 
 function weather(coordinates, city) {
     var lat = coordinates[0];
@@ -23,7 +23,7 @@ function weather(coordinates, city) {
             console.log(condition);
             console.log(conditionStatus);
             document.getElementById('temp').textContent = 'It is '+ temp +' F degrees outside in '+ city +'!';
-            document.getElementById('temp-status').textContent = conditionStatus;
+            //document.getElementById('temp-status').textContent = conditionStatus;
         }
         else {
             console.log('Couldn\'t fetch temperature for latitude: '+ lat + ' longitude: '+ lon);

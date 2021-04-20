@@ -14,16 +14,16 @@ function switch_units(units) {
 
 function bmi_status(bmi) {
     if (bmi < 18.5) {
-        document.getElementById('bmi-status').textContent = 'Your BMI is ' + bmi + ' which is Underweright. Speak with your doctor to determine if you need to gain weight.';
+        document.getElementById('bmi-status').textContent = 'My BMI is ' + bmi + ' which is Underweright. Speak with your doctor to determine if you need to gain weight.';
     }
     else if (bmi >= 18.5 && bmi <= 24.9) {
-        document.getElementById('bmi-status').textContent = 'Your BMI is ' + bmi + ' which is Healthy!';
+        document.getElementById('bmi-status').textContent = 'My BMI is ' + bmi + ' which is Healthy!';
     }
     else if (bmi >= 25.0 && bmi <= 29.9) {
-        document.getElementById('bmi-status').textContent = 'Your BMI is ' + bmi + ' which is Overweight. Being overweight can lead to a higher chance of heart and other health issues. Soeak to your doctor to determine the healthiest ways for you to lose weight.';        
+        document.getElementById('bmi-status').textContent = 'My BMI is ' + bmi + ' which is Overweight. Being overweight can lead to a higher chance of heart and other health issues. Soeak to your doctor to determine the healthiest ways for you to lose weight.';        
     }
     else if (bmi > 30.0){
-        document.getElementById('bmi-status').textContent = 'Your Bmi is ' + bmi + ' which classifies as Obese. Obesity can be very dangerous and cause chronic diesases. Speak with your doctor to determine the healthiest ways for you to lose weight';
+        document.getElementById('bmi-status').textContent = 'My Bmi is ' + bmi + ' which classifies as Obese. Obesity can be very dangerous and cause chronic diesases. Speak with your doctor to determine the healthiest ways for you to lose weight';
     }
 }
 

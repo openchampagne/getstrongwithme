@@ -4,7 +4,7 @@ body {
   margin: 0 auto;
   padding: 0px;
   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
-  background: #fff;
+  background: #f8f8f8;
 }
 
 /* my Navbar design */
@@ -412,4 +412,14 @@ body {
   -webkit-text-fill-color: transparent;
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
+}
+
+.bmi-output {
+  outline:none;
+  resize: auto;
+  border: 0;
+}
+
+.comment-fill {
+  background-color: #f9f8f8;
 }
