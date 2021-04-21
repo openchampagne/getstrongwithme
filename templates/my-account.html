@@ -98,8 +98,8 @@
             {% endfor %}
 
 
-
          </main>
+
          <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                <div class="py-4 px-3 border-bottom">
@@ -119,7 +119,7 @@
                   <a class="font-weight-bold p-3 d-block" data-toggle="modal" data-target="#editProfile" href="/my-account"> Edit my Profile </a>
         
           
- <!-- Edit Profile Modal -->
+ <!-- Start Edit Profile Modal -->
  <div class="modal fade" id="editProfile" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -146,71 +146,225 @@
     
   </div>
 </div>
+<!-- End Edit Profile Modal -->
 
 
                </div>
             </div>
-          
+<!-- end my profile box-->
+
+<!-- Activity Leaderboard Widget Starts -->
+<div class="box shadow-sm border rounded bg-white mb-3">
+   <div class="border-bottom p-3" style="
+   background-color: #dc2430;
+   color: #fff;">
+      <h6 class="font-weight-bold m-0 text-left">Activity Leaderboard</h6>
+   </div>
+   <div class="box-body p-3">
+      <!-- for each friend-->
+      {% for user in friends %}
+      {% set users = User.query.filter_by(username=user).first() %}
+      {% if (users != '') and (users != None) %}
+      <div class="d-flex align-items-center post-header mb-3 people-list">
+         <div class="dropdown-list-image mr-3">
+            <img class="rounded-circle" src="img/p8.png" alt="">
+            <div class="status-indicator bg-success"></div>
+         </div>
+         <div class="font-weight-bold mr-2">
+            <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
+            <div class="small text-gray-500">0 Calories</div>
+         </div>
+         <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i
+                  class="feather-user-plus"></i></button>
+         </span>
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="text-truncate">No Friends</div>
+      {% endfor %}
+
+      <!-- friends -->
+
+   </div>
+</div>
+<!-- Activity Leaderboard Widget Ends-->
+            
+<!-- GymFinder Widget Starts -->
+          <div class="box shadow-sm border rounded bg-white mb-3">
+            <div class="border-bottom p-3 d-flex align-items-center" style="
+            background-color: #49c6fc;
+            color: #fff;">
+               <div class="mr-1 overflow-hidden">
+                  <h6 class="font-weight-bold m-0">Gym Finder</h6>
+               </div>
+            </div>
+            <div class="box-body p-3">
+               <a data-toggle="modal" data-target="#gymFinder" href="#gymFinder">
+               <img src="/static/images/gym.png" width="200px" height="200px">
+               </a>
+                  <div class="mr-2">
+                     <button type="button" data-toggle="modal" data-target="#gymFinder"  class="btn btn-outline-success">Find a Gym</button>
+                  </div>
+            </div>
+            </div>
+<!-- GymFinder Widget ends -->
+
+<!-- GymFinder Junk  Starts -->
+<style>
+.modal-dialog,
+.modal-content {
+/* 80% of window height */
+height: 900px;
+width: 900px;
+}
+
+.modal-body {
+/* 100% = dialog height, 120px = header + footer */
+max-height: calc(100vh - 210px); 
+overflow-y: auto;
+}
+</style>
+
+    
+<div class="modal fade" id="gymFinder" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+ <div class="modal-header">
+   <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left">GymFinder - Find Gyms Near You</h1>
+   <button type="button" class="close" data-dismiss="modal">&times;</button>
+ </div>
+ <div class="modal-body">
+   <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+ 
+   <!-- mapkit -->
+   <div id="map"></div>
+   <style>
+      #map {
+          width: 100%;
+          height: 600px;
+      }
+      </style>
+<script>
+const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU0NlA4RkhWODcifQ.eyJpc3MiOiI1Qzc1UTVUUjc2IiwiaWF0IjoxNjE4OTYxODQyLCJleHAiOjE2MjU0NDMyMDB9.i8wW98BKVhHPAV-OwVYMhllS6f7LQrKPo8ncUlly7-eM2eLMSNi6op6bdqAZAAhpx63SeMSiRg9wVSxIhQfzkA";
+
+mapkit.init({
+ authorizationCallback: function(done) {
+     done(tokenID);
+ }
+});
+
+var map = new mapkit.Map("map", {
+showsUserLocationControl: true,
+showsUserLocation: false
+});
+var search = new mapkit.Search({ 
+language: "en",
+getsUserLocation: true,
+region: map.region
+});
+
+search.search("gym", function(error, data) {
+if (error) {
+  // Handle search error
+  return;
+}
+var annotations = data.places.map(function(place) {
+  var annotation = new mapkit.MarkerAnnotation(place.coordinate);
+  annotation.title = place.name;
+  annotation.glyphText = "💪🏽";
+  annotation.subtitle = place.formattedAddress;
+  annotation.color = "#68d2fe";
+  return annotation;
+});
+map.showItems(annotations);
+});
+</script>
+<!-- mapkit ends-->
+
+
+</div>
+</div>
+
+</div>
+</div>
+<!-- GymFinder Junk Ends-->
            
          </aside>
         
          <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="border-bottom p-3">
-                  <h6 class="font-weight-bold m-0">Activity Leaderboard</h6>
-               </div>
-               <div class="box-body p-3">
-                  <!-- for each friend-->
-                  {% for user in friends %}
-  {% set users = User.query.filter_by(username=user).first() %}
-  {% if (users != '') and (users != None) %}
-                  <div class="d-flex align-items-center post-header mb-3 people-list">
-                     <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/p8.png" alt="">
-                        <div class="status-indicator bg-success"></div>
-                     </div>
-                     <div class="font-weight-bold mr-2">
-                        <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
-                        <div class="small text-gray-500">0 Calories</div>
-                     </div>
-                     <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i class="feather-user-plus"></i></button>
-                     </span>
-                  </div>
-                  {% endif %}
-{% else %}
-<div class="text-truncate">No Friends</div>
-{% endfor %}
+           
+<!-- Weather Starts -->
+<div class="box shadow-sm border rounded bg-white mb-3">
+   <div class="border-bottom p-3 d-flex align-items-center" style="
+   background-color: #ff8c00;
+   color: #fff;">
+      <div class="mr-1 overflow-hidden">
+         <h6 class="font-weight-bold m-0">Weather Report</h6>
+      </div>
+   </div>
+   <div class="box-body p-3">
+         <div class="mr-2">
+            <p id="temp"></p>
+            <p id="temp-status"></p>
+            
+         </div>
+   </div>
+   </div>
+<!-- Weather ends -->
 
-                  <!-- friends -->
-                  
-               </div>
-            </div>
-            <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="border-bottom p-3 d-flex align-items-center">
-                  <div class="mr-1 overflow-hidden">
-                  <h6 class="font-weight-bold m-0">Friend Requests</h6>
-                  </div>
-               </div>
-               <div class="box-body p-3">
-                <div class="mr-2">
-                {% for req in r %}
-                
-                  {%set name=User.query.filter_by(username=req.user_from).first().firstname +" "+User.query.filter_by(username=req.user_from).first().lastname%}
-                  <div class="text-truncate">{{name}}</div>
-                  <div class="small text-gray-500">placeholder</div>
-                  <form action="/accept/{{req.id}}" method="POST">
-                 
-                    <small><button type="Submit" value="Accept" name="acccept" class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept </button></small></form>
-                    <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject" class="btn btn-danger btn-sm float-right col-sm-6"></form>
-                  
-                    {% else %}
-                    <div class="text-truncate">No Friend Requests</div>
-          {% endfor %}
-        </div>
+<!-- Activity Suggestions Starts -->
+<div class="box shadow-sm border rounded bg-white mb-3">
+   <div class="border-bottom p-3 d-flex align-items-center" style="
+   background-color: #249a4e;
+   color: #fff;">
+      <div class="mr-1 overflow-hidden">
+         <h6 class="font-weight-bold m-0">Activity Suggestions</h6>
+      </div>
+   </div>
+   <div class="box-body p-3">
+         <div class="mr-2">
+            <p id="activitySuggestion"></p>
+         </div>
+   </div>
+   </div>
+<!-- Activity Suggestions ends -->
 
+<!-- BMI Widget Starts-->
+<div class="box shadow-sm border rounded bg-white mb-3">
+<div class="border-bottom p-3 d-flex align-items-center" style="
+background-color: #8e3155;
+color: #fff;">
+<div class="mr-1 overflow-hidden">
+   <h6 class="font-weight-bold m-0">BMI Calculator</h6>
+</div>
+</div>
+<div class="box-body p-3">
+   <div class="mr-2">
+    <button id="switch-units" class="btn btn-primary btn-sm btn btn-danger" onclick="switch_units(units.textContent)">Switch Units</button>
+      <br><br>
+      <p id="units">Imperial</p>
+      <input id="height" placeholder="Height"><p id="unit-height">in</p>
+      <input id="weight" placeholder="Weight"><p id="unit-weight">lbs</p><br>
+      <button id="metric-imperial-toggle" class="btn btn-primary btn-sm btn btn-primary" onclick="calculate_bmi(units.textContent, height.value, weight.value)"> Calculate BMI </button><br><br>
+      <p> BMI: </p>
+      <p id="bmi"> ---- </p>
+      
 
-               </div>
-            </div>
+     <!-- BMI POST -->
+
+     <form method="POST" action="/home/new">
+      <p class="bmi-output" id="bmi-status"></p>
+      <textarea name="content" id="bmi-status-post" style="display:none;"></textarea>
+        <button class="btn btn-primary btn-sm btn btn-success" type="submit">Share</button>
+      </form>
+
+     <!-- BMI POST-->
+
+</div>
+
+</div>
+</div>
+<!-- BMI Widget Ends -->
       
            
          </aside>

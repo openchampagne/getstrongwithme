@@ -2,10 +2,27 @@ var weatherAPI = '1fd09e59f0f835ebe04dc5ab06de40f3';
 var geolocationAPI = 'pk.9684621c328d7f6c2548e794b8b05772';
 
 //Function to return activity suggestion based on weather conditions 
- function activitySuggestion(temp, condition) {
-    if (temp >= 67 && temp <= 90 && condition == 'Clear') {
-        print("")
+ function activitySuggestion(temp, conditionStatus) {
+
+    var activity = ""; 
+
+    if (temp >= 67 && temp <= 90 && conditionStatus == 'clear') {
+        activity = "Perfect Time for a Brisk Outdoor walk or a Nice Run";
+         } 
+    if (temp > 95 && conditionStatus == 'clear') {
+            activity = "Perhaps its too hot for Outdoor Activities. Try an Indoor activity like a Gym Workout";
+        }
+    if (conditionStatus == 'rain' || conditionStatus == 'light rain' || conditionStatus == 'moderate rain') {
+            activity = "When it rains it pours... Don't let that affect your Activity. Do an indoor workout!";
+        }
+    if (conditionStatus = 'broken clouds' || conditionStatus == 'scattered clouds' || conditionStatus == 'cloudy' || conditionStatus == 'clouds') {
+            activity = "Looks like it's Cloudy. Great time for a Walk, Run or Outdoor Yoga without the Sun";
+        }
+    else {
+             activity = "No Activity Suggestions at this Time"
          }
+    document.getElementById('activitySuggestion').textContent = activity;
+    console.log(conditionStatus);
 }
 
 function weather(coordinates, city) {
@@ -19,17 +36,15 @@ function weather(coordinates, city) {
             var temp = obj.main.temp;
             var condition = obj.weather[0].main;
             var conditionStatus = obj.weather[0].description;
-            console.log(temp);
-            console.log(condition);
-            console.log(conditionStatus);
-            document.getElementById('temp').textContent = 'It is '+ temp +' F degrees outside in '+ city +'!';
-            //document.getElementById('temp-status').textContent = conditionStatus;
+            document.getElementById('temp').textContent = "It's " + temp + "°F outside in " + city;
+            //document.getElementById('temp-status').textContent = "Conditions are: " + conditionStatus;
         }
         else {
             console.log('Couldn\'t fetch temperature for latitude: '+ lat + ' longitude: '+ lon);
         }
     }
     request.send();
+    activitySuggestion();
 }
 
 function getCoordinates() {

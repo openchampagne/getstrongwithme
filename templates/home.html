@@ -7,20 +7,6 @@
 {% include "includes/nav.html" %}
 
 
-
-<!-- <script>
-var referrer = document.referrer;
-var currentPageLocation = window.location.href;
-
-if (referrer == currentPageLocation) {
-   confetti.start(2000, 1500);
-} else {
-
-}
-</script> -->
-
-
-
 <div class="py-4">
    <div class="container">
       <div class="row">
@@ -59,7 +45,6 @@ if (referrer == currentPageLocation) {
                </form>
 
             </div>
-            <!--testing-->
             {% for post in posts %}
 
             <div class="box mb-3 shadow-sm border rounded bg-white">
@@ -119,7 +104,6 @@ if (referrer == currentPageLocation) {
             </div>
             {% endfor %}
 
-            <!--testing-->
          </main>
          <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
@@ -136,9 +120,11 @@ if (referrer == currentPageLocation) {
                </div>
             </div>
                   
-               <!-- activity leaderboard starts -->
+<!-- Activity Leaderboard Widget Starts -->
                <div class="box shadow-sm border rounded bg-white mb-3">
-                  <div class="border-bottom p-3">
+                  <div class="border-bottom p-3" style="
+                  background-color: #dc2430;
+                  color: #fff;">
                      <h6 class="font-weight-bold m-0 text-left">Activity Leaderboard</h6>
                   </div>
                   <div class="box-body p-3">
@@ -168,12 +154,13 @@ if (referrer == currentPageLocation) {
    
                   </div>
                </div>
-
-               <!-- ends activity leaderboard-->
+<!-- Activity Leaderboard Widget Ends-->
 
 <!-- GymFinder Widget Starts -->
                <div class="box shadow-sm border rounded bg-white mb-3">
-                  <div class="border-bottom p-3 d-flex align-items-center">
+                  <div class="border-bottom p-3 d-flex align-items-center" style="
+                  background-color: #49c6fc;
+                  color: #fff;">
                      <div class="mr-1 overflow-hidden">
                         <h6 class="font-weight-bold m-0">Gym Finder</h6>
                      </div>
@@ -238,7 +225,7 @@ if (referrer == currentPageLocation) {
       showsUserLocation: false
    });
    var search = new mapkit.Search({ 
-      language: "en-us",
+      language: "en",
     getsUserLocation: true,
     region: map.region
    });
@@ -267,9 +254,6 @@ search.search("gym", function(error, data) {
      
    </div>
  </div>
-
-
-
 <!-- GymFinder Junk Ends-->
             
 
@@ -279,7 +263,9 @@ search.search("gym", function(error, data) {
 
 <!-- Weather Starts -->
               <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="border-bottom p-3 d-flex align-items-center">
+               <div class="border-bottom p-3 d-flex align-items-center" style="
+               background-color: #ff8c00;
+               color: #fff;">
                   <div class="mr-1 overflow-hidden">
                      <h6 class="font-weight-bold m-0">Weather Report</h6>
                   </div>
@@ -288,6 +274,7 @@ search.search("gym", function(error, data) {
                      <div class="mr-2">
                         <p id="temp"></p>
                         <p id="temp-status"></p>
+                        
                      </div>
                </div>
                </div>
@@ -295,36 +282,38 @@ search.search("gym", function(error, data) {
 
 <!-- Activity Suggestions Starts -->
                    <div class="box shadow-sm border rounded bg-white mb-3">
-                     <div class="border-bottom p-3 d-flex align-items-center">
+                     <div class="border-bottom p-3 d-flex align-items-center" style="
+                     background-color: #249a4e;
+                     color: #fff;">
                         <div class="mr-1 overflow-hidden">
                            <h6 class="font-weight-bold m-0">Activity Suggestions</h6>
                         </div>
                      </div>
                      <div class="box-body p-3">
                            <div class="mr-2">
-                              <p id="suggestion"></p>
-                              <br>
-      
+                              <p id="activitySuggestion"></p>
                            </div>
                      </div>
                      </div>
-<!-- Activity suggestions ends -->
+<!-- Activity Suggestions ends -->
 
-<!-- BMI widget-->
+<!-- BMI Widget Starts-->
             <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="border-bottom p-3 d-flex align-items-center">
+               <div class="border-bottom p-3 d-flex align-items-center" style="
+               background-color: #8e3155;
+               color: #fff;">
                   <div class="mr-1 overflow-hidden">
                      <h6 class="font-weight-bold m-0">BMI Calculator</h6>
                   </div>
                </div>
                <div class="box-body p-3">
                      <div class="mr-2">
-                      <button id="switch-units" onclick="switch_units(units.textContent)">Switch Units</button>
+                      <button id="switch-units" class="btn btn-primary btn-sm btn btn-danger" onclick="switch_units(units.textContent)">Switch Units</button>
                         <br><br>
                         <p id="units">Imperial</p>
                         <input id="height" placeholder="Height"><p id="unit-height">in</p>
                         <input id="weight" placeholder="Weight"><p id="unit-weight">lbs</p><br>
-                        <button id="metric-imperial-toggle" onclick="calculate_bmi(units.textContent, height.value, weight.value)"> Calculate BMI </button><br><br>
+                        <button id="metric-imperial-toggle" class="btn btn-primary btn-sm btn btn-primary" onclick="calculate_bmi(units.textContent, height.value, weight.value)"> Calculate BMI </button><br><br>
                         <p> BMI: </p>
                         <p id="bmi"> ---- </p>
                         
@@ -332,8 +321,9 @@ search.search("gym", function(error, data) {
                        <!-- BMI POST -->
 
                        <form method="POST" action="/home/new">
-                        <textarea class="bmi-output" name="content" id="bmi-status"></textarea>
-                          <button type="submit">Share</button>
+                        <p class="bmi-output" id="bmi-status"></p>
+                        <textarea name="content" id="bmi-status-post" style="display:none;"></textarea>
+                          <button class="btn btn-primary btn-sm btn btn-success" type="submit">Share</button>
                         </form>
 
                        <!-- BMI POST-->
@@ -342,7 +332,7 @@ search.search("gym", function(error, data) {
 
                </div>
             </div>
-            <!-- bmi ends -->
+<!-- BMI Widget Ends -->
 
          </aside>
       </div>
