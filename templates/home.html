@@ -201,103 +201,69 @@ if (referrer == currentPageLocation) {
     overflow-y: auto;
 }
 </style>
+
           
  <div class="modal fade" id="gymFinder" role="dialog">
    <div class="modal-dialog">
      <div class="modal-content">
        <div class="modal-header">
-         <h4 class="modal-title">GymFinder</h4>
+         <h1 class="pl-3 pt-3 pr-3 mb-0 pb-3 font-weight-bold text-left">GymFinder - Find Gyms Near You</h1>
          <button type="button" class="close" data-dismiss="modal">&times;</button>
        </div>
        <div class="modal-body">
-         <div class="mapSearchWrapper">
-            <input type="text" id="mapLookup" class="mapSearchInput">
-            <div id="results" class="mapSearchResults">
-            </div>
-        </div>
-        
-        <div id="map"></div>
+         <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+       
+         <!-- mapkit -->
+         <div id="map"></div>
+         <style>
+            #map {
+                width: 100%;
+                height: 600px;
+            }
+            </style>
+ <script>
+   const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU0NlA4RkhWODcifQ.eyJpc3MiOiI1Qzc1UTVUUjc2IiwiaWF0IjoxNjE4OTYxODQyLCJleHAiOjE2MjU0NDMyMDB9.i8wW98BKVhHPAV-OwVYMhllS6f7LQrKPo8ncUlly7-eM2eLMSNi6op6bdqAZAAhpx63SeMSiRg9wVSxIhQfzkA";
+   
+   mapkit.init({
+       authorizationCallback: function(done) {
+           done(tokenID);
+       }
+   });
+   
+   var map = new mapkit.Map("map", {
+      showsUserLocationControl: true,
+      showsUserLocation: false
+   });
+   var search = new mapkit.Search({ 
+      language: "en-us",
+    getsUserLocation: true,
+    region: map.region
+   });
+
+search.search("gym", function(error, data) {
+    if (error) {
+        // Handle search error
+        return;
+    }
+    var annotations = data.places.map(function(place) {
+        var annotation = new mapkit.MarkerAnnotation(place.coordinate);
+        annotation.title = place.name;
+        annotation.glyphText = "💪🏽";
+        annotation.subtitle = place.formattedAddress;
+        annotation.color = "#68d2fe";
+        return annotation;
+    });
+    map.showItems(annotations);
+});
+   </script>
+  <!-- mapkit ends-->
+
+
      </div>
      </div>
      
    </div>
  </div>
- <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
- <script type="text/javascript">
-   // Initialise MapKit
-
-
-   const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU0NlA4RkhWODcifQ.eyJpc3MiOiI1Qzc1UTVUUjc2IiwiaWF0IjoxNjE4OTYxODQyLCJleHAiOjE2MjU0NDMyMDB9.i8wW98BKVhHPAV-OwVYMhllS6f7LQrKPo8ncUlly7-eM2eLMSNi6op6bdqAZAAhpx63SeMSiRg9wVSxIhQfzkA";
-
-mapkit.init({
-    authorizationCallback: function(done) {
-        done(tokenID);
-    }
-});
-
-   // Create an initial region. This also weights the search area 
-   var myRegion = new mapkit.CoordinateRegion(
-       new mapkit.Coordinate(55.9496320, -3.1866360),
-       new mapkit.CoordinateSpan(0.05, 0.05)
-   );
-   // Create map on the id 'map'
-   var map = new mapkit.Map("map");
-   map.region = myRegion;
-   // Listen for keyup in the input field
-   $('#mapLookup').keyup(function(){
-       // Make sure it's not a zero length string
-       if($('#mapLookup').length>0) {
-           let search = new mapkit.Search({ region: map.region });
-           search.autocomplete($('#mapLookup').val(), (error, data) => {
-               if (error) {
-                   return;
-               }
-               // Unhide the result box
-               $('#results').show();
-               var results = "";
-               // Loop through the results a build 
-               data.results.forEach(function(result) {
-                   if(result.coordinate) {
-                       // Builds the HTML it'll display in the results. This includes the data in the attributes so it can be used later
-                       results = results + '<div class="mapSearchResultsItem" data-title="' +result.displayLines[0] + '" data-latitude="'+result.coordinate.latitude+'" data-longitude="'+result.coordinate.longitude+'" data-address="'+result.displayLines[1]+'"><b>' + result.displayLines[0] + '</b> ' + result.displayLines[1] + '</div>';
-                   }
-               });
-               // Display the results
-               $('#results').html(results);
-               // List for a click on an item we've just displayed
-               $('.mapSearchResultsItem').click(function() {
-                   // Get all the data - you might want to write this into form fields on your page to capture the data if this map is part of a form.
-                   var latitude = $(this).data('latitude');
-                   var longitude = $(this).data('longitude');
-                   var title = $(this).data('title');
-                   var address = $(this).data('address');
-                   // Calc the new region
-                   var myRegion = new mapkit.CoordinateRegion(
-                       new mapkit.Coordinate(latitude, longitude),
-                       new mapkit.CoordinateSpan(0.01, 0.01)
-                   );
-                   // Clean up the map of old searches
-                   map.removeAnnotations(map.annotations);
-                   map.region = myRegion;
-                   // Add the new annotation
-                   var myAnnotation = new mapkit.MarkerAnnotation(new mapkit.Coordinate(latitude, longitude), { 
-                       color: "#9b6bcc", 
-                       title: title,
-                       subtitle: address
-                   });
-                   map.addAnnotation(myAnnotation);
-                   // Hide the results box
-                   $('#results').hide();
-               });
-           });
-       } else {
-           $('#results').hide();
-       }
-   });
-</script>
-
-
-
 
 
 
