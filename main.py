@@ -373,6 +373,83 @@ def addfriend(username):
         db.session.commit()
         return redirect(request.referrer)
 
+@app.route('/friendreq')
+def friendreq():
+    requests = friendRequests.query.filter_by(user_to=current_user.username).all()
+    return render_template("requests.html", r=requests)
+
+#if accept
+@app.route("/accept/<int:id>",methods=['GET',"POST"])
+def acceptreq(id):
+    if request.method == "POST":
+        accept_id=friendRequests.query.get(id)
+        user_from=accept_id.user_from
+        allfriends=current_user.friend_array
+        user_to=accept_id.user_to
+        if allfriends == None:
+            addf=user_from    
+        else:
+            addf=allfriends+","+user_from
+        con=User.query.filter_by(username=current_user.username).first()
+        con.friend_array=addf
+        allfriends2 = User.query.filter_by(username=user_from).first().friend_array
+        if (allfriends2 == None) or (allfriends2 == ""):
+            addf = user_to
+        else:
+            addf=allfriends2+","+user_to
+        con=User.query.filter_by(username=user_from).first()
+        con.friend_array=addf
+        friendRequests.query.filter_by(user_from=user_from).delete()
+        db.session.commit()
+        return redirect(request.referrer)
+    return redirect('/friendreq')
+        #conact and save the old names with the new friend name in variable and then split it with split() and then  view each post using for loop
+
+#if reject
+@app.route("/reject/<int:id>", methods=['GET','POST'])
+def rejectreq(id):
+    user= friendRequests.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(request.referrer)
+
+
+
+#friends
+@app.route("/friends",methods=['GET','POST'])
+def friends():
+    friends=current_user.friend_array
+    if friends != '':
+        splitf=friends.split(',')
+    else:
+        splitf=[]
+    print (splitf)
+    return render_template('friends.html',friends=splitf, User=User())
+
+#remove friends
+@app.route("/remfriend/<username>")
+def remfriend(username):
+    a=User.query.filter_by(username=current_user.username).first()
+    b=a.friend_array
+    d=username+","
+    e=username
+    if d in b:
+        c=b.replace(d, "")
+    elif e in b:
+        c=b.replace(e, "")
+    a.friend_array = c
+    f=current_user.username+","
+    g=current_user.username
+    user2 = User.query.filter_by(username=username).first()
+    h = user2.friend_array
+    if f in h :
+        i = h.replace(f,"")
+    elif g in h:
+        i = h.replace(g,"")
+    user2.friend_array = i
+    db.session.commit()
+    return redirect(request.referrer)
+
 #################################################### 
 ## Room Dict
 r = {}
