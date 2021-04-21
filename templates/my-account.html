@@ -26,7 +26,7 @@
             </div>
   
                
-            <div class="border-top p-3 d-flex align-items-center">
+            <div class="border-top p-3 d-flex align-items-center comment-fill">
             <div class="choose_file">
                 <input name="media" type="file" >
               </div>
@@ -86,9 +86,9 @@
       </div>
    </div>
    {% endfor %}
-   <div class="p-3">
+   <div class="p-3 comment-fill">
       <form action="/home/new_comment/{{post.id}}" method="POST">
-         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-1 shadow-none" rows="1"></textarea>
+         <textarea type="text" name="comment" placeholder="Add a Comment..." class="form-control border-0 p-1 shadow-none comment-fill" rows="1"></textarea>
          <br>
          <input type="submit" value="Post Comment" class="btn d-flex ml-auto btn-success">
       </form>

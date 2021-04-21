@@ -59,6 +59,7 @@ def before_request():
     return redirect(url, code=code)
 ## REMOVE or COMMENT during DEVELOPMENT 
 
+
 ## User Class
 class User(db.Model, UserMixin):
     __tablename__ = "Login"
@@ -187,13 +188,11 @@ def register():
         email = request.form["email"]
         password = request.form["pass1"]
         password2 = request.form["pass2"]
-        gender = request.form["gender"]
-        bday = request.form["bday"]
         global err
         if User.query.filter_by(email=email).first() is None:
             if User.query.filter_by(username=username).first() is None:
                 if password == password2:
-                    client = User(firstName=firstName, lastName=lastName, email=email, gender=gender, username=username, bday=bday)
+                    client = User(firstName=firstName, lastName=lastName, email=email, username=username)
                     client.set_password(password)
                     db.session.add(client)
                     db.session.commit()

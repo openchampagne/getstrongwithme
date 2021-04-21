@@ -179,8 +179,11 @@ if (referrer == currentPageLocation) {
                      </div>
                   </div>
                   <div class="box-body p-3">
+                     <a data-toggle="modal" data-target="#gymFinder" href="#gymFinder">
+                     <img src="/static/images/gym.png" width="200px" height="200px">
+                     </a>
                         <div class="mr-2">
-                           <button type="button" data-toggle="modal" data-target="#gymFinder"  class="btn btn-outline-success">Find a Gym Hoe</button>
+                           <button type="button" data-toggle="modal" data-target="#gymFinder"  class="btn btn-outline-success">Find a Gym</button>
                         </div>
                   </div>
                   </div>
@@ -274,25 +277,23 @@ search.search("gym", function(error, data) {
          <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
 
 
-              <!-- Weather Starts -->
+<!-- Weather Starts -->
               <div class="box shadow-sm border rounded bg-white mb-3">
                <div class="border-bottom p-3 d-flex align-items-center">
                   <div class="mr-1 overflow-hidden">
-                     <h6 class="font-weight-bold m-0">Weather</h6>
+                     <h6 class="font-weight-bold m-0">Weather Report</h6>
                   </div>
                </div>
                <div class="box-body p-3">
                      <div class="mr-2">
                         <p id="temp"></p>
                         <p id="temp-status"></p>
-                        <br>
-
                      </div>
                </div>
                </div>
-               <!-- Weather ends -->
+<!-- Weather ends -->
 
-                   <!-- Activity Suggestions Starts -->
+<!-- Activity Suggestions Starts -->
                    <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="border-bottom p-3 d-flex align-items-center">
                         <div class="mr-1 overflow-hidden">
@@ -307,39 +308,7 @@ search.search("gym", function(error, data) {
                            </div>
                      </div>
                      </div>
-   <!-- activity suggestions ends -->
-
-            <!-- friend request box starts-->
-            <div class="box shadow-sm border rounded bg-white mb-3">
-               <div class="border-bottom p-3 d-flex align-items-center">
-                  <div class="mr-1 overflow-hidden">
-                     <h6 class="font-weight-bold m-0">Friend Requests</h6>
-                  </div>
-               </div>
-               <div class="box-body p-3">
-                  <div class="mr-2">
-                     {% for req in r %}
-
-                     {%set name=User.query.filter_by(username=req.user_from).first().firstname +"
-                     "+User.query.filter_by(username=req.user_from).first().lastname%}
-                     <div class="text-truncate">{{name}}</div>
-                     <div class="small text-gray-500">placeholder</div>
-                     <form action="/accept/{{req.id}}" method="POST">
-
-                        <small><button type="Submit" value="Accept" name="acccept"
-                              class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept
-                           </button></small>
-                     </form>
-                     <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject"
-                           class="btn btn-danger btn-sm float-right col-sm-6"></form>
-
-                     {% else %}
-                     <div class="text-truncate">No Friend Requests</div>
-                     {% endfor %}
-                  </div>
-               </div>
-            </div>
-<!-- friend requests box end -->
+<!-- Activity suggestions ends -->
 
 <!-- BMI widget-->
             <div class="box shadow-sm border rounded bg-white mb-3">

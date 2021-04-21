@@ -11,7 +11,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand navbar-dark bg-dark nav-top p-0">
     <div class="container">
-       <a class="navbar-brand mr-2" href="/">GetStrongWith.me
+       <a class="navbar-brand mr-2 animate__animated animate__swing" href="/">GetStrongWith.me
        </a>
      
        <ul class="navbar-nav ml-auto d-flex align-items-center">
@@ -21,7 +21,7 @@
              <li class="alert alert-red">{{msg}}</li>
              {{ clean }} 
              {% endif %}
-             <li>User: <input type="text" name="username" style="color: black;"></li>
+             <li>Username: <input type="text" name="username" style="color: black;"></li>
              <li>Password: <input type="password" name="password" style="color: black;"><br>
              <li><input type="submit" name="login" value="Log In"></li>
              </form>
@@ -59,9 +59,6 @@
         title="Dont make a stupid password plz"></li>
     <li><input type="password" placeholder="Confirm password" name="pass2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
         title="Dont make a stupid password"></li>
-    <p>Birthday</p>
-    <li><input type="date" name="bday" ><br><br></li>
-    <input type="radio" name="gender" value="female">Female <input type="radio" name="gender" value="male">Male</li>
     <li><input type="submit" value="Signup"></li>
     </form>
 

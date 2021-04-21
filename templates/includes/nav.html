@@ -68,7 +68,12 @@
                 <h6 class="dropdown-header">
                    Notification Center
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="notifications.html">
+
+                {% for req in r %}
+                {% if (r != NULL) or (r != "") %}
+                {%set name=User.query.filter_by(username=req.user_from).first().firstname +"
+                "+User.query.filter_by(username=req.user_from).first().lastname%}
+                <a class="dropdown-item d-flex align-items-center" href="">
                    <div class="mr-3">
                       <div class="icon-circle bg-primary">
                          <i class="fa fa-bell"></i>
@@ -76,9 +81,27 @@
                    </div>
                    <div>
                       <div class="small text-gray-500">TIME_PLACEHOLDER</div>
-                      <span class="font-weight-bold">Debug: This is home.html</span>
+                      <span class="font-weight-bold">{{name}}</span>
+                      <form action="/accept/{{req.id}}" method="POST">
+
+                        <small><button type="Submit" value="Accept" name="acccept"
+                              class="btn btn-success btn-sm float-left col-sm-6" style="text-align: center;">Accept
+                           </button></small>
+                     </form>
+                     <form action="/reject/{{req.id}}" method="POST"><input type="Submit" value="Reject" name="reject"
+                           class="btn btn-danger btn-sm float-right col-sm-6"></form>
+
+
                    </div>
                 </a>
+                {% endif %}
+                {% else %}
+                <a class="dropdown-item d-flex align-items-center">
+                  <div class="font-weight-bold overflow-hidden">
+                         <div class="text-truncate"> No Friend Requests</div>                      
+                    </div>
+               </a>
+                {% endfor %}
 
                 
                 <a class="dropdown-item text-center small text-gray-500" href="notifications.html">Show All Alerts</a>
