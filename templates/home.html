@@ -54,10 +54,10 @@
                      <div class="status-indicator bg-success"></div>
                   </div>
                   <div class="font-weight-bold">
-                     <div class="text-truncate">{{post.author}}</div>
-                     <div class="small text-gray-500">@{{post.username}}</div>
+                     <div class="text-truncate">{{ post.author }}</div>
+                     <div class="small text-gray-500">@{{ post.username }}</div>
                   </div>
-                  <span class="ml-auto small">Posted On {{post.postdate}}</span>
+                  <span class="ml-auto small">Posted On {{ post.postdate }}</span>
                </div>
                <div class="p-3 border-bottom">
                   {% if "media" in post.content %}
@@ -65,7 +65,7 @@
                   {% if media1[2] %}
                   <p>
                      <embed src="{{media1[1]}}" width="100%" height="100%"><br>
-                     <b>{{media1[2]}}</b>
+                     <b>{{ media1[2] }}</b>
                   </p>
                   {% else %}
                   <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
@@ -82,9 +82,9 @@
                <div class="p-3 d-flex align-items-top border-bottom post-comment">
                   <div class="font-weight-bold comments" id="exp{{post.id}}">
 
-                     <div class="text-truncate">{{comments.username}} <span
-                           class="float-right small">{{comments.time}}</span></div>
-                     <div class="small text-gray-500">{{comments.text}}</div>
+                     <div class="text-truncate">{{ comments.username }} <span
+                           class="float-right small">{{ comments.time }}</span></div>
+                     <div class="small text-gray-500">{{ comments.text }}</div>
                      {% if current_user.username == comments.username %}
                      <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
 
@@ -139,7 +139,7 @@
                         </div>
                         <div class="font-weight-bold mr-2">
                            <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
-                           <div class="small text-gray-500">0 Calories</div>
+                           <div class="small text-gray-500">{{ users.calories }} calories</div>
                         </div>
                         <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i
                                  class="feather-user-plus"></i></button>

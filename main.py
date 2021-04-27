@@ -76,6 +76,7 @@ class User(db.Model, UserMixin):
     profile_pic = db.Column(db.String, default="/static/images/user-account-pictures/no-user.jpg")
     friend_array = db.Column(db.String)
     isPrivate = db.Column(db.Integer, default = 0)
+    calories = db.Column(db.Integer, default = 0)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -222,8 +223,13 @@ def dms_():
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
+    if current_user.friend_array == None or current_user.friend_array == '':
+        friends = []
+    else:
+        friends = current_user.friend_array.split(',')    
+    requests = friendRequests.query.filter_by(user_to=current_user.username).all()
     user_posts = posts.query.order_by(posts.date.desc()).all()
-    return render_template("home.html", User=User(), posts=user_posts, blogposts=posts.query.order_by(posts.date.desc()), dms=dms_(), comment=comments())
+    return render_template("home.html", User=User(), posts=user_posts, blogposts=posts.query.order_by(posts.date.desc()), dms=dms_(), comment=comments(), friends=friends, requests=requests)
 
 ## Making posts
 @app.route("/home/new", methods=["GET", "POST"])
@@ -315,26 +321,37 @@ def delcomment(id):
 @app.route("/my-account", methods=["GET", "POST"])
 @login_required
 def profile():
-    userPosts = posts.query.filter_by(username = current_user.username).all()
-    return render_template("my-account.html", User=User(), comment=comments(), posts=userPosts)
+    if current_user.friend_array == None or current_user.friend_array == '':
+        friends = []
+    else:
+        friends = current_user.friend_array.split(',')    
+    requests = friendRequests.query.filter_by(user_to=current_user.username).all()
+    userPosts = posts.query.filter_by(username=current_user.username).order_by(posts.date.desc()).all()
+    if request.method == "POST":
+        calories = request.form['calories']
+        if calories != '':
+            user = User.query.get(current_user.id)
+            user.calories += int(calories)
+            db.session.commit()
+    return render_template("my-account.html", User=User(), comment=comments(), posts=userPosts, friends=friends, requests=requests)
 
-@app.route("/my-account/edit/<int:id>",methods=['GET','POST'])
+@app.route("/my-account/edit/<int:id>", methods=['GET','POST'])
 def profile_change(id):
     if request.method == "POST":
         info = User.query.get(id)
         info.username = request.form['username']
-        info.firstname=request.form['firstname']
-        info.lastname=request.form['lastname']
-        info.location=request.form.get("location")
-        info.email=request.form['email']
+        info.firstname = request.form['firstName']
+        info.lastname = request.form['lastName']
+        info.location = request.form.get("location")
+        info.email = request.form['email']
         info.about_me = request.form['about_me']
-        profilepic=request.files.get('file')
+        profilepic = request.files.get('file')
         if profilepic: 
-            file=request.files.get('file')
-            filename= file.filename
-            new_filename=current_user.username+"."+filename.split('.')[1]
+            file = request.files.get('file')
+            filename = file.filename
+            new_filename = current_user.username+"."+filename.split('.')[1]
             file.save(os.path.join(app.config['UPLOAD_PROFILE'], new_filename))
-            info.profile_pic="/static/images/user-account-pictures/"+new_filename
+            info.profile_pic = "/static/images/user-account-pictures/"+new_filename
             db.session.commit()
             return redirect(request.referrer)
         db.session.commit()
@@ -376,7 +393,7 @@ def addfriend(username):
 @app.route('/friendreq')
 def friendreq():
     requests = friendRequests.query.filter_by(user_to=current_user.username).all()
-    return render_template("requests.html", r=requests)
+    return render_template("friend-requests.html", r=requests)
 
 #if accept
 @app.route("/accept/<int:id>",methods=['GET',"POST"])
@@ -403,7 +420,7 @@ def acceptreq(id):
         db.session.commit()
         return redirect(request.referrer)
     return redirect('/friendreq')
-        #conact and save the old names with the new friend name in variable and then split it with split() and then  view each post using for loop
+        #concatinate old names with the new friend name in variable and then split it with split() and then  view each post using for loop
 
 #if reject
 @app.route("/reject/<int:id>", methods=['GET','POST'])
@@ -414,12 +431,11 @@ def rejectreq(id):
     return redirect(request.referrer)
 
 
-
 #friends
 @app.route("/friends",methods=['GET','POST'])
 def friends():
     friends=current_user.friend_array
-    if friends != '':
+    if friends != None:
         splitf=friends.split(',')
     else:
         splitf=[]

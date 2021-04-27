@@ -45,23 +45,23 @@
                <div class="p-3 d-flex align-items-center border-bottom">
                
                   <div class="dropdown-list-image mr-3">
-                     <img class="rounded-circle" src="{{post.profile_pic}}" alt="">
+                     <img class="rounded-circle" src="{{ post.profile_pic }}" alt="">
                   </div>
                   <div class="font-weight-bold">
-                     <div class="text-truncate">{{post.author}}</div>
-                     <div class="small text-gray-500">@{{post.username}}</div>
+                     <div class="text-truncate">{{ post.author }}</div>
+                     <div class="small text-gray-500">@{{ post.username }}</div>
                   </div>
-                  <span class="ml-auto small">Posted On {{post.date}}</span>
+                  <span class="ml-auto small">Posted On {{ post.postdate }}</span>
                </div>
                <div class="p-3 border-bottom">
                 {% if "media" in post.content %}
                 {% set media1 = post.content.split(',') %}
                 {% if media1[2] %}
                 <p>
-                  <embed src="{{media1[1]}}" width="100%" height="100%"><br>
-                  <b>{{media1[2]}}</b></p>
+                  <embed src="{{ media1[1] }}" width="100%" height="100%"><br>
+                  <b>{{ media1[2] }}</b></p>
                   {% else %}
-                <p><embed src="{{media1[1]}}" width="100%" height="100%"><br></p>
+                <p><embed src="{{ media1[1] }}" width="100%" height="100%"><br></p>
                   {% endif %}
                 {% else %}
                   <p>
@@ -75,12 +75,12 @@
    {% set comment1 = comment.query.filter_by(pid=post.id).all()  %}
    {% for comments in comment1 %}
    <div class="p-3 d-flex align-items-top border-bottom post-comment">
-      <div class="font-weight-bold comments" id="exp{{post.id}}">
+      <div class="font-weight-bold comments" id="exp{{ post.id }}">
  
-         <div class="text-truncate">{{comments.username}} <span class="float-right small">{{comments.time}}</span></div>
-         <div class="small text-gray-500">{{comments.text}}</div>
+         <div class="text-truncate">{{ comments.username }} <span class="float-right small">{{ comments.time }}</span></div>
+         <div class="small text-gray-500">{{ comments.text }}</div>
          {% if current_user.username == comments.username %}
-         <small><a href="/home/del_comment/{{comments.id}}" style="color: red;">Delete</a></small>
+         <small><a href="/home/del_comment/{{ comments.id }}" style="color: red;">Delete</a></small>
 
    {% endif %}<br>
       </div>
@@ -103,17 +103,20 @@
          <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
             <div class="box mb-3 shadow-sm border rounded bg-white profile-box text-center">
                <div class="py-4 px-3 border-bottom">
-                  <img src="{{current_user.profile_pic}}" class="img-fluid mt-2 rounded-circle" alt="Responsive image">
-                  <h3 class="font-weight-bold text-dark mb-1 mt-4">{{current_user.firstName}} {{current_user.lastName}}</h3>
-                  <h6 class="mb-0 font-weight-bold text-muted">@{{current_user.username}}</h6>
-                  <p class="mb-0 font-weight-bold">{{current_user.about_me}}</p>
-                  <p class="mb-0 font-weight-bold">{{current_user.location}}</p>
-               
+                  <img src="{{ current_user.profile_pic }}" class="img-fluid mt-2 rounded-circle" alt="Responsive image">
+                  <h3 class="font-weight-bold text-dark mb-1 mt-4">{{ current_user.firstName }} {{ current_user.lastName }}</h3>
+                  <h6 class="mb-0 font-weight-bold text-muted">@{{ current_user.username }}</h6>
+                  <p class="mb-0 font-weight-bold">{{ current_user.about_me }}</p>
+                  <p class="mb-0 font-weight-bold">{{ current_user.location }}</p>
+                  <p class="mb-0 font-weight-bold">Calories: {{ current_user.calories }}</p><br>
+                  <form action="/my-account" method="POST">
+                     <input type="number" name="calories" placeholder="Calories" max="99999" style="color: black;"><br><br>
+                     <input type="submit" name="submit_calories" value="Add Calories">
+                  </form>
                </div>
-               
                <div class="overflow-hidden border-top">
                 {% if current_user.isprivate == 1 %}
-                <p><b>Your Account is Private!</b></p>
+                <p><b>Your account is private!</b></p>
                 {% endif %}
                
                   <a class="font-weight-bold p-3 d-block" data-toggle="modal" data-target="#editProfile" href="/my-account"> Edit my Profile </a>
@@ -128,13 +131,13 @@
         <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
-        <form action="/my-account/edit/{{current_user.id}}" method="POST" class="form form-class" enctype="multipart/form-data">
-          <small>First Name : <input type="text" class="form-control"value="{{current_user.firstName}}" name="firstname"></small><br>
-          Last Name : <input type="text" class="form-control"value="{{current_user.lastName}}" name="lastname"><br>
-          Username : <input type="text" class="form-control"value="{{current_user.username}}" name="username"><br>
-          Email : <input type="email" class="form-control"value="{{current_user.email}}" name="email"><br>
-          About : <input type="text" class="form-control"value="{{current_user.about_me}}" name="about_me"><br>
-                  <input type="text" class="form-control" value="{{current_user.location}}" name="location"><br>
+        <form action="/my-account/edit/{{ current_user.id }}" method="POST" class="form form-class" enctype="multipart/form-data">
+          <small>First Name : <input type="text" class="form-control"value="{{ current_user.firstName }}" name="firstname"></small><br>
+          Last Name : <input type="text" class="form-control"value="{{ current_user.lastName }}" name="lastname"><br>
+          Username : <input type="text" class="form-control"value="{{ current_user.username }}" name="username"><br>
+          Email : <input type="email" class="form-control"value="{{ current_user.email }}" name="email"><br>
+          About : <input type="text" class="form-control"value="{{ current_user.about_me }}" name="about_me"><br>
+                  <input type="text" class="form-control" value="{{ current_user.location }}" name="location"><br>
 
           <label class="btn btn-default btn-file">
             Profile Picture <input type="file" name="file" class="form-control" style="display: none;"><br>
@@ -172,7 +175,7 @@
          </div>
          <div class="font-weight-bold mr-2">
             <div class="text-truncate">{{ users.firstName }} {{ users.lastName }}</div>
-            <div class="small text-gray-500">0 Calories</div>
+            <div class="small text-gray-500">{{ users.calories }} calories</div>
          </div>
          <span class="ml-auto"><button type="button" class="btn btn-light btn-sm"><i
                   class="feather-user-plus"></i></button>
