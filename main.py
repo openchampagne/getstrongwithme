@@ -46,7 +46,7 @@ users = []
 ## Markdown
 Markdown(app)
 
-## REMOVE or COMMENT during DEVELOPMENT
+# ## REMOVE or COMMENT during DEVELOPMENT
 @app.before_request
 def before_request():
     if app.env == "development":
@@ -465,6 +465,10 @@ def remfriend(username):
     user2.friend_array = i
     db.session.commit()
     return redirect(request.referrer)
+
+@app.route('/workout_videos', methods=['GET'])
+def workout_videos():
+    return render_template('workout_videos.html')
 
 #################################################### 
 ## Room Dict

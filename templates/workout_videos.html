@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Workout Videos</title>
+{% endblock head %}
+{% block body %}
+<script src="{{ url_for('static', filename='js/workout_videos.js') }}"></script>
+
+{% include "includes/nav.html" %}
+
+
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+</style>
+
+
+<div class="box shadow-lg border rounded bg-white mb-3">
+    <!-- <iframe id="ifrm" name="ifrm" src="" width="622" height="353" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br> -->
+</div>
+
+
+{% endblock body %}
+</html>

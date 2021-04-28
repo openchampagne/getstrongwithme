@@ -32,7 +32,7 @@ function weather(coordinates, city) {
     request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=imperial&apikey=' + weatherAPI, true);
     request.onload = function() {
         var obj = JSON.parse(this.response);
-        if (request.status >= 200 && request.status < 400) {
+        if (request.status == 200) {
             var temp = obj.main.temp;
             var condition = obj.weather[0].main;
             var conditionStatus = obj.weather[0].description;
