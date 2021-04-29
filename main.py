@@ -468,7 +468,7 @@ def remfriend(username):
 
 @app.route('/workout_videos', methods=['GET'])
 def workout_videos():
-    return render_template('workout_videos.html')
+    return render_template('videos.html')
 
 #################################################### 
 ## Room Dict

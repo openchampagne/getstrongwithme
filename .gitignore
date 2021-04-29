@@ -9,3 +9,4 @@ app.db
 templates/.DS_Store
 backup.py
 .DS_Store
+static/js/package-lock.json
