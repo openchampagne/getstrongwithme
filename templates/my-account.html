@@ -191,7 +191,7 @@
 <!-- Update Calorie Widget Starts -->
 <div class="box shadow-sm border rounded bg-white mb-3">
    <div class="border-bottom p-3 d-flex align-items-center" style="
-   background-color: #49c6fc;
+   background-color: #a749fc;
    color: #fff;">
       <div class="mr-1 overflow-hidden">
          <h6 class="font-weight-bold m-0">Update Your Calorie Count</h6>
@@ -199,7 +199,7 @@
    </div>
    <div class="box-body p-3">
          <div class="mr-2">
-            <p class="mb-0 font-weight-bold">Calories: {{ current_user.calories }}</p><br>
+            <p class="mb-0 font-weight-bold">Number of Calories Burned Today: {{ current_user.calories }}</p><br>
                   <form action="/my-account" method="POST">
                      <input type="number" name="calories" placeholder="Calories" max="99999" style="color: black;"><br><br>
                      <input type="submit" name="submit_calories" value="Add Calories">
