@@ -46,19 +46,6 @@ users = []
 ## Markdown
 Markdown(app)
 
-# ## REMOVE or COMMENT during DEVELOPMENT
-@app.before_request
-def before_request():
-    if app.env == "development":
-        return
-    if request.is_secure:
-        return
-
-    url = request.url.replace("http://", "https://", 1)
-    code = 301
-    return redirect(url, code=code)
-## REMOVE or COMMENT during DEVELOPMENT 
-
 
 # ## User Class
 class User(db.Model, UserMixin):
@@ -466,8 +453,8 @@ def remfriend(username):
     db.session.commit()
     return redirect(request.referrer)
 
-@app.route('/workout_videos', methods=['GET'])
-def workout_videos():
+@app.route('/workoutzone', methods=['GET'])
+def workoutzone():
     return render_template('videos.html')
 
 #################################################### 

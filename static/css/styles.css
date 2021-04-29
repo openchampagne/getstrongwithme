@@ -423,3 +423,7 @@ body {
 .comment-fill {
   background-color: #f9f8f8;
 }
+
+.videocontain {
+  padding: 15px;
+}
