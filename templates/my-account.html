@@ -108,11 +108,6 @@
                   <h6 class="mb-0 font-weight-bold text-muted">@{{ current_user.username }}</h6>
                   <p class="mb-0 font-weight-bold">{{ current_user.about_me }}</p>
                   <p class="mb-0 font-weight-bold">{{ current_user.location }}</p>
-                  <p class="mb-0 font-weight-bold">Calories: {{ current_user.calories }}</p><br>
-                  <form action="/my-account" method="POST">
-                     <input type="number" name="calories" placeholder="Calories" max="99999" style="color: black;"><br><br>
-                     <input type="submit" name="submit_calories" value="Add Calories">
-                  </form>
                </div>
                <div class="overflow-hidden border-top">
                 {% if current_user.isprivate == 1 %}
@@ -191,6 +186,28 @@
    </div>
 </div>
 <!-- Activity Leaderboard Widget Ends-->
+
+            
+<!-- Update Calorie Widget Starts -->
+<div class="box shadow-sm border rounded bg-white mb-3">
+   <div class="border-bottom p-3 d-flex align-items-center" style="
+   background-color: #49c6fc;
+   color: #fff;">
+      <div class="mr-1 overflow-hidden">
+         <h6 class="font-weight-bold m-0">Update Your Calorie Count</h6>
+      </div>
+   </div>
+   <div class="box-body p-3">
+         <div class="mr-2">
+            <p class="mb-0 font-weight-bold">Calories: {{ current_user.calories }}</p><br>
+                  <form action="/my-account" method="POST">
+                     <input type="number" name="calories" placeholder="Calories" max="99999" style="color: black;"><br><br>
+                     <input type="submit" name="submit_calories" value="Add Calories">
+                  </form>
+         </div>
+   </div>
+   </div>
+<!-- Update Calorie Widget ends -->
             
 <!-- GymFinder Widget Starts -->
           <div class="box shadow-sm border rounded bg-white mb-3">
