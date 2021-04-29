@@ -60,7 +60,7 @@ def before_request():
 ## REMOVE or COMMENT during DEVELOPMENT 
 
 
-## User Class
+# ## User Class
 class User(db.Model, UserMixin):
     __tablename__ = "Login"
     id = db.Column(db.Integer, primary_key=True) 
