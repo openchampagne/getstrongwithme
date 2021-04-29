@@ -156,6 +156,27 @@
                </div>
 <!-- Activity Leaderboard Widget Ends-->
 
+<!-- Update Calorie Widget Starts -->
+<div class="box shadow-sm border rounded bg-white mb-3">
+   <div class="border-bottom p-3 d-flex align-items-center" style="
+   background-color: #a749fc;
+   color: #fff;">
+      <div class="mr-1 overflow-hidden">
+         <h6 class="font-weight-bold m-0">Update Your Calorie Count</h6>
+      </div>
+   </div>
+   <div class="box-body p-3">
+         <div class="mr-2">
+            <p class="mb-0 font-weight-bold">Number of Calories Burned Today: {{ current_user.calories }}</p><br>
+                  <form action="/my-account" method="POST">
+                     <input type="number" name="calories" placeholder="Calories" max="99999" style="color: black;"><br><br>
+                     <input type="submit" class="btn btn-primary btn-sm btn btn-success" name="submit_calories" value="Add Calories">
+                  </form>
+         </div>
+   </div>
+   </div>
+<!-- Update Calorie Widget ends -->
+
 <!-- GymFinder Widget Starts -->
                <div class="box shadow-sm border rounded bg-white mb-3">
                   <div class="border-bottom p-3 d-flex align-items-center" style="
