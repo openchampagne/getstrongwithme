@@ -1,8 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block head %}
+<title>Youtube Search</title>
+{% endblock %}
+{% block body %}
+
+<script src="{{ url_for('static', filename='js/youtubescript.js') }}"></script>
+
+
     <head>
         <title>Youtube Video Search</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
@@ -30,4 +37,6 @@
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="youtubescript.js"></script>
-</html>
+    
+    
+    {% endblock %}
