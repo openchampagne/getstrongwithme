@@ -1,7 +1,11 @@
 $(document).ready(function(){
-    var API_KEY = "AIzaSyAEb-k--seGJtYZXim0bJPbaMuSzUob7Wg"
+    // Heroku API Key fetch
+    const aws = require('aws-sdk');
+
+    let YOUTUBE_API = new aws.S3({ key: process.env.YOUTUBE_API });
+
     var video = ''
-    workoutVideoSearch(API_KEY)
+    workoutVideoSearch(YOUTUBE_API.key)
 
     function workoutVideoSearch(key) {
         $("#videos").empty()
