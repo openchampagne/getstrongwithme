@@ -1,8 +1,12 @@
-var weatherAPI = '1fd09e59f0f835ebe04dc5ab06de40f3';
-var geolocationAPI = 'pk.9684621c328d7f6c2548e794b8b05772';
-
-//Function to return activity suggestion based on weather conditions 
+// function to return activity suggestion based on weather conditions 
  function activitySuggestion(temp, conditionStatus) {
+    // Heroku env var API key 
+    const aws = require('aws-sdk');
+
+    let API = new aws.S3({ 
+        weatherKey: process.env.weatherAPI,
+        geolocationKey: process.env.geolocationAPI
+        });
 
     var activity = ""; 
 
@@ -29,7 +33,7 @@ function weather(coordinates, city) {
     var lat = coordinates[0];
     var lon = coordinates[1];
     var request = new XMLHttpRequest();
-    request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=imperial&apikey=' + weatherAPI, true);
+    request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=imperial&apikey=' + API.weatherKey, true);
     request.onload = function() {
         var obj = JSON.parse(this.response);
         if (request.status == 200) {
@@ -75,7 +79,7 @@ function getCity(coordinates) {
     var lon = coordinates[1];
     var request = new XMLHttpRequest();
 
-    request.open('GET', "https://us1.locationiq.com/v1/reverse.php?key="+ geolocationAPI +"&lat="+ lat +"&lon="+ lon +"&format=json", true);
+    request.open('GET', "https://us1.locationiq.com/v1/reverse.php?key="+ API.geolocationKey +"&lat="+ lat +"&lon="+ lon +"&format=json", true);
     request.send();
     request.onreadystatechange = processRequest;
     request.addEventListener("readystatechange", processRequest, false);
